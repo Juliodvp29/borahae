@@ -66,7 +66,7 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 - [x] Crear estructura inicial de rutas, componentes, `lib`, `i18n`, `collections` y `globals` según `AGENTS.md` §4 *(colecciones base `users` y `media`; el resto llega en Fase 3)*
 - [x] Instalar Payload CMS dentro de la aplicación Next.js y verificar que `/admin` abre localmente *(responde 200 con BD local)*
 - [ ] Copiar especificaciones a `docs/` y este `AGENTS.md`/`ROADMAP.md` a la raíz
-- [ ] Base de datos PostgreSQL en Neon; `DATABASE_URL` (conexión pooled) en variables de entorno
+- [x] Base de datos PostgreSQL en Neon; `DATABASE_URL` (conexión pooled) en variables de entorno *(rama `dev` de Neon en `.env` local; la rama `main` se configurará como variable de producción en Vercel — punto 4)*
 - [x] Configurar el adaptador Postgres de Payload, `payload.config.ts`, migraciones y tipos generados
 - [x] Vercel Blob configurado como almacenamiento de `media`
 - [x] Añadir scripts `dev`, `typecheck`, `lint`, `build`, migraciones y generación de tipos; verificar compatibilidad con PowerShell y bash
