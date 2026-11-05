@@ -1,9 +1,9 @@
+import { withPayload } from '@payloadcms/next/withPayload'
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // cacheComponents deshabilitado: la doc de Payload advierte compatibilidad
+  // limitada; se revisará al integrar contenido público (Fase 4).
   turbopack: {
     rules: {
       "*.css": {
@@ -14,4 +14,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPayload(nextConfig);

@@ -1,0 +1,253 @@
+# ROADMAP — Sitio web BORAHAE
+
+**Plazo de referencia:** 10 días · **Inicio:** 5 de noviembre de 2026 · **Desarrollador:** 1
+**Cómo usar este archivo:** marca `[x]` al terminar cada ítem. Una fase se cierra solo cuando todos sus ítems y su "Criterio de salida" se cumplen. Los ítems `[CLIENTE]` dependen de material del cliente: si faltan, se continúa con marcador `[PENDIENTE-CLIENTE]` y se deja registrado en la Fase 0.
+
+Leyenda: `[CLIENTE]` entrega o aprobación del cliente · `[IMP]` paso con la skill Impeccable · `[ ]` pendiente · `[x]` hecho
+
+## Resumen
+
+| Fase | Nombre | Días estimados |
+| --- | --- | --- |
+| 0 | Acuerdos y prerrequisitos | Día 0–1 (en paralelo) |
+| 1 | Fundación técnica y creación del proyecto | Día 1 |
+| 2 | Sistema de diseño y shell bilingüe | Día 2 |
+| 3 | Modelo de datos y CMS | Día 3 |
+| 4 | Páginas públicas | Días 4–6 |
+| 5 | Formularios, eventos y correo | Días 6–7 |
+| 6 | SEO, accesibilidad y rendimiento | Día 8 |
+| 7 | QA y pruebas de aceptación | Día 9 |
+| 8 | Publicación y entrega | Día 10 |
+| 9 | Backlog fase 2 (fuera de alcance) | — |
+
+> **Riesgo de plazo:** 10 días solo son realistas si el contenido y las aprobaciones llegan a tiempo. Los textos en español, logo e imágenes son la ruta crítica. Si no están el día 4, el cronograma se mueve (ver spec funcional §12).
+
+---
+
+## Fase 0 — Acuerdos y prerrequisitos
+
+Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes de que bloqueen.
+
+### Decisiones cerradas
+- [x] Rutas: `/viajes` es listado y `/viajes/[slug]` es detalle de cada tour. Las rutas públicas completas están definidas en `AGENTS.md` §4.
+- [x] Galería, Donaciones, Patrocinio, Contacto y Legal tienen ruta propia. Legal incluye rutas de política de datos, términos y condiciones de viaje.
+- [ ] Definir si `modalidad de asistencia` es obligatoria solo en eventos híbridos
+- [x] Los eventos de la fase 1 admiten solo personas de 18 años o más. Se valida `dateOfBirth` en servidor, no se persiste, y se exige declaración de mayoría de edad. No hay verificación de identidad ni documentos.
+- [x] Antispam sin costo recurrente: implementar honeypot y rate limit. Añadir Cloudflare Turnstile solo si el tráfico real o las pruebas muestran que es necesario y su configuración no añade coste.
+- [ ] Decidir botón de WhatsApp (sí/no)
+- [x] Revisar y confirmar antes de producción los límites vigentes de Vercel, Neon, Vercel Blob y Resend en las cuentas del cliente. No se asume que un plan gratuito cubra uso futuro.
+- [ ] Decidir si Impeccable usa telemetría en este proyecto
+
+### Pendientes del cliente
+- [ ] `[CLIENTE]` Logo oficial (formatos vectoriales)
+- [ ] `[CLIENTE]` Textos finales en español
+- [ ] `[CLIENTE]` Fotografías autorizadas y organizadas
+- [ ] `[CLIENTE]` Dominio adquirido + acceso DNS
+- [ ] `[CLIENTE]` Correo institucional creado y dominio verificable en Resend
+- [ ] `[CLIENTE]` Datos legales: razón social, NIT, ciudad, contacto
+- [ ] `[CLIENTE]` Política de tratamiento de datos (texto aprobado) y términos
+- [ ] `[CLIENTE]` Enlaces de redes (Instagram, X, Facebook, TikTok)
+- [ ] `[CLIENTE]` Cuenta/enlace de PayPal y datos alternativos (transferencia, Bre-B)
+- [ ] `[CLIENTE]` Definición de talleres, primer evento y contenido inicial de viajes
+- [ ] `[CLIENTE]` Confirmación de permisos/uso de marca respecto a BTS/FESTA y fórmula de "sin afiliación oficial"
+- [ ] `[CLIENTE]` Condiciones de viaje, precio y cancelaciones (solo si se publican)
+- [ ] `[CLIENTE]` Revisión humana de traducciones al coreano (acordar quién y cuándo)
+- [ ] Crear cuentas (Vercel, Neon, Resend, PayPal) a nombre del cliente con acceso técnico para el desarrollador
+
+**Criterio de salida:** decisiones registradas aquí; lista de pendientes enviada al cliente con fechas.
+
+---
+
+## Fase 1 — Fundación técnica y creación del proyecto
+
+- [x] Crear el proyecto con el generador oficial de Next.js y TypeScript estricto; confirmar App Router, estructura `src/` y gestor `pnpm`
+- [ ] Publicar a GitHub desde VSCode (publicación rápida); crear rama `dev` y proteger `main` (solo PR)
+- [x] Instalar y configurar Tailwind CSS 4; crear `src/styles/globals.css` con `@import "tailwindcss"` y comprobar que las utilidades compilan *(temporal: globals.css vive en `src/app/(frontend)`; se mueve a `src/styles` en Fase 2)*
+- [x] Crear estructura inicial de rutas, componentes, `lib`, `i18n`, `collections` y `globals` según `AGENTS.md` §4 *(colecciones base `users` y `media`; el resto llega en Fase 3)*
+- [ ] Instalar Payload CMS dentro de la aplicación Next.js y verificar que `/admin` abre localmente *(instalado; falta verificar con BD local)*
+- [ ] Copiar especificaciones a `docs/` y este `AGENTS.md`/`ROADMAP.md` a la raíz
+- [ ] Base de datos PostgreSQL en Neon; `DATABASE_URL` (conexión pooled) en variables de entorno
+- [x] Configurar el adaptador Postgres de Payload, `payload.config.ts`, migraciones y tipos generados
+- [x] Vercel Blob configurado como almacenamiento de `media`
+- [x] Añadir scripts `dev`, `typecheck`, `lint`, `build`, migraciones y generación de tipos; verificar compatibilidad con PowerShell y bash
+- [x] Crear `.env.example` sin secretos y configurar variables separadas para desarrollo, preview y producción
+- [x] Configurar `next/image`, Vercel Blob y la colección `media` base
+- [ ] Proyecto en Vercel conectado al repo: `main` → producción, `dev`/PR → preview; comprobar un preview funcional
+- [ ] Crear workflow de GitHub Actions para instalación reproducible, `typecheck`, `lint` y `build`; verificar una ejecución en PR
+- [ ] `[IMP]` `npx impeccable install` (aceptar hook) y copiar bloque al `.gitignore`
+- [ ] `[IMP]` `/impeccable init` → `PRODUCT.md` revisado y ajustado (hay un borrador base)
+- [ ] `[IMP]` Paso opcional `npx impeccable detect --github src/` en CI
+
+**Criterio de salida:** `pnpm build` pasa en CI; `/admin` abre en preview de Vercel y crea el primer usuario admin.
+
+---
+
+## Fase 2 — Sistema de diseño y shell bilingüe
+
+- [ ] Tokens en `@theme` (surface, primary, secondary, primary-hover, text)
+- [ ] Verificación de contraste de cada par de colores usado (secundario solo decorativo)
+- [ ] Fuentes Noto Serif KR y Noto Sans KR con `next/font`; prueba de Hangul, tildes y ñ
+- [ ] next-intl: rutas `/es` y `/ko`, redirección de `/`, matcher excluyendo `/admin` y `/api`
+- [ ] `messages/es.json` y `messages/ko.json` para textos fijos (menú, botones, validaciones)
+- [ ] Layout base: header con navegación, selector de idioma, footer
+- [ ] Componentes base: botón, enlace, tarjeta, encabezados de sección, campos de formulario, mensajes de estado
+- [ ] Foco visible, navegación por teclado y `prefers-reduced-motion` desde el inicio
+- [ ] `[IMP]` `/impeccable shape` del layout y de la página de inicio
+- [ ] `[IMP]` `/impeccable document` → `DESIGN.md` con tokens, tipografía y componentes
+- [ ] `[IMP]` `critique` + `typeset` + `layout` sobre el shell
+
+**Criterio de salida:** shell navegable en ambos idiomas y en móvil/escritorio; `DESIGN.md` en el repo; `audit` sin P0/P1.
+
+---
+
+## Fase 3 — Modelo de datos y CMS
+
+- [ ] Payload Localization con locales `es` (por defecto) y `ko` con fallback a `es`
+- [ ] Colección `users` con roles `admin` y `editor`; permisos por colección y por campo
+- [ ] Colecciones: `pages`, `programs`, `tours`, `events`, `event-registrations`, `contact-submissions`, `media`, `gallery`, `sponsors`
+- [ ] Global `site-settings` (logo, contacto, redes, donaciones, navegación, datos institucionales, `galleryEnabled`, `sponsorshipEnabled`, `whatsAppEnabled` y enlace/número de WhatsApp)
+- [ ] Campos localizables: título, descripción, contenido, SEO (título, descripción, imagen OG), `alt` de imágenes
+- [ ] `events`: modalidad (presencial/virtual/híbrido), fechas, cupo opcional (`capacity` + activar/desactivar), estado y elegibilidad 18+
+- [ ] `event-registrations` y `contact-submissions` **no accesibles desde la API pública**
+- [ ] Configuración de `media`: tipos y tamaños permitidos; conversión/uso de WebP y tamaños por componente
+- [ ] Hooks de revalidación de rutas al publicar contenido
+- [ ] Migraciones creadas y probadas; `payload-types.ts` generado
+- [ ] Cuenta de editor creada para el representante legal con prueba de permisos
+- [ ] Vista previa/borradores si aplica
+- [ ] Datos de ejemplo (seed) para desarrollo, claramente marcados como ficticios
+
+**Criterio de salida:** el editor crea y edita contenido en es/ko, sube imágenes y no puede acceder a usuarios ni configuración técnica.
+
+---
+
+## Fase 4 — Páginas públicas
+
+Rutas bajo `/es/...` y `/ko/...`. Para cada página: contenido desde Payload, metadatos por idioma, un solo `h1`, estados vacíos y de error.
+
+- [ ] **Inicio:** banner editable, presentación, llamados a la acción, destacados, redes
+- [ ] **Nosotros:** presentación, propósito, misión, visión, valores/inclusión, datos institucionales
+- [ ] **Programas:** página principal + rutas de Curso de coreano, Becas y Talleres (con estado "próximamente" si no hay contenido)
+- [ ] **Viajes:** listado y detalle `/viajes/[slug]` (fechas, destino, itinerario, incluye/no incluye, precio y condiciones si se publican, botón de interés)
+- [ ] **Eventos:** listado de próximos eventos y detalle de cada uno (modalidad, cupo disponible si aplica)
+- [ ] **Galería:** fotos autorizadas; videos o enlaces si se requieren
+- [ ] **Donaciones:** botón PayPal, datos de transferencia/Bre-B opcionales, mensaje de destino
+- [ ] **Patrocinio:** sección preparada (visible solo si `sponsorshipEnabled` está activo desde el CMS)
+- [ ] **Contacto:** formulario general (se conecta en Fase 5)
+- [ ] **Legal:** hub y rutas propias para razón social/NIT/ciudad, política de datos, términos y condiciones de viaje (esta última solo si aplica)
+- [ ] Galería y acceso de WhatsApp se muestran u ocultan según `galleryEnabled` y `whatsAppEnabled` de `site-settings`
+- [ ] Páginas 404 y de error traducidas
+- [ ] Aviso de no afiliación con BTS/FESTA, **solo** con redacción aprobada por el cliente
+- [ ] `[IMP]` Por página: `shape` → construir → `critique` → `audit` → corregir
+- [ ] `[IMP]` `bolder`/`quieter`/`distill` según la dirección visual acordada con el cliente
+- [ ] `[IMP]` `adapt` (móvil, tableta, escritorio) y `clarify` (microcopy) en todas las páginas
+
+**Criterio de salida:** todas las páginas del alcance publicadas en preview, en ambos idiomas, con contenido real o marcadores `[PENDIENTE-CLIENTE]`.
+
+---
+
+## Fase 5 — Formularios, eventos y correo
+
+- [ ] Esquema de validación compartido cliente/servidor (p. ej. Zod) con mensajes es/ko
+- [ ] Endpoint de **contacto/interés** con los campos de la spec funcional §7.1
+- [ ] Endpoint de **inscripción a evento** con los campos de §7.2
+- [ ] Rechazar registros de menores de 18 años: recibir `dateOfBirth`, validar edad en servidor, no guardar la fecha y persistir solo la trazabilidad de elegibilidad
+- [ ] Consentimiento de política de datos obligatorio, guardado con fecha/hora y versión del texto
+- [ ] Antispam (Turnstile u honeypot) y rate limiting en ambos endpoints
+- [ ] Guardado en PostgreSQL antes de enviar correo
+- [ ] Notificación al correo institucional con Resend; manejo de fallo sin perder el registro
+- [ ] Dominio verificado en Resend `[CLIENTE]` (mientras tanto, remitente de pruebas)
+- [ ] **Cupo de eventos:** bloqueo de nuevos registros al alcanzar el límite, con control de concurrencia y mensaje claro
+- [ ] Estados de formulario accesibles: cargando, éxito, error, campo inválido
+- [ ] Confirmación en pantalla al visitante (correo de confirmación al visitante = mejora posterior)
+- [ ] Pruebas: registro duplicado, evento lleno, spam, correo caído, campos inválidos
+- [ ] `[IMP]` `harden` sobre formularios (errores, desbordes, textos largos en coreano)
+
+**Criterio de salida:** envío real de formulario → fila en BD → correo recibido; el límite de cupos se respeta bajo solicitudes simultáneas.
+
+---
+
+## Fase 6 — SEO, accesibilidad y rendimiento
+
+- [ ] Metadatos únicos por página e idioma (título, descripción, Open Graph)
+- [ ] `hreflang` es/ko/x-default
+- [ ] `sitemap.xml` dinámico con ambas versiones y `robots.txt`
+- [ ] Datos estructurados JSON-LD (organización y eventos)
+- [ ] Imágenes WebP, `sizes` correctos y `alt` completos
+- [ ] Revisión WCAG 2.2 AA: contraste, foco, teclado, etiquetas, lector de pantalla en flujos clave
+- [ ] Rendimiento básico: Lighthouse móvil, LCP/CLS razonables, fuentes con subconjuntos
+- [ ] Cabeceras de seguridad y CSP validadas (Turnstile, Blob, fuentes, admin de Payload)
+- [ ] `[IMP]` `audit` global (sin P0/P1) y `optimize`
+- [ ] `[IMP]` `polish` final por página
+
+**Criterio de salida:** `audit` sin P0/P1; Lighthouse sin errores críticos de accesibilidad ni SEO.
+
+---
+
+## Fase 7 — QA y pruebas de aceptación
+
+Corresponde a la spec técnica §17.
+
+- [ ] Visualización correcta en móvil, tableta y escritorio
+- [ ] Navegación en español y coreano
+- [ ] Cambio de idioma conserva la ruta equivalente
+- [ ] Panel de administración y permisos por rol
+- [ ] Creación y edición de contenido, imágenes, eventos y tours
+- [ ] Guardado de formularios en PostgreSQL
+- [ ] Notificaciones al correo institucional (una vez configurado)
+- [ ] Límite opcional de cupos por evento
+- [ ] Antispam y validaciones de formularios
+- [ ] Imágenes WebP y rendimiento básico
+- [ ] Metadatos, sitemap, robots y `hreflang`
+- [ ] Revisión de textos coreanos con el revisor humano `[CLIENTE]`
+- [ ] Prueba en navegadores principales (Chrome, Safari, Firefox, Edge) y en dispositivo móvil real
+- [ ] Revisión del cliente en preview y lista de correcciones registrada
+
+**Criterio de salida:** los 12 puntos de aceptación técnica en verde; lista de correcciones del cliente cerrada o priorizada.
+
+---
+
+## Fase 8 — Publicación y entrega
+
+- [ ] Contenido final cargado y aprobado por el cliente
+- [ ] Variables de entorno de producción verificadas
+- [ ] Copia de seguridad de la base de datos antes del lanzamiento; revisión de retención/respaldos en Neon
+- [ ] Migraciones aplicadas en producción
+- [ ] Pull Request `dev` → `main` aprobado y CI en verde
+- [ ] Dominio del cliente conectado (DNS) y HTTPS activo
+- [ ] Prueba final en producción: formularios, correo, cupos, idiomas, `/admin`
+- [ ] Búsqueda indexable (`robots` correcto en producción, no en previews); sitemap enviado a buscadores si el cliente lo desea
+- [ ] Guía breve de uso del panel para el editor (PDF o `docs/`)
+- [ ] Traspaso de credenciales y cuentas a nombre del cliente
+- [ ] Aprobación final de publicación por el cliente
+- [ ] Acta de entrega con el alcance cubierto y lo excluido (spec técnica §18–19)
+
+**Criterio de salida:** sitio en el dominio final, aprobado por el cliente, con guía entregada.
+
+---
+
+## Fase 9 — Backlog fase 2 (fuera de alcance, requiere cotización)
+
+- [ ] Pasarela de pagos integrada, cuotas o financiación de viajes
+- [ ] Inscripción formal a viajes y gestión de cupos de viaje
+- [ ] Tiquetes, QR y control de asistencia
+- [ ] Lista de espera automática para eventos
+- [ ] Área privada de miembros
+- [ ] Correo de confirmación al visitante y campañas
+- [ ] Analítica avanzada y reportes
+- [ ] Aplicación móvil
+- [ ] Mantenimiento mensual y soporte continuo
+
+---
+
+## Registro de decisiones y bloqueos
+
+| Fecha | Decisión / bloqueo | Responsable |
+| --- | --- | --- |
+| 2026-11-05 | Inicio del proyecto; especificaciones v1.0 | Desarrollador |
+| 2026-11-05 | Rutas públicas completas definidas; `/viajes/[slug]` representa el detalle de tour | Desarrollador |
+| 2026-11-05 | Eventos de fase 1: registros solo para mayores de 18 años; fecha de nacimiento validada en servidor y no persistida | Desarrollador |
+| 2026-11-05 | Antispam base: honeypot + rate limit sin costo recurrente; Turnstile queda como refuerzo condicionado | Desarrollador |
+| 2026-11-05 | `site-settings` administrará visibilidad de Galería, Patrocinio y WhatsApp | Desarrollador |
+| 2026-11-05 | Fase 1: primero se crea el proyecto Next.js y luego se publica a GitHub desde VSCode (publicación rápida); cuentas de GitHub, Vercel y Neon del desarrollador — sin bloqueo para Fase 1 | Desarrollador |
+| 2026-11-05 | Bug payload 3.93/tsx 4.23.15/undici ("Illegal constructor"): CLI de Payload se ejecuta con `--use-swc` (@swc-node/register) y el repo usa `"type": "module"` | Desarrollador |
+| 2026-11-05 | `cacheComponents`/`partialPrefetching` de Next 16 deshabilitados por compatibilidad con Payload (doc oficial advierte riesgo); se revisa en Fase 4 | Desarrollador |
