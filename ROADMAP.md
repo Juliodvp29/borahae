@@ -64,7 +64,7 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 - [ ] Publicar a GitHub desde VSCode (publicación rápida); crear rama `dev` y proteger `main` (solo PR)
 - [x] Instalar y configurar Tailwind CSS 4; crear `src/styles/globals.css` con `@import "tailwindcss"` y comprobar que las utilidades compilan *(temporal: globals.css vive en `src/app/(frontend)`; se mueve a `src/styles` en Fase 2)*
 - [x] Crear estructura inicial de rutas, componentes, `lib`, `i18n`, `collections` y `globals` según `AGENTS.md` §4 *(colecciones base `users` y `media`; el resto llega en Fase 3)*
-- [ ] Instalar Payload CMS dentro de la aplicación Next.js y verificar que `/admin` abre localmente *(instalado; falta verificar con BD local)*
+- [x] Instalar Payload CMS dentro de la aplicación Next.js y verificar que `/admin` abre localmente *(responde 200 con BD local)*
 - [ ] Copiar especificaciones a `docs/` y este `AGENTS.md`/`ROADMAP.md` a la raíz
 - [ ] Base de datos PostgreSQL en Neon; `DATABASE_URL` (conexión pooled) en variables de entorno
 - [x] Configurar el adaptador Postgres de Payload, `payload.config.ts`, migraciones y tipos generados
@@ -73,7 +73,8 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 - [x] Crear `.env.example` sin secretos y configurar variables separadas para desarrollo, preview y producción
 - [x] Configurar `next/image`, Vercel Blob y la colección `media` base
 - [ ] Proyecto en Vercel conectado al repo: `main` → producción, `dev`/PR → preview; comprobar un preview funcional
-- [ ] Crear workflow de GitHub Actions para instalación reproducible, `typecheck`, `lint` y `build`; verificar una ejecución en PR
+- [x] Añadir workflow de GitHub Actions para instalación reproducible, `typecheck`, `lint` y `build` *(verificación en PR pendiente del push a GitHub)*
+
 - [ ] `[IMP]` `npx impeccable install` (aceptar hook) y copiar bloque al `.gitignore`
 - [ ] `[IMP]` `/impeccable init` → `PRODUCT.md` revisado y ajustado (hay un borrador base)
 - [ ] `[IMP]` Paso opcional `npx impeccable detect --github src/` en CI
@@ -251,3 +252,4 @@ Corresponde a la spec técnica §17.
 | 2026-11-05 | Fase 1: primero se crea el proyecto Next.js y luego se publica a GitHub desde VSCode (publicación rápida); cuentas de GitHub, Vercel y Neon del desarrollador — sin bloqueo para Fase 1 | Desarrollador |
 | 2026-11-05 | Bug payload 3.93/tsx 4.23.15/undici ("Illegal constructor"): CLI de Payload se ejecuta con `--use-swc` (@swc-node/register) y el repo usa `"type": "module"` | Desarrollador |
 | 2026-11-05 | `cacheComponents`/`partialPrefetching` de Next 16 deshabilitados por compatibilidad con Payload (doc oficial advierte riesgo); se revisa en Fase 4 | Desarrollador |
+| 2026-11-05 | BD local: PostgreSQL 18 en `localhost:5432/borahae`; se eliminó `DATABASE_URL` global de Windows en favor del `.env` por proyecto (dotenv con `override` en payload.config) | Desarrollador |
