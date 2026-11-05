@@ -1,6 +1,7 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import dotenv from 'dotenv'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -11,6 +12,13 @@ import { Media } from './collections/Media'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+// El .env de este proyecto pisa cualquier DATABASE_URL heredada de la máquina
+// (dotenv no sobrescribe variables ya definidas; override:true lo fuerza solo aquí).
+dotenv.config({
+  path: path.resolve(dirname, '../.env'),
+  override: true,
+})
 
 export default buildConfig({
   admin: {
