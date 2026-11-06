@@ -73,10 +73,10 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 - [x] Crear `.env.example` sin secretos y configurar variables separadas para desarrollo, preview y producción
 - [x] Configurar `next/image`, Vercel Blob y la colección `media` base
 - [x] Proyecto en Vercel conectado al repo: `main` → producción, `dev`/PR → preview; comprobar un preview funcional *(producción: borahae-kappa.vercel.app con admin creado; primera preview `borahae-a0tbzwblx` en Ready con /admin 200)*
-- [x] Añadir workflow de GitHub Actions para instalación reproducible, `typecheck`, `lint` y `build`; verificar una ejecución en PR *(push a dev verificado; CI en verde pendiente del fix "typegen antes de typecheck")*
+- [x] Añadir workflow de GitHub Actions para instalación reproducible, `typecheck`, `lint` y `build`; verificar una ejecución en PR *(CI verde en dev, en PR y en main; primer merge `dev → main` vía PR #1)*
 
 - [x] `[IMP]` `npx impeccable install` (aceptar hook) y copiar bloque al `.gitignore`
-- [ ] `[IMP]` `/impeccable init` → `PRODUCT.md` revisado y ajustado (hay un borrador base) *(pendiente: requiere reiniciar la herramienta agente para cargar la skill)*
+- [x] `[IMP]` `/impeccable init` → `PRODUCT.md` con esquema impeccable reescrito y confirmado *(posicionamiento: integrador cultural único; coreano formal-cortés `[PENDIENTE-CLIENTE]`; paleta confirmada desde logo oficial; buildPath=`code` en `.impeccable/config.json`)*
 - [ ] `[IMP]` Paso opcional `npx impeccable detect --github src/` en CI
 
 **Criterio de salida:** `pnpm build` pasa en CI; `/admin` abre en preview de Vercel y crea el primer usuario admin.
@@ -85,9 +85,9 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 
 ## Fase 2 — Sistema de diseño y shell bilingüe
 
-- [ ] Tokens en `@theme` (surface, primary, secondary, primary-hover, text)
-- [ ] Verificación de contraste de cada par de colores usado (secundario solo decorativo)
-- [ ] Fuentes Noto Serif KR y Noto Sans KR con `next/font`; prueba de Hangul, tildes y ñ
+- [x] Tokens en `@theme` (surface, primary, secondary, primary-hover, text) *(en `src/styles/globals.css`; globals.css movido de `(frontend)` a `src/styles`)*
+- [x] Verificación de contraste de cada par de colores usado (secundario solo decorativo) *(primary/surface 7.36:1, text/surface 13.2:1, blanco/primary 8.2:1 — AA ✓; secundario 2.45:1 → solo decorativo, documentado en el propio CSS)*
+- [x] Fuentes Noto Serif KR y Noto Sans KR con `next/font`; prueba de Hangul, tildes y ñ *(subsets: `latin` en next-font; Hangul se sirve por unicode-range a demanda — verificado en build; prueba visual de Hangul al revisar el shell)*
 - [ ] next-intl: rutas `/es` y `/ko`, redirección de `/`, matcher excluyendo `/admin` y `/api`
 - [ ] `messages/es.json` y `messages/ko.json` para textos fijos (menú, botones, validaciones)
 - [ ] Layout base: header con navegación, selector de idioma, footer
@@ -256,3 +256,6 @@ Corresponde a la spec técnica §17.
 | 2026-11-05 | Neon: rama `dev` para local/preview, rama `main` para producción; `PAYLOAD_SECRET` secreto por ambiente en Vercel | Desarrollador |
 | 2026-11-05 | CI: `npx next typegen` antes de `typecheck` (Next 16 genera tipos de rutas en `.next/`, no versionados) | Desarrollador |
 | 2026-11-05 | Impeccable instalado (v4.8.0, skill en `.github`) con telemetría OFF (proyecto de cliente) | Desarrollador |
+| 2026-11-06 | Primer merge `dev → main` vía PR #1 con CI verde; producción desplegada desde git | Desarrollador |
+| 2026-11-06 | `PRODUCT.md` reescrito al esquema impeccable (init): posicionamiento "integrador cultural único"; registro coreano `[PENDIENTE-CLIENTE]`; paleta morada confirmada como derivada del logo oficial recibido; Impeccable `buildPath=code` | Desarrollador |
+| 2026-11-06 | Fase 2: tokens `@theme` en `src/styles/globals.css` (movido desde `(frontend)`); fuentes Noto via `next/font` sin subset `korean` explícito (next/font lo sirve por unicode-range a demanda); eslint ignora `.github/skills`, `src/migrations` y `payload-types.ts` | Desarrollador |

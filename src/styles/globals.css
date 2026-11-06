@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+/*
+ * Tokens de marca BORAHAE (AGENTS.md §6).
+ * Derivados del logo oficial.
+ * - `borahae-secondary` NO supera 3:1 sobre `--color-borahae-surface` (2.45:1):
+ *   uso exclusivamente decorativo (fondos, ilustración). Nunca texto, íconos
+ *   ni bordes que transmitan información.
+ * - Pares verificados (WCAG 2.2 AA):
+ *   primary sobre surface 7.36:1 ✓ · text sobre surface 13.2:1 ✓
+ *   blanco sobre primary 8.2:1 ✓ · blanco sobre primary-hover ≥ 10:1 ✓
+ */
+@theme {
+  --color-borahae-surface: #f7f1fb;
+  --color-borahae-primary: #603c94;
+  --color-borahae-secondary: #b58cda;
+  --color-borahae-primary-hover: #4d2f78;
+  --color-borahae-text: #241832;
+}
+
+/*
+ * Tipografía (aplicada vía variables de next/font en src/lib/fonts.ts):
+ * - display  = Noto Serif KR (títulos y frases destacadas)
+ * - sans     = Noto Sans KR (texto, menús, formularios, botones)
+ */
+@theme {
+  --font-display: var(--font-noto-serif-kr);
+  --font-sans: var(--font-noto-sans-kr);
+}
+
+/* Base mínima; el shell completo se construye en esta misma fase. */
+html {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--color-borahae-surface);
+  color: var(--color-borahae-text);
+  font-family: var(--font-sans), "Noto Sans KR", system-ui, sans-serif;
+}
+
+/* Foco visible en todos los elementos interactivos (WCAG 2.2 AA). */
+:focus-visible {
+  outline: 2px solid var(--color-borahae-primary);
+  outline-offset: 2px;
+}
+
+/* Accesibilidad: respetar la preferencia de menos movimiento. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

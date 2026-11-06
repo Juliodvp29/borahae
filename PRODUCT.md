@@ -1,68 +1,64 @@
-# PRODUCT.md — BORAHAE
+# Product
 
-> Borrador inicial preparado a partir de las especificaciones v1.0 (5 nov 2026). Impeccable lee este archivo antes de cada comando de diseño. Ejecuta `/impeccable init` para que la skill lo contraste con el código y te haga las preguntas que falten; luego ajusta lo marcado con `[CONFIRMAR]`.
+<!-- impeccable:product-schema 1 -->
 
-## Qué es
+## Platform
 
-Sitio web institucional bilingüe (español / coreano) de BORAHAE, una ESAL que promueve el intercambio cultural entre Colombia y Corea del Sur a través del Hallyu, la gastronomía, el idioma y la sociedad coreana.
+web
 
-## Para quién
+## Users
 
-Personas interesadas en la cultura coreana: aprendices del idioma, aficionadas al Hallyu y a la comunidad ARMY, viajeras, posibles voluntarias, aliados y patrocinadores. Navegan sobre todo desde el celular. Hay visitantes hispanohablantes y coreanohablantes. La navegación pública está abierta a todo público; los registros a eventos de la fase 1 son solo para mayores de 18 años.
+- **Visitantes públicos:** personas interesadas en la cultura coreana (aprendices del idioma, comunidad Hallyu/ARMY, viajeras, posibles voluntarias, aliados y patrocinadores). Navegan mayormente desde el celular; hay visitantes hispanohablantes y coreanohablantes. La navegación pública es abierta a todo público.
+- **Representante legal:** actualiza contenido en el panel Payload (`/admin`) sin ayuda del desarrollador. No debe poder tocar usuarios, estructura técnica ni configuración.
+- **Registros a eventos (fase 1):** solo para mayores de 18 años.
 
-## Qué debe lograr
+## Product Purpose
 
-1. Explicar con claridad quién es BORAHAE, su misión y su enfoque inclusivo.
-2. Dar visibilidad a programas (curso de coreano, becas, talleres), eventos y viajes (BORAHAE TRIP 2027, Seúl, 6–21 de junio, 25 personas).
-3. Permitir inscribirse gratis a eventos y contactar a la organización.
-4. Facilitar donaciones (PayPal / transferencia) y atraer patrocinio.
-5. Que el representante legal actualice contenido sin ayuda del desarrollador.
-6. Permitir que el representante legal active o desactive Galería, Patrocinio y el acceso a WhatsApp sin pedir cambios de código.
+Sitio web institucional bilingüe (español/coreano) de BORAHAE, ESAL que promueve el intercambio cultural entre Colombia y Corea del Sur a través del Hallyu, la gastronomía, el idioma y la sociedad coreana. Debe: explicar con claridad quién es BORAHAE (misión inclusiva), dar visibilidad a programas (curso de coreano, becas, talleres), eventos y viajes (BORAHAE TRIP 2027, Seúl, 6–21 de junio, 25 personas), permitir inscripción gratuita a eventos y contacto, facilitar donaciones (PayPal/transferencia) y atraer patrocinio. Éxito: el representante mantiene el sitio solo y una visitante entiende qué es BORAHAE en segundos, se inscribe o escribe en menos de un minuto, en ambos idiomas.
 
-## Misión y visión (resumen)
+## Positioning
 
-Difundir la cultura coreana construyendo un espacio de aprendizaje y conexión **inclusivo, accesible y seguro**, que valore la diversidad y permita participar en igualdad de condiciones. Aspira a ser referente colombo-coreano de intercambio cultural e inclusión social.
+Integrador cultural único: BORAHAE combina —en una sola entidad sin fines de lucro— lo que an ámbito vecino ofrece por separado: curso de coreano + viaje organizado a Seúl + eventos gratuitos + un enfoque explícito de inclusión e igualdad de condiciones. (Confirmado por el desarrollador, 6 nov 2026.)
 
-## Personalidad y tono
+## Operating Context
 
-Minimalista, institucional y cultural; cálido y acogedor, no corporativo frío ni "fan-site" recargado. Elegante y legible. Texto claro, directo y respetuoso, en español neutro de Colombia y en coreano formal-cortés `[CONFIRMAR registro]`.
+- Edita contenido desde Payload CMS (`/admin`) el representante legal; las colecciones `contact-submissions` y `event-registrations` son privadas (solo lectura autorizada, nunca API pública).
+- El contenido vive en `es` (por defecto) y `ko`; el coreano hace fallback al español. Traducción coreana es asistida por IA y **requiere revisión humana antes de publicar** (legal, pagos y condiciones especialmente).
+- `site-settings` administra interruptores de Galería, Patrocinio y WhatsApp (el CMS puede ocultarlos sin código).
+- Los eventos admiten cupo opcional; antispam = honeypot + rate limit; correo transaccional con Resend (dominio del cliente pendiente de verificación).
+- Hosting: Vercel (main=producción, dev/PR=preview), BD Neon (rama dev/preview, main/producción), archivos en Vercel Blob.
+- Plazo de entrega: 10 días, desarrollador único.
 
-## Identidad visual
+## Capabilities and Constraints
 
-- Paleta: superficie `#F7F1FB`, primario `#603C94`, secundario `#B58CDA` (decorativo), hover `#4D2F78`, texto `#241832`. Derivada del logo oficial.
-- Tipografía: Noto Serif KR (títulos y frases destacadas) y Noto Sans KR (texto, menús, formularios, botones).
-- El morado es la marca; debe sentirse deliberado y no como un gradiente morado genérico.
+- Fase 1: sin pagos integrados, sin área de miembros, sin inscripción formal a viajes, sin lista de espera.
+- Eventos gratuitos, solo 18+: la edad se valida en servidor y no se persiste fecha de nacimiento.
+- Secciones ocultables desde el CMS: Galería, Patrocinio, botón de WhatsApp.
+- Rutas públicas fijas (slug en español también en `/ko`); legal incluye política de datos, términos y condiciones de viaje (esta solo si el cliente aprueba contenido).
+- Datos personales bajo ley colombiana: mínimo de datos, consentimiento explícito con trazabilidad, registros nunca expuestos.
+- Información legal de la organización (razón social, NIT, correo institucional, enlaces de redes, PayPal, logo, textos legales, fotos autorizadas): **pendientes del cliente** — usar marcadores `[PENDIENTE-CLIENTE]`, nunca inventarlos.
 
-## Principios de diseño
+## Brand Commitments
 
-1. **Accesibilidad como requisito** (WCAG 2.2 AA): contraste, foco visible, teclado, objetivos táctiles amplios, movimiento reducido.
+- **Paleta de marca (derivada del logo oficial que el desarrollador recibió del cliente; el binario del logo aún no está en el proyecto):** superficie `#F7F1FB`, primario `#603C94`, secundario `#B58CDA` (solo decorativo — no pasa contraste para texto), hover `#4D2F78`, texto `#241832`. Es compromiso de marca, no orientativa.
+- **Tipografía:** Noto Serif KR (títulos y frases destacadas), Noto Sans KR (texto, menús, formularios, botones), en ambos idiomas.
+- **Tono:** minimalista, institucional y cultural; cálido, no facilitado fan-site. Español neutro de Colombia. **Coreano formal-cortés: [PENDIENTE-CLIENTE]** (quién confirma y cuándo).
+- **Marca BTS/FESTA:** prohibido usar material de BTS/HYBE/FESTA sin confirmación escrita del cliente, con aviso de no afiliación oficial aprobado por el cliente.
+
+## Evidence on Hand
+
+- Especificaciones funcionales y técnicas v1.0 (en `docs/`), ROADMAP y PRODUCT acuerdos v1.0.
+- Falta y no se debe fabricar: logo (formatos vectoriales), textos finales en español, fotografías autorizadas, textos legales aprobados, datos legales (NIT, razón social, correo institucional), enlaces de redes, PayPal, condiciones de viaje con precios.
+- El sitio base (Next.js + Payload) está desplegado en preview y producción con CI en verde.
+
+## Product Principles
+
+1. **Accesibilidad como requisito** (WCAG 2.2 AA): contraste, foco visible, teclado, objetivos táctiles, `prefers-reduced-motion`. La misión de BORAHAE incluye inclusión.
 2. **Móvil primero.**
-3. **Bilingüe de verdad:** el coreano no es una traducción "pegada"; el diseño debe sostener ambos idiomas (longitudes, interlineado, salto de palabra).
-4. **Poco, bien hecho:** jerarquía clara, espacio, pocas decoraciones.
-5. **Confianza:** es una organización que pide datos y donaciones; la información legal y el tratamiento de datos son visibles y claros.
+3. **Bilingüe de verdad:** el coreano no es traducción "pegada"; el diseño respeta longitudes, interlineado y `word-break` (keep-all).
+4. **Poco, bien hecho:** jerarquía clara, espacio, pocas decoraciones; sin gradientes morado genéricos ni tarjetas anidadas.
+5. **Confianza:** datos y donaciones exigen claridad legal y de tratamiento de datos.
 
-## Anti-referencias (evitar)
+## Accessibility & Inclusion
 
-- Estética de merchandising de fandom o uso de material de BTS/HYBE sin permiso.
-- Gradientes morado-azul genéricos, tarjetas dentro de tarjetas, íconos en cuadrados redondeados sobre cada título.
-- Tipografías por defecto de "plantilla" y fotos de stock sin relación con Colombia–Corea.
-- Texto sobre `#B58CDA` o combinaciones de bajo contraste.
-- Estereotipos culturales y tratamiento folclorizante de Corea o Colombia.
-
-## Restricciones
-
-- Presupuesto y plazo ajustados (10 días, desarrollador único); alcance de la fase 1 cerrado (ver especificaciones).
-- Contenido e imágenes los entrega el cliente; las imágenes deben tener autorización de uso.
-- Los eventos de la fase 1 son gratuitos y solo admiten registros de mayores de 18 años. La edad se valida en servidor sin conservar la fecha de nacimiento.
-- Galería, Patrocinio y WhatsApp son secciones configurables: pueden estar ocultas hasta que el cliente decida activarlas.
-- No hay pagos integrados, ni área de miembros, ni inscripción formal a viajes en la fase 1.
-- Referencias a BTS/FESTA solo con permisos y aviso de no afiliación aprobados por el cliente.
-- Stack: Next.js, Tailwind CSS 4, Payload CMS, next-intl (ver `AGENTS.md`).
-
-## Superficies principales
-
-Inicio · Nosotros · Programas (curso de coreano, becas, talleres) · Viajes · Eventos (con inscripción) · Galería · Donaciones · Patrocinio · Contacto · Legal.
-
-## Éxito
-
-El representante legal puede mantener el sitio solo; una visitante entiende qué es BORAHAE en segundos, se inscribe a un evento o escribe en menos de un minuto, y el sitio se ve propio y cuidado en ambos idiomas.
+Estándar requerido: WCAG 2.2 nivel AA (contraste, foco, teclado, etiquetas, lector de pantalla en flujos clave). Inclusión como parte de la misión: el sitio debe permitir participar en igualdad de condiciones; evitar cualquier tratamiento folclorizante o estereotipado de Corea o Colombia.
