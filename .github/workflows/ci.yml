@@ -27,6 +27,9 @@ jobs:
       - name: Instalar dependencias (bloqueo reproducible)
         run: pnpm install --frozen-lockfile
 
+      - name: Generar tipos de rutas (next typegen)
+        run: npx next typegen
+
       - name: Typecheck
         run: pnpm typecheck
 
