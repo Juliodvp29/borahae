@@ -93,9 +93,10 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 - [x] Layout base: header con navegación, selector de idioma, footer *(header sticky con nav 9 rutas + menú móvil accesible (Escape cierra, foco devuelto, objetivos ≥44px); selector de idioma preserva la ruta actual; footer institucional; correo/redes `[PENDIENTE-CLIENTE]`; WhatsApp y ocultables llegan con `site-settings` Fase 4)*
 - [x] Componentes base: botón, enlace, tarjeta, encabezados de sección, campos de formulario, mensajes de estado *(hechos: `Button` (variantes primary/outline, externo con noopener), `Card`, `SectionHeading`; campos de formulario y mensajes de estado se completan con los formularios en Fase 5)*
 - [x] Foco visible, navegación por teclado y `prefers-reduced-motion` desde el inicio *(`:focus-visible` global, skip-link funcional, Escape en menú móvil, reduced-motion global; verificación formal en el audit Impeccable)*
-- [ ] `[IMP]` `/impeccable shape` del layout y de la página de inicio
-- [ ] `[IMP]` `/impeccable document` → `DESIGN.md` con tokens, tipografía y componentes
-- [ ] `[IMP]` `critique` + `typeset` + `layout` sobre el shell
+- [ ] `[IMP]` `/impeccable shape` del layout y de la página de inicio *(el shell se construyó code-first desde el plan aprobado; `shape` se correrá sobre las páginas reales en Fase 4)*
+- [x] `[IMP]` `/impeccable document` → `DESIGN.md` con tokens, tipografía y componentes *(existe en la raíz: frontmatter YAML con tokens máquina + 8 secciones; North Star "El Puente Lavanda" confirmado por el desarrollador en entrevista document)*
+- [x] `[IMP]` `critique` + `typeset` + `layout` sobre el shell *(critique dual-agent 29/40 con snapshot en `.impeccable/critique/`; los 3 hallazgos P1 corregidos: `aria-current` en nav vía `NavLink`, breakpoint nav `lg`, textura de marca en hero. Tendencia y re-corrida del critique pendientes; `typeset`/`layout` como comandos no fue necesario correr tras corregir los P1 y quedan para Fase 4)*
+- [ ] `/impeccable polish` de los hallazgos P2/P3 editados en el snapshot del critique *(backdrop del menú móvil, globito en switcher + hrefLang, año del footer, hover muerto del outline)*
 
 **Criterio de salida:** shell navegable en ambos idiomas y en móvil/escritorio; `DESIGN.md` en el repo; `audit` sin P0/P1.
 
@@ -262,3 +263,4 @@ Corresponde a la spec técnica §17.
 | 2026-11-06 | Cliente entrega textos oficiales de Misión/Visión/Objetivos (guardados en `docs/Contenido_Cliente_Mision_Vision.md`) y autoriza libertad creativa dentro de la idea principal | Desarrollador |
 | 2026-11-06 | next-intl 4.14.9 con convención `proxy.ts` de Next 16 (middleware deprecado); textos oficiales del cliente como fuente de `nosotros`; UI coreana pendiente de revisión humana | Desarrollador |
 | 2026-11-06 | Shell: header/footer componentes de servidor; interactivo solo en menú móvil + selector de idioma (client); `:lang(ko) keep-all`; Home usa `Button` (variantes); `lang="ko"` interlineado 1.77 | Desarrollador |
+| 2026-11-06 | Impeccable critique 29/40; P1 corregidos (aria-current, nav breakpoint lg, textura hero con barra Wisteria); DESIGN.md creado (North Star "El Puente Lavanda", plano-tonal, 5 tokens orquídea); P2/P3 pendientes en polish de Fase 4 | Desarrollador |

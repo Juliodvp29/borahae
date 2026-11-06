@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Link } from "@/i18n/navigation";
+import { NavLink } from "./nav-link";
 
 type NavItem = { href: string; label: string };
 
@@ -75,13 +75,13 @@ export function MobileNav({ items, openLabel, closeLabel, navLabel }: Props) {
           <ul>
             {items.map((item) => (
               <li key={item.href}>
-                <Link
+                <NavLink
                   href={item.href}
+                  label={item.label}
                   onClick={close}
                   className="block min-h-11 border-b border-borahae-primary/5 py-3 text-base font-medium text-borahae-text hover:text-borahae-primary"
-                >
-                  {item.label}
-                </Link>
+                  activeClassName="text-borahae-primary font-semibold"
+                />
               </li>
             ))}
           </ul>

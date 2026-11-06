@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { NavLink } from "./nav-link";
 import { MobileNav } from "./mobile-nav";
 import { LanguageSwitcher } from "./language-switcher";
 
@@ -38,16 +39,16 @@ export async function Header() {
           BORAHAE
         </Link>
 
-        <nav aria-label={tRoot("mainNav")} className="hidden md:block">
+        <nav aria-label={navLabel} className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {items.map((item) => (
               <li key={item.href}>
-                <Link
+                <NavLink
                   href={item.href}
+                  label={item.label}
                   className="flex min-h-11 items-center rounded-lg px-3 text-sm font-medium text-borahae-text hover:bg-borahae-primary/10 hover:text-borahae-primary"
-                >
-                  {item.label}
-                </Link>
+                  activeClassName="text-borahae-primary font-semibold"
+                />
               </li>
             ))}
           </ul>
