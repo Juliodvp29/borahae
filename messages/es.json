@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "title": "BORAHAE — Intercambio cultural Colombia · Corea del Sur",
+    "description": "Curso de coreano, becas, talleres, eventos y viajes organizados por BORAHAE, entidad sin fines de lucro dedicada al intercambio cultural entre Colombia y Corea del Sur."
+  },
+  "header": {
+    "homeAria": "BORAHAE — ir a inicio",
+    "skipToContent": "Saltar al contenido principal",
+    "openMenu": "Abrir menú de navegación",
+    "closeMenu": "Cerrar menú de navegación",
+    "mainNav": "Navegación principal"
+  },
+  "language": {
+    "label": "Cambiar idioma",
+    "es": "Español",
+    "ko": "한국어"
+  },
+  "nav": {
+    "home": "Inicio",
+    "about": "Nosotros",
+    "programs": "Programas",
+    "tours": "Viajes",
+    "events": "Eventos",
+    "gallery": "Galería",
+    "donations": "Donaciones",
+    "sponsorship": "Patrocinio",
+    "contact": "Contacto"
+  },
+  "home": {
+    "eyebrow": "Colombia · Corea del Sur",
+    "title": "Intercambio cultural entre Colombia y Corea del Sur",
+    "intro": "Promovemos y difundimos la cultura coreana a través del Hallyu, la gastronomía y la sociedad, en un espacio de aprendizaje y conexión plenamente inclusivo.",
+    "ctaPrograms": "Conoce nuestros programas",
+    "ctaContact": "Contáctanos"
+  },
+  "footer": {
+    "tagline": "ESAL de intercambio cultural Colombia · Corea del Sur",
+    "contact": "Contacto",
+    "legal": "Legal",
+    "rights": "© {year} BORAHAE. Todos los derechos reservados."
+  }
+}
