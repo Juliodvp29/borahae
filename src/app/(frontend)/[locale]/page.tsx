@@ -1,5 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
+import { Button } from "@/components/ui/button";
 
 /**
  * Página de inicio provisional: solo garantiza jerarquía semántica
@@ -14,7 +14,7 @@ export default async function HomePage({
   const t = await getTranslations("home");
 
   return (
-    <main id="contenido-principal" className="flex-1">
+    <main className="flex-1">
       <div className="mx-auto max-w-6xl px-6 py-24 md:py-32">
         <p className="font-display text-borahae-primary text-sm tracking-widest uppercase">
           BORAHAE
@@ -26,18 +26,10 @@ export default async function HomePage({
           {t("intro")}
         </p>
         <div className="mt-10 flex flex-wrap gap-4">
-          <Link
-            href="/programas"
-            className="rounded-full bg-borahae-primary px-6 py-3 text-sm font-medium text-white hover:bg-borahae-primary-hover"
-          >
-            {t("ctaPrograms")}
-          </Link>
-          <Link
-            href="/contacto"
-            className="rounded-full border border-borahae-primary px-6 py-3 text-sm font-medium text-borahae-primary hover:bg-borahae-primary/10"
-          >
+          <Button href="/programas">{t("ctaPrograms")}</Button>
+          <Button href="/contacto" variant="outline">
             {t("ctaContact")}
-          </Link>
+          </Button>
         </div>
       </div>
     </main>

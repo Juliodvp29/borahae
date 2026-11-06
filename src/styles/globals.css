@@ -56,3 +56,12 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/*
+ * Coreano (html[lang="ko"]): evitar cortes palabra a palabra y dar un
+ * interlineado más holgado, como exige AGENTS.md §6.
+ */
+:lang(ko) {
+  word-break: keep-all;
+  line-height: 1.77;
+}
