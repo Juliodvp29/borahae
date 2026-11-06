@@ -1,5 +1,6 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 import type { NextConfig } from "next";
+import createNextIntlPlugin from 'next-intl/plugin';
 
 const nextConfig: NextConfig = {
   // cacheComponents deshabilitado: la doc de Payload advierte compatibilidad
@@ -14,4 +15,6 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withPayload(nextConfig);
+const withNextIntl = createNextIntlPlugin(); // usa src/i18n/request.ts por defecto
+
+export default withNextIntl(withPayload(nextConfig));

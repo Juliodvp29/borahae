@@ -88,8 +88,8 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 - [x] Tokens en `@theme` (surface, primary, secondary, primary-hover, text) *(en `src/styles/globals.css`; globals.css movido de `(frontend)` a `src/styles`)*
 - [x] Verificación de contraste de cada par de colores usado (secundario solo decorativo) *(primary/surface 7.36:1, text/surface 13.2:1, blanco/primary 8.2:1 — AA ✓; secundario 2.45:1 → solo decorativo, documentado en el propio CSS)*
 - [x] Fuentes Noto Serif KR y Noto Sans KR con `next/font`; prueba de Hangul, tildes y ñ *(subsets: `latin` en next-font; Hangul se sirve por unicode-range a demanda — verificado en build; prueba visual de Hangul al revisar el shell)*
-- [ ] next-intl: rutas `/es` y `/ko`, redirección de `/`, matcher excluyendo `/admin` y `/api`
-- [ ] `messages/es.json` y `messages/ko.json` para textos fijos (menú, botones, validaciones)
+- [x] next-intl: rutas `/es` y `/ko`, redirección de `/`, matcher excluyendo `/admin` y `/api` *(v4.14.9; Next 16 usa `src/proxy.ts` — `middleware.ts` deprecado; `/`→307→`/es` verificado, `/admin` y `/api` excluidos, `/es` y `/ko` SSG)*
+- [x] `messages/es.json` y `messages/ko.json` para textos fijos (menú, botones, validaciones) *(validaciones llegan con formularios en Fase 5; coreano UI pendiente de revisión humana `[PENDIENTE-CLIENTE]` — anotado en el propio JSON)*
 - [ ] Layout base: header con navegación, selector de idioma, footer
 - [ ] Componentes base: botón, enlace, tarjeta, encabezados de sección, campos de formulario, mensajes de estado
 - [ ] Foco visible, navegación por teclado y `prefers-reduced-motion` desde el inicio
@@ -259,3 +259,5 @@ Corresponde a la spec técnica §17.
 | 2026-11-06 | Primer merge `dev → main` vía PR #1 con CI verde; producción desplegada desde git | Desarrollador |
 | 2026-11-06 | `PRODUCT.md` reescrito al esquema impeccable (init): posicionamiento "integrador cultural único"; registro coreano `[PENDIENTE-CLIENTE]`; paleta morada confirmada como derivada del logo oficial recibido; Impeccable `buildPath=code` | Desarrollador |
 | 2026-11-06 | Fase 2: tokens `@theme` en `src/styles/globals.css` (movido desde `(frontend)`); fuentes Noto via `next/font` sin subset `korean` explícito (next/font lo sirve por unicode-range a demanda); eslint ignora `.github/skills`, `src/migrations` y `payload-types.ts` | Desarrollador |
+| 2026-11-06 | Cliente entrega textos oficiales de Misión/Visión/Objetivos (guardados en `docs/Contenido_Cliente_Mision_Vision.md`) y autoriza libertad creativa dentro de la idea principal | Desarrollador |
+| 2026-11-06 | next-intl 4.14.9 con convención `proxy.ts` de Next 16 (middleware deprecado); textos oficiales del cliente como fuente de `nosotros`; UI coreana pendiente de revisión humana | Desarrollador |

@@ -1,0 +1,41 @@
+{
+  "__review": "⚠️ Pendiente de revisión humana del coreano antes de publicar (AGENTS.md §5.1). [PENDIENTE-CLIENTE]",
+  "meta": {
+    "title": "보라헤 — 콜롬비아 · 대한민국 문화 교류",
+    "description": "한류, 한식, 한국 사회를 사랑하는 사람들을 위한 비영리 문화 교류 단체 보라헤. 한국어 강좌, 장학제도, 워크숍, 이벤트와 여행을 소개합니다."
+  },
+  "header": {
+    "homeAria": "보라헤 — 홈으로 이동",
+    "skipToContent": "본문으로 건너뛰기",
+    "openMenu": "메뉴 열기",
+    "closeMenu": "메뉴 닫기"
+  },
+  "language": {
+    "label": "언어 변경",
+    "es": "Español",
+    "ko": "한국어"
+  },
+  "nav": {
+    "home": "홈",
+    "about": "소개",
+    "programs": "프로그램",
+    "tours": "여행",
+    "events": "이벤트",
+    "gallery": "갤러리",
+    "donations": "기부",
+    "sponsorship": "후원",
+    "contact": "문의"
+  },
+  "home": {
+    "title": "콜롬비아와 대한민국을 잇는 문화 교류",
+    "intro": "보라헤는 한류, 한식, 한국 사회를 통해 한국 문화를 알리고, 누구나 동등하게 참여하고 배울 수 있는 열린 공간을 만듭니다.",
+    "ctaPrograms": "프로그램 보기",
+    "ctaContact": "문의하기"
+  },
+  "footer": {
+    "tagline": "콜롬비아 · 대한민국 문화 교류 비영리단체",
+    "contact": "연락처",
+    "legal": "법적 고지",
+    "rights": "© {year} BORAHAE. 모든 권리 보유."
+  }
+}
