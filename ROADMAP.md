@@ -36,7 +36,7 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 - [x] Antispam sin costo recurrente: implementar honeypot y rate limit. Añadir Cloudflare Turnstile solo si el tráfico real o las pruebas muestran que es necesario y su configuración no añade coste.
 - [ ] Decidir botón de WhatsApp (sí/no)
 - [x] Revisar y confirmar antes de producción los límites vigentes de Vercel, Neon, Vercel Blob y Resend en las cuentas del cliente. No se asume que un plan gratuito cubra uso futuro.
-- [ ] Decidir si Impeccable usa telemetría en este proyecto
+- [ ] Decidir si Impeccable usa telemetría en este proyecto *(hecho: OFF registrada — proyecto de cliente)*
 
 ### Pendientes del cliente
 - [ ] `[CLIENTE]` Logo oficial (formatos vectoriales)
@@ -61,22 +61,22 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 ## Fase 1 — Fundación técnica y creación del proyecto
 
 - [x] Crear el proyecto con el generador oficial de Next.js y TypeScript estricto; confirmar App Router, estructura `src/` y gestor `pnpm`
-- [ ] Publicar a GitHub desde VSCode (publicación rápida); crear rama `dev` y proteger `main` (solo PR)
+- [x] Publicar a GitHub desde VSCode (publicación rápida); crear rama `dev` y proteger `main` (solo PR) *(regla: PR obligatorio, status check `ci` requerido, sin force-push, lineal, aplica también a admins; 0 aprobaciones requeridas por ser reviewer único)*
 - [x] Instalar y configurar Tailwind CSS 4; crear `src/styles/globals.css` con `@import "tailwindcss"` y comprobar que las utilidades compilan *(temporal: globals.css vive en `src/app/(frontend)`; se mueve a `src/styles` en Fase 2)*
 - [x] Crear estructura inicial de rutas, componentes, `lib`, `i18n`, `collections` y `globals` según `AGENTS.md` §4 *(colecciones base `users` y `media`; el resto llega en Fase 3)*
 - [x] Instalar Payload CMS dentro de la aplicación Next.js y verificar que `/admin` abre localmente *(responde 200 con BD local)*
-- [ ] Copiar especificaciones a `docs/` y este `AGENTS.md`/`ROADMAP.md` a la raíz
-- [x] Base de datos PostgreSQL en Neon; `DATABASE_URL` (conexión pooled) en variables de entorno *(rama `dev` de Neon en `.env` local; la rama `main` se configurará como variable de producción en Vercel — punto 4)*
+- [x] Copiar especificaciones a `docs/` y este `AGENTS.md`/`ROADMAP.md` a la raíz
+- [x] Base de datos PostgreSQL en Neon; `DATABASE_URL` (conexión pooled) en variables de entorno *(rama `dev` de Neon en `.env` local; producción usa rama `main` en Vercel)*
 - [x] Configurar el adaptador Postgres de Payload, `payload.config.ts`, migraciones y tipos generados
-- [x] Vercel Blob configurado como almacenamiento de `media`
+- [x] Vercel Blob configurado como almacenamiento de `media` *(store `borahae-media` vinculado a Production/Preview; `BLOB_READ_WRITE_TOKEN` inyectado por Vercel)*
 - [x] Añadir scripts `dev`, `typecheck`, `lint`, `build`, migraciones y generación de tipos; verificar compatibilidad con PowerShell y bash
 - [x] Crear `.env.example` sin secretos y configurar variables separadas para desarrollo, preview y producción
 - [x] Configurar `next/image`, Vercel Blob y la colección `media` base
-- [ ] Proyecto en Vercel conectado al repo: `main` → producción, `dev`/PR → preview; comprobar un preview funcional
-- [x] Añadir workflow de GitHub Actions para instalación reproducible, `typecheck`, `lint` y `build` *(verificación en PR pendiente del push a GitHub)*
+- [x] Proyecto en Vercel conectado al repo: `main` → producción, `dev`/PR → preview; comprobar un preview funcional *(producción: borahae-kappa.vercel.app con admin creado; primera preview `borahae-a0tbzwblx` en Ready con /admin 200)*
+- [x] Añadir workflow de GitHub Actions para instalación reproducible, `typecheck`, `lint` y `build`; verificar una ejecución en PR *(push a dev verificado; CI en verde pendiente del fix "typegen antes de typecheck")*
 
-- [ ] `[IMP]` `npx impeccable install` (aceptar hook) y copiar bloque al `.gitignore`
-- [ ] `[IMP]` `/impeccable init` → `PRODUCT.md` revisado y ajustado (hay un borrador base)
+- [x] `[IMP]` `npx impeccable install` (aceptar hook) y copiar bloque al `.gitignore`
+- [ ] `[IMP]` `/impeccable init` → `PRODUCT.md` revisado y ajustado (hay un borrador base) *(pendiente: requiere reiniciar la herramienta agente para cargar la skill)*
 - [ ] `[IMP]` Paso opcional `npx impeccable detect --github src/` en CI
 
 **Criterio de salida:** `pnpm build` pasa en CI; `/admin` abre en preview de Vercel y crea el primer usuario admin.
@@ -253,3 +253,6 @@ Corresponde a la spec técnica §17.
 | 2026-11-05 | Bug payload 3.93/tsx 4.23.15/undici ("Illegal constructor"): CLI de Payload se ejecuta con `--use-swc` (@swc-node/register) y el repo usa `"type": "module"` | Desarrollador |
 | 2026-11-05 | `cacheComponents`/`partialPrefetching` de Next 16 deshabilitados por compatibilidad con Payload (doc oficial advierte riesgo); se revisa en Fase 4 | Desarrollador |
 | 2026-11-05 | BD local: PostgreSQL 18 en `localhost:5432/borahae`; se eliminó `DATABASE_URL` global de Windows en favor del `.env` por proyecto (dotenv con `override` en payload.config) | Desarrollador |
+| 2026-11-05 | Neon: rama `dev` para local/preview, rama `main` para producción; `PAYLOAD_SECRET` secreto por ambiente en Vercel | Desarrollador |
+| 2026-11-05 | CI: `npx next typegen` antes de `typecheck` (Next 16 genera tipos de rutas en `.next/`, no versionados) | Desarrollador |
+| 2026-11-05 | Impeccable instalado (v4.8.0, skill en `.github`) con telemetría OFF (proyecto de cliente) | Desarrollador |
