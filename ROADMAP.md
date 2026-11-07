@@ -126,7 +126,9 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 - `npx payload seed` / `npx payload db-report`: comandos propios vía `bin` en `payload.config.ts` (`payload run` no ejecuta scripts de forma fiable aquí — la config no resuelve bajo `run`).
 - `next/cache` se importa dentro del hook de revalidación para no romper el CLI de Payload fuera de Next.
 - Verificación de permisos con REST: anónimo y editor no pueden crear `contact-submissions`/`event-registrations` (403); el editor no entra a `users` (403) pero sí lee ambas submissions (200).
-- Pendiente decidido: precio/condiciones de viajes solo con aprobación escrita del cliente (`priceNote` con `[PENDIENTE-CLIENTE]`); sponsors listos pero ocultos hasta `sponsorshipEnabled`.
+- Sponsors listos pero ocultos hasta `sponsorshipEnabled`; precio/condiciones de viajes solo con aprobación escrita del cliente (`priceNote`).
+- **BD dev local en endpoint unpooled de Neon**: con el pooler (pgbouncer en modo transacción), las transacciones de borradores huérfanas por recarga de Turbopack saturaban el pool y colgaban `/admin` (error 25P03 idle-in-transaction). El endpoint pooled se usa solo en Vercel/serverless (AGENTS §5).
+- **Pool de Payload agrandado (dev 10, prod 5)**: `max: 2` en `payload.config.ts` hacía que todo el panel serializara detrás de un solo find largo de borrador (GET `/api/pages/1?draft=true` de 68.9s) — la pestaña quedaba cargando sin fin. Neon mata transacciones inactivas a los 5min (`idle_in_transaction_session_timeout`), lo que explica los bloqueos de 5–6min documentados arriba.
 
 **Criterio de salida:** el editor crea y edita contenido en es/ko, sube imágenes y no puede acceder a usuarios ni configuración técnica.
 

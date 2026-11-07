@@ -71,11 +71,15 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   // El esquema se controla con migraciones; sin modo push (AGENTS 5.2).
+  // Pool: en dev (Neon direct) 10 conexiones — con `max: 2` el admin
+  // serializa todas sus peticiones detrás de un solo find largo y la
+  // pestaña quedó cargando sin fin. En prod (pooled pgbouncer) 5 es
+  // prudente para los límites del pooler de Neon.
   db: postgresAdapter({
     push: false,
     pool: {
       connectionString: process.env.DATABASE_URL || '',
-      max: 2,
+      max: process.env.NODE_ENV === 'production' ? 5 : 10,
     },
   }),
   sharp,
