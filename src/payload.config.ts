@@ -9,6 +9,15 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Pages } from './collections/Pages'
+import { Programs } from './collections/Programs'
+import { Tours } from './collections/Tours'
+import { Events } from './collections/Events'
+import { EventRegistrations } from './collections/EventRegistrations'
+import { ContactSubmissions } from './collections/ContactSubmissions'
+import { Gallery } from './collections/Gallery'
+import { Sponsors } from './collections/Sponsors'
+import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -27,7 +36,35 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  // Comandos propios del CLI (`npx payload <key>`): el bin entrega la config
+  // ya resuelta a `script(config)` — evita el deadlock de getPayload bajo `run`.
+  bin: [
+    { key: 'seed', scriptPath: './src/scripts/seed.ts' },
+    { key: 'db-report', scriptPath: './src/scripts/db-report.ts' },
+  ],
+  collections: [
+    Users,
+    Media,
+    Pages,
+    Programs,
+    Tours,
+    Events,
+    EventRegistrations,
+    ContactSubmissions,
+    Gallery,
+    Sponsors,
+  ],
+  globals: [SiteSettings],
+  // Contenido editable en es/ko (AGENTS.md §5.1): español por defecto y
+  // fallback automático al español para campos sin traducción.
+  localization: {
+    locales: [
+      { label: 'Español', code: 'es' },
+      { label: '한국어 (coreano)', code: 'ko' },
+    ],
+    defaultLocale: 'es',
+    fallback: true,
+  },
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

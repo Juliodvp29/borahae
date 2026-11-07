@@ -104,19 +104,29 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 
 ## Fase 3 — Modelo de datos y CMS
 
-- [ ] Payload Localization con locales `es` (por defecto) y `ko` con fallback a `es`
-- [ ] Colección `users` con roles `admin` y `editor`; permisos por colección y por campo
-- [ ] Colecciones: `pages`, `programs`, `tours`, `events`, `event-registrations`, `contact-submissions`, `media`, `gallery`, `sponsors`
-- [ ] Global `site-settings` (logo, contacto, redes, donaciones, navegación, datos institucionales, `galleryEnabled`, `sponsorshipEnabled`, `whatsAppEnabled` y enlace/número de WhatsApp)
-- [ ] Campos localizables: título, descripción, contenido, SEO (título, descripción, imagen OG), `alt` de imágenes
-- [ ] `events`: modalidad (presencial/virtual/híbrido), fechas, cupo opcional (`capacity` + activar/desactivar), estado y elegibilidad 18+
-- [ ] `event-registrations` y `contact-submissions` **no accesibles desde la API pública**
-- [ ] Configuración de `media`: tipos y tamaños permitidos; conversión/uso de WebP y tamaños por componente
-- [ ] Hooks de revalidación de rutas al publicar contenido
-- [ ] Migraciones creadas y probadas; `payload-types.ts` generado
-- [ ] Cuenta de editor creada para el representante legal con prueba de permisos
-- [ ] Vista previa/borradores si aplica
-- [ ] Datos de ejemplo (seed) para desarrollo, claramente marcados como ficticios
+- [x] Payload Localization con locales `es` (por defecto) y `ko` con fallback a `es`
+- [x] Colección `users` con roles `admin` y `editor`; permisos por colección y por campo
+- [x] Colecciones: `pages`, `programs`, `tours`, `events`, `event-registrations`, `contact-submissions`, `media`, `gallery`, `sponsors`
+- [x] Global `site-settings` (logo, contacto, redes, donaciones, navegación, datos institucionales, `galleryEnabled`, `sponsorshipEnabled`, `whatsAppEnabled` y enlace/número de WhatsApp)
+- [x] Campos localizables: título, descripción, contenido, SEO (título, descripción, imagen OG), `alt` de imágenes
+- [x] `events`: modalidad (presencial/virtual/híbrido), fechas, cupo opcional (`capacity` + activar/desactivar), estado y elegibilidad 18+
+- [x] `event-registrations` y `contact-submissions` **no accesibles desde la API pública**
+- [x] Configuración de `media`: tipos y tamaños permitidos; conversión/uso de WebP y tamaños por componente
+- [x] Hooks de revalidación de rutas al publicar contenido
+- [x] Migraciones creadas y probadas; `payload-types.ts` generado
+- [x] Cuenta de editor creada para el representante legal con prueba de permisos *(en dev: `editor.demo@borahae.dev` con contraseña temporal; cambiar antes de crear la cuenta real)*
+- [ ] Vista previa/borradores si aplica *(borradores activos; la vista previa pública llega con las páginas de Fase 4)*
+- [x] Datos de ejemplo (seed) para desarrollo, claramente marcados como ficticios
+
+**Criterio de salida:** el editor crea y edita contenido en es/ko, sube imágenes y no puede acceder a usuarios ni configuración técnica.
+
+**Decisiones y notas de la fase:**
+- Los selects de estado en `programs`/`tours` se llaman `state`, no `status`: el nombre `status` colisionaba con el `_status` de publicación en la nomenclatura de enums de drizzle y rompía el SQL de la migración.
+- Reparación de BD dev: la migración fallida dejó el esquema a medias; se aplicó `migrate:fresh` a la rama Neon dev (solo demo; el usuario admin se respaldó y restauró con su contraseña intacta).
+- `npx payload seed` / `npx payload db-report`: comandos propios vía `bin` en `payload.config.ts` (`payload run` no ejecuta scripts de forma fiable aquí — la config no resuelve bajo `run`).
+- `next/cache` se importa dentro del hook de revalidación para no romper el CLI de Payload fuera de Next.
+- Verificación de permisos con REST: anónimo y editor no pueden crear `contact-submissions`/`event-registrations` (403); el editor no entra a `users` (403) pero sí lee ambas submissions (200).
+- Pendiente decidido: precio/condiciones de viajes solo con aprobación escrita del cliente (`priceNote` con `[PENDIENTE-CLIENTE]`); sponsors listos pero ocultos hasta `sponsorshipEnabled`.
 
 **Criterio de salida:** el editor crea y edita contenido en es/ko, sube imágenes y no puede acceder a usuarios ni configuración técnica.
 
