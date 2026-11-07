@@ -38,3 +38,6 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+      - name: Impeccable detect (exit 2 = hallazgos AI-slop, falla)
+        run: npx impeccable detect --github src/

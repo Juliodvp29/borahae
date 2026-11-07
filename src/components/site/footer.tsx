@@ -5,6 +5,11 @@ import { Link } from "@/i18n/navigation";
  * Footer institucional: identidad, navegación de cierre y legal.
  * El correo institucional y enlaces de redes son [PENDIENTE-CLIENTE];
  * el botón de WhatsApp se añade condicionado a `site-settings` en Fase 4.
+ *
+ * El año se congela al de build (páginas estáticas); es aceptable porque
+ * solo cambia cada 12 meses y el build se ejecuta en cada despliegue.
+ * Si alguna página pasa a ISR muy largo, revisar aquí (hallazgo P3 del
+ * critique 2026-11-06).
  */
 export async function Footer() {
   const t = await getTranslations("footer");

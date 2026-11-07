@@ -14,8 +14,10 @@ type Props = {
 
 /**
  * Menú móvil (solo interactivo real del header). Cierra con Escape,
- * al navegar y devuelve el foco al botón. Los objetivos táctiles
- * tienen ≥ 44 px (AGENTS.md §6).
+ * con tap fuera (backdrop de botón cierre accesible), al navegar y
+ * devuelve el foco al botón. Los objetivos táctiles tienen ≥ 44 px
+ * (AGENTS.md §6). El backdrop vive en el mismo stacking del header
+ * (z-40); el panel va después en el DOM y pinta por encima.
  */
 export function MobileNav({ items, openLabel, closeLabel, navLabel }: Props) {
   const [open, setOpen] = useState(false);
@@ -67,11 +69,18 @@ export function MobileNav({ items, openLabel, closeLabel, navLabel }: Props) {
       </button>
 
       {open && (
-        <nav
-          id="nav-movil"
-          aria-label={navLabel}
-          className="absolute inset-x-0 top-full border-b border-borahae-primary/10 bg-borahae-surface px-6 py-4 shadow-md"
-        >
+        <>
+          <button
+            type="button"
+            aria-label={closeLabel}
+            onClick={close}
+            className="fixed inset-0 bg-borahae-text/40"
+          />
+          <nav
+            id="nav-movil"
+            aria-label={navLabel}
+            className="absolute inset-x-0 top-full border-b border-borahae-primary/10 bg-borahae-surface px-6 py-4 shadow-md"
+          >
           <ul>
             {items.map((item) => (
               <li key={item.href}>
@@ -86,6 +95,7 @@ export function MobileNav({ items, openLabel, closeLabel, navLabel }: Props) {
             ))}
           </ul>
         </nav>
+        </>
       )}
     </div>
   );
