@@ -36,7 +36,7 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 - [x] Antispam sin costo recurrente: implementar honeypot y rate limit. Añadir Cloudflare Turnstile solo si el tráfico real o las pruebas muestran que es necesario y su configuración no añade coste.
 - [ ] Decidir botón de WhatsApp (sí/no)
 - [x] Revisar y confirmar antes de producción los límites vigentes de Vercel, Neon, Vercel Blob y Resend en las cuentas del cliente. No se asume que un plan gratuito cubra uso futuro.
-- [ ] Decidir si Impeccable usa telemetría en este proyecto *(hecho: OFF registrada — proyecto de cliente)*
+- [x] Decidir si Impeccable usa telemetría en este proyecto *(hecho: OFF registrada — proyecto de cliente; casilla marcada en revisión post-Fase 3)*
 
 ### Pendientes del cliente
 - [ ] `[CLIENTE]` Logo oficial (formatos vectoriales)
@@ -77,7 +77,7 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 
 - [x] `[IMP]` `npx impeccable install` (aceptar hook) y copiar bloque al `.gitignore`
 - [x] `[IMP]` `/impeccable init` → `PRODUCT.md` con esquema impeccable reescrito y confirmado *(posicionamiento: integrador cultural único; coreano formal-cortés `[PENDIENTE-CLIENTE]`; paleta confirmada desde logo oficial; buildPath=`code` en `.impeccable/config.json`)*
-- [ ] `[IMP]` Paso opcional `npx impeccable detect --github src/` en CI
+- [x] `[IMP]` Paso opcional `npx impeccable detect --github src/` en CI *(añadido tras build; exit code 2 falla el CI, AGENTS §7)*
 
 **Criterio de salida:** `pnpm build` pasa en CI; `/admin` abre en preview de Vercel y crea el primer usuario admin.
 
@@ -96,7 +96,7 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 - [ ] `[IMP]` `/impeccable shape` del layout y de la página de inicio *(el shell se construyó code-first desde el plan aprobado; `shape` se correrá sobre las páginas reales en Fase 4)*
 - [x] `[IMP]` `/impeccable document` → `DESIGN.md` con tokens, tipografía y componentes *(existe en la raíz: frontmatter YAML con tokens máquina + 8 secciones; North Star "El Puente Lavanda" confirmado por el desarrollador en entrevista document)*
 - [x] `[IMP]` `critique` + `typeset` + `layout` sobre el shell *(critique dual-agent 29/40 con snapshot en `.impeccable/critique/`; los 3 hallazgos P1 corregidos: `aria-current` en nav vía `NavLink`, breakpoint nav `lg`, textura de marca en hero. Tendencia y re-corrida del critique pendientes; `typeset`/`layout` como comandos no fue necesario correr tras corregir los P1 y quedan para Fase 4)*
-- [ ] `/impeccable polish` de los hallazgos P2/P3 editados en el snapshot del critique *(backdrop del menú móvil, globito en switcher + hrefLang, año del footer, hover muerto del outline)*
+- [x] `/impeccable polish` de los hallazgos P2/P3 editados en el snapshot del critique *(los 4 resueltos y verificados en vivo: backdrop accesible del menú móvil (botón cierre, tap fuera), globito aria-hidden + `hrefLang` en switcher, año de footer aceptado como año de build (documentado en el código), hover del outline decidido como flip sólido con texto blanco)*
 
 **Criterio de salida:** shell navegable en ambos idiomas y en móvil/escritorio; `DESIGN.md` en el repo; `audit` sin P0/P1.
 
@@ -104,19 +104,31 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 
 ## Fase 3 — Modelo de datos y CMS
 
-- [ ] Payload Localization con locales `es` (por defecto) y `ko` con fallback a `es`
-- [ ] Colección `users` con roles `admin` y `editor`; permisos por colección y por campo
-- [ ] Colecciones: `pages`, `programs`, `tours`, `events`, `event-registrations`, `contact-submissions`, `media`, `gallery`, `sponsors`
-- [ ] Global `site-settings` (logo, contacto, redes, donaciones, navegación, datos institucionales, `galleryEnabled`, `sponsorshipEnabled`, `whatsAppEnabled` y enlace/número de WhatsApp)
-- [ ] Campos localizables: título, descripción, contenido, SEO (título, descripción, imagen OG), `alt` de imágenes
-- [ ] `events`: modalidad (presencial/virtual/híbrido), fechas, cupo opcional (`capacity` + activar/desactivar), estado y elegibilidad 18+
-- [ ] `event-registrations` y `contact-submissions` **no accesibles desde la API pública**
-- [ ] Configuración de `media`: tipos y tamaños permitidos; conversión/uso de WebP y tamaños por componente
-- [ ] Hooks de revalidación de rutas al publicar contenido
-- [ ] Migraciones creadas y probadas; `payload-types.ts` generado
-- [ ] Cuenta de editor creada para el representante legal con prueba de permisos
-- [ ] Vista previa/borradores si aplica
-- [ ] Datos de ejemplo (seed) para desarrollo, claramente marcados como ficticios
+- [x] Payload Localization con locales `es` (por defecto) y `ko` con fallback a `es`
+- [x] Colección `users` con roles `admin` y `editor`; permisos por colección y por campo
+- [x] Colecciones: `pages`, `programs`, `tours`, `events`, `event-registrations`, `contact-submissions`, `media`, `gallery`, `sponsors`
+- [x] Global `site-settings` (logo, contacto, redes, donaciones, navegación, datos institucionales, `galleryEnabled`, `sponsorshipEnabled`, `whatsAppEnabled` y enlace/número de WhatsApp)
+- [x] Campos localizables: título, descripción, contenido, SEO (título, descripción, imagen OG), `alt` de imágenes
+- [x] `events`: modalidad (presencial/virtual/híbrido), fechas, cupo opcional (`capacity` + activar/desactivar), estado y elegibilidad 18+
+- [x] `event-registrations` y `contact-submissions` **no accesibles desde la API pública**
+- [x] Configuración de `media`: tipos y tamaños permitidos; conversión/uso de WebP y tamaños por componente
+- [x] Hooks de revalidación de rutas al publicar contenido
+- [x] Migraciones creadas y probadas; `payload-types.ts` generado
+- [x] Cuenta de editor creada para el representante legal con prueba de permisos *(en dev: `editor.demo@borahae.dev` con contraseña temporal; cambiar antes de crear la cuenta real)*
+- [ ] Vista previa/borradores si aplica *(borradores activos; la vista previa pública llega con las páginas de Fase 4)*
+- [x] Datos de ejemplo (seed) para desarrollo, claramente marcados como ficticios
+
+**Criterio de salida:** el editor crea y edita contenido en es/ko, sube imágenes y no puede acceder a usuarios ni configuración técnica.
+
+**Decisiones y notas de la fase:**
+- Los selects de estado en `programs`/`tours` se llaman `state`, no `status`: el nombre `status` colisionaba con el `_status` de publicación en la nomenclatura de enums de drizzle y rompía el SQL de la migración.
+- Reparación de BD dev: la migración fallida dejó el esquema a medias; se aplicó `migrate:fresh` a la rama Neon dev (solo demo; el usuario admin se respaldó y restauró con su contraseña intacta).
+- `npx payload seed` / `npx payload db-report`: comandos propios vía `bin` en `payload.config.ts` (`payload run` no ejecuta scripts de forma fiable aquí — la config no resuelve bajo `run`).
+- `next/cache` se importa dentro del hook de revalidación para no romper el CLI de Payload fuera de Next.
+- Verificación de permisos con REST: anónimo y editor no pueden crear `contact-submissions`/`event-registrations` (403); el editor no entra a `users` (403) pero sí lee ambas submissions (200).
+- Sponsors listos pero ocultos hasta `sponsorshipEnabled`; precio/condiciones de viajes solo con aprobación escrita del cliente (`priceNote`).
+- **BD dev local en endpoint unpooled de Neon**: con el pooler (pgbouncer en modo transacción), las transacciones de borradores huérfanas por recarga de Turbopack saturaban el pool y colgaban `/admin` (error 25P03 idle-in-transaction). El endpoint pooled se usa solo en Vercel/serverless (AGENTS §5).
+- **Pool de Payload agrandado (dev 10, prod 5)**: `max: 2` en `payload.config.ts` hacía que todo el panel serializara detrás de un solo find largo de borrador (GET `/api/pages/1?draft=true` de 68.9s) — la pestaña quedaba cargando sin fin. Neon mata transacciones inactivas a los 5min (`idle_in_transaction_session_timeout`), lo que explica los bloqueos de 5–6min documentados arriba.
 
 **Criterio de salida:** el editor crea y edita contenido en es/ko, sube imágenes y no puede acceder a usuarios ni configuración técnica.
 

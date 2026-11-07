@@ -11,7 +11,7 @@ const variants: Record<Variant, string> = {
   primary:
     "bg-borahae-primary text-white hover:bg-borahae-primary-hover focus-visible:outline-borahae-text",
   outline:
-    "border border-borahae-primary text-borahae-primary hover:bg-borahae-primary/10 hover:bg-borahae-primary-hover hover:text-white focus-visible:outline-borahae-text",
+    "border border-borahae-primary text-borahae-primary hover:bg-borahae-primary-hover hover:text-white focus-visible:outline-borahae-text",
 };
 
 const sizes: Record<Size, string> = {

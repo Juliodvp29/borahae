@@ -69,6 +69,14 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    pages: Page;
+    programs: Program;
+    tours: Tour;
+    events: Event;
+    'event-registrations': EventRegistration;
+    'contact-submissions': ContactSubmission;
+    gallery: Gallery;
+    sponsors: Sponsor;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +86,14 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    programs: ProgramsSelect<false> | ProgramsSelect<true>;
+    tours: ToursSelect<false> | ToursSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    'event-registrations': EventRegistrationsSelect<false> | EventRegistrationsSelect<true>;
+    'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
+    gallery: GallerySelect<false> | GallerySelect<true>;
+    sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -86,10 +102,14 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
-  locale: null;
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('es' | 'ko') | ('es' | 'ko')[];
+  globals: {
+    'site-settings': SiteSetting;
+  };
+  globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+  };
+  locale: 'es' | 'ko';
   widgets: {
     collections: CollectionsWidget;
   };
@@ -118,11 +138,15 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * Cuentas del panel. Solo el administrador (desarrollador) crea cuentas.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
   id: number;
+  name?: string | null;
+  role: 'admin' | 'editor';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -149,7 +173,10 @@ export interface User {
  */
 export interface Media {
   id: number;
-  alt: string;
+  /**
+   * Describe la imagen. Obligatorio al publicar; si falta una versión, se usa el español.
+   */
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -161,6 +188,336 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    banner?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    og?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * Páginas fijas del sitio (el slug no se edita para mantener URLs estables).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  /**
+   * Si falta el coreano, el sitio muestra el español.
+   */
+  title?: string | null;
+  /**
+   * Definido por el desarrollador; determina la URL.
+   */
+  slug: string;
+  summary?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Aparece en resultados de búsqueda y pestañas. Si queda vacío se usa el título normal. Máximo 60.
+   */
+  seoTitle?: string | null;
+  /**
+   * Máximo 160 caracteres; recomendado 140–160 para un buen extracto.
+   */
+  seoDescription?: string | null;
+  seoImage?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Programas del sitio. El slug es fijo (rutas estables); edita el contenido.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs".
+ */
+export interface Program {
+  id: number;
+  title?: string | null;
+  /**
+   * Determina la URL. Fijado con el seed.
+   */
+  slug: string;
+  state: 'upcoming' | 'active' | 'paused';
+  summary?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  cover?: (number | null) | Media;
+  /**
+   * Aparece en resultados de búsqueda y pestañas. Si queda vacío se usa el título normal. Máximo 60.
+   */
+  seoTitle?: string | null;
+  /**
+   * Máximo 160 caracteres; recomendado 140–160 para un buen extracto.
+   */
+  seoDescription?: string | null;
+  seoImage?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tours".
+ */
+export interface Tour {
+  id: number;
+  title?: string | null;
+  /**
+   * Determina la URL /viajes/[slug]. Fijado con el seed.
+   */
+  slug: string;
+  summary?: string | null;
+  /**
+   * P. ej. «Seúl, Corea del Sur».
+   */
+  destination?: string | null;
+  dateStart?: string | null;
+  dateEnd?: string | null;
+  state: 'upcoming' | 'open' | 'closed';
+  /**
+   * Solo publicar precios/condiciones con aprobación escrita del cliente [PENDIENTE-CLIENTE]. Ejemplo: «Consultar precios por correo».
+   */
+  priceNote?: string | null;
+  itinerary?:
+    | {
+        day: number;
+        title?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Un ítem por línea; se mostrará como lista.
+   */
+  includes?: string | null;
+  excludes?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  cover?: (number | null) | Media;
+  galeria?: (number | Media)[] | null;
+  /**
+   * Aparece en resultados de búsqueda y pestañas. Si queda vacío se usa el título normal. Máximo 60.
+   */
+  seoTitle?: string | null;
+  /**
+   * Máximo 160 caracteres; recomendado 140–160 para un buen extracto.
+   */
+  seoDescription?: string | null;
+  seoImage?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Eventos con inscripción gratuita para mayores de 18 años. El cupo es opcional.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title?: string | null;
+  /**
+   * Determina la URL /eventos/[slug]. Fijado con el seed.
+   */
+  slug: string;
+  modality: 'presencial' | 'virtual' | 'hibrido';
+  /**
+   * Dirección para presencial, nombre de plataforma para virtual.
+   */
+  location?: string | null;
+  /**
+   * Opcional: Maps o enlace de la sala virtual.
+   */
+  locationUrl?: string | null;
+  dateStart?: string | null;
+  dateEnd?: string | null;
+  summary?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  capacityEnabled?: boolean | null;
+  /**
+   * Al alcanzarse, el formulario mostrará el evento como agotado (sin lista de espera).
+   */
+  capacity?: number | null;
+  /**
+   * La inscripción pide una declaración de mayoría de edad validada en servidor. No se persiste la fecha de nacimiento.
+   */
+  requiresAdultConfirmation?: boolean | null;
+  cover?: (number | null) | Media;
+  /**
+   * Aparece en resultados de búsqueda y pestañas. Si queda vacío se usa el título normal. Máximo 60.
+   */
+  seoTitle?: string | null;
+  /**
+   * Máximo 160 caracteres; recomendado 140–160 para un buen extracto.
+   */
+  seoDescription?: string | null;
+  seoImage?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Inscripciones a eventos. Confidenciales; no visibles en el sitio público.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-registrations".
+ */
+export interface EventRegistration {
+  id: number;
+  event: number | Event;
+  name: string;
+  email: string;
+  phone?: string | null;
+  /**
+   * Fecha/hora del envío del formulario con la declaración 18+.
+   */
+  adultEligibilityConfirmedAt?: string | null;
+  /**
+   * Guardado por el endpoint con la versión del texto publicado.
+   */
+  policyVersion?: string | null;
+  acceptedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Confidenciales; no visibles en el sitio público.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions".
+ */
+export interface ContactSubmission {
+  id: number;
+  type: 'interes' | 'voluntariado' | 'alianza' | 'donacion' | 'prensa' | 'otro';
+  name: string;
+  email: string;
+  phone?: string | null;
+  message: string;
+  /**
+   * Guardado por el endpoint con la versión del texto publicado.
+   */
+  policyVersion?: string | null;
+  acceptedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Solo fotos con autorización de uso del cliente.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery".
+ */
+export interface Gallery {
+  id: number;
+  image: number | Media;
+  /**
+   * Opcional; si falta el coreano se usa el español.
+   */
+  caption?: string | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sponsors".
+ */
+export interface Sponsor {
+  id: number;
+  name: string;
+  logo?: (number | null) | Media;
+  website?: string | null;
+  description?: string | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -193,6 +550,38 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'programs';
+        value: number | Program;
+      } | null)
+    | ({
+        relationTo: 'tours';
+        value: number | Tour;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'event-registrations';
+        value: number | EventRegistration;
+      } | null)
+    | ({
+        relationTo: 'contact-submissions';
+        value: number | ContactSubmission;
+      } | null)
+    | ({
+        relationTo: 'gallery';
+        value: number | Gallery;
+      } | null)
+    | ({
+        relationTo: 'sponsors';
+        value: number | Sponsor;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -241,6 +630,8 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -276,6 +667,198 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        banner?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        og?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  content?: T;
+  seoTitle?: T;
+  seoDescription?: T;
+  seoImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs_select".
+ */
+export interface ProgramsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  state?: T;
+  summary?: T;
+  content?: T;
+  cover?: T;
+  seoTitle?: T;
+  seoDescription?: T;
+  seoImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tours_select".
+ */
+export interface ToursSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  destination?: T;
+  dateStart?: T;
+  dateEnd?: T;
+  state?: T;
+  priceNote?: T;
+  itinerary?:
+    | T
+    | {
+        day?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  includes?: T;
+  excludes?: T;
+  content?: T;
+  cover?: T;
+  galeria?: T;
+  seoTitle?: T;
+  seoDescription?: T;
+  seoImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  modality?: T;
+  location?: T;
+  locationUrl?: T;
+  dateStart?: T;
+  dateEnd?: T;
+  summary?: T;
+  content?: T;
+  capacityEnabled?: T;
+  capacity?: T;
+  requiresAdultConfirmation?: T;
+  cover?: T;
+  seoTitle?: T;
+  seoDescription?: T;
+  seoImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-registrations_select".
+ */
+export interface EventRegistrationsSelect<T extends boolean = true> {
+  event?: T;
+  name?: T;
+  email?: T;
+  phone?: T;
+  adultEligibilityConfirmedAt?: T;
+  policyVersion?: T;
+  acceptedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions_select".
+ */
+export interface ContactSubmissionsSelect<T extends boolean = true> {
+  type?: T;
+  name?: T;
+  email?: T;
+  phone?: T;
+  message?: T;
+  policyVersion?: T;
+  acceptedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery_select".
+ */
+export interface GallerySelect<T extends boolean = true> {
+  image?: T;
+  caption?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sponsors_select".
+ */
+export interface SponsorsSelect<T extends boolean = true> {
+  name?: T;
+  logo?: T;
+  website?: T;
+  description?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -316,6 +899,96 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Interruptores y datos de contacto. Afectan al menú/footer público.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  /**
+   * [PENDIENTE-CLIENTE] Logo oficial cuando llegue el archivo vectorial.
+   */
+  logo?: (number | null) | Media;
+  /**
+   * [PENDIENTE-CLIENTE] Dato legal. Se muestra en el pie/legal.
+   */
+  legalName?: string | null;
+  /**
+   * [PENDIENTE-CLIENTE]
+   */
+  nit?: string | null;
+  /**
+   * [PENDIENTE-CLIENTE]
+   */
+  city?: string | null;
+  /**
+   * [PENDIENTE-CLIENTE] Se usa en botones de contacto y como remitente visible del footer.
+   */
+  contactEmail?: string | null;
+  socialLinks?:
+    | {
+        platform: 'instagram' | 'facebook' | 'whatsapp' | 'tiktok' | 'youtube';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * [PENDIENTE-CLIENTE]
+   */
+  paypalUrl?: string | null;
+  /**
+   * [PENDIENTE-CLIENTE] Banco, tipo de cuenta, número, beneficiario. Visible solo si se llena.
+   */
+  transferInfo?: string | null;
+  /**
+   * En qué destina fondos la organización. Editable en es/ko.
+   */
+  donationNote?: string | null;
+  /**
+   * Oculta el ítem de nav y la página queda disponible pero sin contenido destacado.
+   */
+  galleryEnabled?: boolean | null;
+  sponsorshipEnabled?: boolean | null;
+  whatsAppEnabled?: boolean | null;
+  /**
+   * Formato internacional sin + ni espacios, p. ej. 573001234567.
+   */
+  whatsAppNumber?: string | null;
+  whatsAppMessage?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  logo?: T;
+  legalName?: T;
+  nit?: T;
+  city?: T;
+  contactEmail?: T;
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  paypalUrl?: T;
+  transferInfo?: T;
+  donationNote?: T;
+  galleryEnabled?: T;
+  sponsorshipEnabled?: T;
+  whatsAppEnabled?: T;
+  whatsAppNumber?: T;
+  whatsAppMessage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
