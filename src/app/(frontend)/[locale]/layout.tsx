@@ -30,7 +30,13 @@ export default async function LocaleLayout({
       lang={locale}
       className={`${notoSansKr.variable} ${notoSerifKr.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">
+      {/* suppressHydrationWarning: las extensiones del navegador inyectan
+          atributos en <body> (p. ej. cz-shortcut-listen) antes de la
+          hidratación; solo silencia esa diferencia a nivel de atributos. */}
+      <body
+        className="min-h-full flex flex-col font-sans"
+        suppressHydrationWarning
+      >
         <NextIntlClientProvider>
           <a
             href="#contenido-principal"
