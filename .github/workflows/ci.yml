@@ -9,6 +9,10 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    # Los secretos viven en el entorno "BORAHAE SECRETS": un entorno-deploy
+    # secret solo llega al job si este declara el entorno aquí. Sin esto,
+    # el build de CI no ve PAYLOAD_SECRET/DATABASE_URL y falla.
+    environment: BORAHAE SECRETS
     steps:
       - name: Checkout
         uses: actions/checkout@v4
