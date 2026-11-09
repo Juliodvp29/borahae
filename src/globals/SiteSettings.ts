@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { adminOrEditor } from '../lib/access'
+import { PUBLIC_ROUTES, revalidateGlobalHooks } from '../lib/revalidate'
 
 /**
  * `site-settings`: ajustes del sitio. El editor puede administrarlo — son
@@ -16,6 +17,9 @@ export const SiteSettings: GlobalConfig = {
     read: () => true, // el frontend lo lee del servidor
     update: adminOrEditor,
   },
+  // Al guardar ajustes, el layout público (menú/toggles/WhatsApp) cambia en
+  // todas las rutas: revalidar el listado completo en es y ko.
+  hooks: revalidateGlobalHooks(PUBLIC_ROUTES),
   fields: [
     {
       type: 'tabs',
@@ -28,7 +32,7 @@ export const SiteSettings: GlobalConfig = {
               type: 'upload',
               relationTo: 'media',
               label: 'Logo',
-              admin: { description: '[PENDIENTE-CLIENTE] Logo oficial cuando llegue el archivo vectorial.' },
+              admin: { description: 'Logo horizontal (emblema + BORAHAE, ~480x160). El header lo muestra con fallback al archivo incluido en el repo.' },
             },
             {
               name: 'legalName',

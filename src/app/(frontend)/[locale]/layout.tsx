@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Header } from "@/components/site/header";
+import { WhatsAppButton } from "@/components/site/whatsapp-button";
 import { Footer } from "@/components/site/footer";
 import "@/styles/globals.css";
 import { notoSansKr, notoSerifKr } from "@/lib/fonts";
@@ -53,6 +54,8 @@ export default async function LocaleLayout({
             {children}
           </div>
           <Footer />
+          {/* Botón flotante condicionado a `site-settings.whatsAppEnabled`. */}
+          <WhatsAppButton />
         </NextIntlClientProvider>
       </body>
     </html>

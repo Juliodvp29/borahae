@@ -1,6 +1,7 @@
 import type {
   CollectionAfterChangeHook,
   CollectionAfterDeleteHook,
+  GlobalAfterChangeHook,
   Locale,
 } from 'payload'
 
@@ -76,5 +77,54 @@ export function revalidateHooks(
   }
 }
 
+/**
+ * Rutas públicas actuales del sitio (AGENTS §4). Se usa para revalidar
+ * el layout entero cuando cambia una global (site-settings).
+ */
+export const PUBLIC_ROUTES = [
+  '/',
+  '/nosotros',
+  '/programas',
+  '/programas/curso-coreano',
+  '/programas/becas',
+  '/programas/talleres',
+  '/viajes',
+  '/viajes/[slug]',
+  '/eventos',
+  '/eventos/[slug]',
+  '/galeria',
+  '/donaciones',
+  '/patrocinio',
+  '/contacto',
+  '/legal',
+]
+
 export type LocaleCode = (typeof SITE_LOCALES)[number]
 export type { Locale }
+
+/**
+ * Hook de revalidación para **globals** (p. ej. `site-settings`). La global
+ * alimenta el header/footer de todas las páginas públicas, así que al
+ * guardarla se revalida el listado completo de rutas en ambos idiomas.
+ */
+export function revalidateGlobalHooks(
+  fixedPaths: string[],
+): { afterChange: GlobalAfterChangeHook[] } {
+  return {
+    afterChange: [
+      async ({ req }) => {
+        // Las globals no tienen _status: revalidar siempre el listado completo.
+        const paths = withLocales(fixedPaths)
+        try {
+          await revalidate(paths)
+        } catch (error) {
+          req.payload.logger.error({
+            msg: 'No se pudieron revalidar rutas de la global',
+            err: error,
+            paths,
+          })
+        }
+      },
+    ],
+  }
+}

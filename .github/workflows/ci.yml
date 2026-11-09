@@ -9,6 +9,10 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    # Los secretos viven en el entorno "BORAHAE SECRETS": un entorno-deploy
+    # secret solo llega al job si este declara el entorno aquí. Sin esto,
+    # el build de CI no ve PAYLOAD_SECRET/DATABASE_URL y falla.
+    environment: BORAHAE SECRETS
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,6 +42,13 @@ jobs:
 
       - name: Build
         run: pnpm build
+        # Fase 4, decisión (a): las páginas se prerenderizan en build leyendo
+        # de Payload/PostgreSQL. Requiere secret del repo (dev y main):
+        #   DATABASE_URL   → endpoint **pooled** de Neon (branch del entorno)
+        #   PAYLOAD_SECRET → mismo valor que en Vercel
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
 
       - name: Impeccable detect (exit 2 = hallazgos AI-slop, falla)
         run: npx impeccable detect --github src/

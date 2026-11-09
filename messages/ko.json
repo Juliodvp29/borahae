@@ -39,5 +39,18 @@
     "contact": "연락처",
     "legal": "법적 고지",
     "rights": "© {year} BORAHAE. 모든 권리 보유."
+  },
+  "notFound": {
+    "title": "페이지를 찾을 수 없습니다",
+    "text": "찾으시는 페이지가 없거나 주소가 변경되었습니다.",
+    "back": "홈으로 돌아가기"
+  },
+  "errors": {
+    "title": "문제가 발생했습니다",
+    "text": "예상치 못한 오류가 발생했습니다. 다시 시도해 주세요.",
+    "retry": "다시 시도"
+  },
+  "whatsapp": {
+    "ariaLabel": "WhatsApp으로 문의하기 (새 탭에서 열림)"
   }
 }
