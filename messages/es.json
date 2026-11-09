@@ -38,5 +38,18 @@
     "contact": "Contacto",
     "legal": "Legal",
     "rights": "© {year} BORAHAE. Todos los derechos reservados."
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "text": "La página que buscas no existe o cambió de dirección.",
+    "back": "Volver al inicio"
+  },
+  "errors": {
+    "title": "Algo salió mal",
+    "text": "Ocurrió un error inesperado. Puedes intentar de nuevo.",
+    "retry": "Reintentar"
+  },
+  "whatsapp": {
+    "ariaLabel": "Escríbenos por WhatsApp (abre en una pestaña nueva)"
   }
 }

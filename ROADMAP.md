@@ -148,8 +148,8 @@ Rutas bajo `/es/...` y `/ko/...`. Para cada página: contenido desde Payload, me
 - [ ] **Patrocinio:** sección preparada (visible solo si `sponsorshipEnabled` está activo desde el CMS)
 - [ ] **Contacto:** formulario general (se conecta en Fase 5)
 - [ ] **Legal:** hub y rutas propias para razón social/NIT/ciudad, política de datos, términos y condiciones de viaje (esta última solo si aplica)
-- [ ] Galería y acceso de WhatsApp se muestran u ocultan según `galleryEnabled` y `whatsAppEnabled` de `site-settings`
-- [ ] Páginas 404 y de error traducidas
+- [x] Galería y acceso de WhatsApp se muestran u ocultan según `galleryEnabled` y `whatsAppEnabled` de `site-settings` *(nav y botón flotante respetan los toggles vía API local; la página de galería y contenido destacado se construyen en su batch específico)*
+- [x] Páginas 404 y de error traducidas *(catch-all `[locale]/[...rest]` lanza `notFound()` para que el 404 renderice con branding/traducciones; `error.tsx` client con `{ error, retry }` de Next 16 y sin detalles internos; probados /es/ko con server de producción)*
 - [ ] Aviso de no afiliación con BTS/FESTA, **solo** con redacción aprobada por el cliente
 - [ ] `[IMP]` Por página: `shape` → construir → `critique` → `audit` → corregir
 - [ ] `[IMP]` `bolder`/`quieter`/`distill` según la dirección visual acordada con el cliente
@@ -276,3 +276,7 @@ Corresponde a la spec técnica §17.
 | 2026-11-06 | next-intl 4.14.9 con convención `proxy.ts` de Next 16 (middleware deprecado); textos oficiales del cliente como fuente de `nosotros`; UI coreana pendiente de revisión humana | Desarrollador |
 | 2026-11-06 | Shell: header/footer componentes de servidor; interactivo solo en menú móvil + selector de idioma (client); `:lang(ko) keep-all`; Home usa `Button` (variantes); `lang="ko"` interlineado 1.77 | Desarrollador |
 | 2026-11-06 | Impeccable critique 29/40; P1 corregidos (aria-current, nav breakpoint lg, textura hero con barra Wisteria); DESIGN.md creado (North Star "El Puente Lavanda", plano-tonal, 5 tokens orquídea); P2/P3 pendientes en polish de Fase 4 | Desarrollador |
+| 2026-11-09 | Fase 4 (a): prerender en build con `DATABASE_URL`/`PAYLOAD_SECRET` como secrets de CI (endpoint **pooled** de Neon); lectura pública vía API local de Payload (`src/lib/payload.ts`) | Desarrollador |
+| 2026-11-09 | Toggles en header/footer: `site-settings` con hook global de revalidación (`revalidateGlobalHooks` revalida el listado completo de rutas en es/ko); logo editable con fallback a texto si Media no lo tiene | Desarrollador |
+| 2026-11-09 | 404 con branding: catch-all `[locale]/[...rest]` lanza `notFound()` (el default global de Next ignoraba layout/idioma); `error.tsx` con firma Next 16 `{ error, retry }`, sin detalle interno | Desarrollador |
+| 2026-11-09 | Identidad visual: cliente entrega granallado de marca; desarrollador convierte a WebP (logo-borahae 1080×1350 80KB, banner-web 2560×1440 35KB, banner-mobile 1350×1080 22KB); logo horizontal (480×186, 25KB) recortado con sharp desde la versión generada en Canva. Header: logo desde el CMS (`site-settings.logo`) con fallback al WebP empacado en `public/images` hasta que el editor lo cargue en Media | Desarrollador |

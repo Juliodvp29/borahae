@@ -38,6 +38,13 @@ jobs:
 
       - name: Build
         run: pnpm build
+        # Fase 4, decisión (a): las páginas se prerenderizan en build leyendo
+        # de Payload/PostgreSQL. Requiere secret del repo (dev y main):
+        #   DATABASE_URL   → endpoint **pooled** de Neon (branch del entorno)
+        #   PAYLOAD_SECRET → mismo valor que en Vercel
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
 
       - name: Impeccable detect (exit 2 = hallazgos AI-slop, falla)
         run: npx impeccable detect --github src/
