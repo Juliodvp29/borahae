@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
-import {
-  contactSchema,
-  contactIssues,
-  POLICY_VERSION,
-} from "@/lib/contact-schema";
+import { contactSchema, contactIssues } from "@/lib/contact-schema";
+import { getPolicyVersion } from "@/lib/legal";
 import { contactRateLimit } from "@/lib/rate-limit";
 import { getPayloadClient } from "@/lib/payload";
 
@@ -59,6 +56,9 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   const data = parsed.data;
   const payload = await getPayloadClient();
+  // Versión del texto legal que el visitante leyó (doc publicado del CMS;
+  // fallback fijo si no hay documento). AGENTS §5.3/§11.
+  const policyVersion = await getPolicyVersion();
 
   let docId: number;
   try {
@@ -71,7 +71,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         phone: data.phone,
         ageRange: data.ageRange,
         message: data.message,
-        policyVersion: POLICY_VERSION,
+        policyVersion: policyVersion,
         acceptedAt: new Date().toISOString(),
       },
     });
@@ -85,7 +85,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   // Notificación con Resend vía REST (sin dependencia). Falla no bloquea:
   // el registro ya está en la BD y solo se registra el error (sin PII).
-  const envio = await notificar(data, docId);
+  const envio = await notificar(data, docId, policyVersion);
   if (!envio) {
     payload.logger.error(
       { msg: `contact/${docId}: guardado; notificación Resend falló o no configurada` },
@@ -98,6 +98,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 async function notificar(
   data: { name: string; email: string; phone: string; ageRange: string; topic: string; message: string },
   docId: number,
+  policyVersion: string,
 ): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
   const payload = await getPayloadClient();
@@ -132,7 +133,7 @@ async function notificar(
           `Mensaje:`,
           data.message,
           ``,
-          `Consentimiento de política de datos aceptado (versión ${POLICY_VERSION}).`,
+          `Consentimiento de política de datos aceptado (versión ${policyVersion}).`,
         ].join("\n"),
       }),
     });

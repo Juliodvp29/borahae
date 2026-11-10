@@ -64,6 +64,25 @@
     "ctaEvents": "다가오는 행사 보기",
     "noCaptionFallback": "BORAHAE"
   },
+  "legal": {
+    "eyebrow": "법적 고지",
+    "title": "법적 정보",
+    "intro": "개인정보 처리, 사이트 이용, 프로그램 및 여행 조건에 관한 공식 문서입니다.",
+    "identityTitle": "단체 정보",
+    "legalNameLabel": "법인명",
+    "nitLabel": "NIT",
+    "cityLabel": "소재 도시",
+    "docsTitle": "문서",
+    "docPolitica": "개인정보 처리방침",
+    "docTerminos": "이용약관",
+    "docViaje": "여행 이용조건",
+    "docPending": "곧 공개됩니다",
+    "versionLabel": "버전",
+    "effectiveDateLabel": "시행일",
+    "pendingTitle": "문서를 준비 중입니다",
+    "pendingText": "해당 내용이 승인되면 여기에 게시될 예정입니다. 그 전에 궁금한 점이 있으시면 언제든지 연락해 주세요.",
+    "backToLegal": "법적 정보로 돌아가기"
+  },
   "sponsor": {
     "eyebrow": "협력",
     "title": "후원",

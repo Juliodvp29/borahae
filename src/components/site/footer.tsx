@@ -29,16 +29,16 @@ export async function Footer() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-3 text-sm">
+          <div className="flex flex-col text-sm">
             <Link
               href="/contacto"
-              className="text-white/90 hover:text-white hover:underline underline-offset-4"
+              className="inline-flex min-h-11 items-center self-start text-white/90 hover:text-white hover:underline underline-offset-4"
             >
               {tNav("contact")}
             </Link>
             <Link
               href="/legal"
-              className="text-white/90 hover:text-white hover:underline underline-offset-4"
+              className="inline-flex min-h-11 items-center self-start text-white/90 hover:text-white hover:underline underline-offset-4"
             >
               {t("legal")}
             </Link>

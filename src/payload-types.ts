@@ -77,6 +77,7 @@ export interface Config {
     'contact-submissions': ContactSubmission;
     gallery: Gallery;
     sponsors: Sponsor;
+    'legal-docs': LegalDoc;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -94,6 +95,7 @@ export interface Config {
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     gallery: GallerySelect<false> | GallerySelect<true>;
     sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
+    'legal-docs': LegalDocsSelect<false> | LegalDocsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -532,6 +534,55 @@ export interface Sponsor {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Textos legales del sitio. Publica solo contenido aprobado por el cliente; la versión quedará referenciada en el consentimiento del formulario de contacto cuando sea la política de datos.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-docs".
+ */
+export interface LegalDoc {
+  id: number;
+  /**
+   * Si falta el coreano, el sitio muestra el español.
+   */
+  title: string;
+  /**
+   * Determina la URL /legal/[documento]. Un documento por opción (p. ej. upsert: guardar sobre el slug existente).
+   */
+  slug: 'politica-de-tratamiento-de-datos' | 'terminos-y-condiciones' | 'condiciones-de-viaje';
+  /**
+   * Identificador del texto aprobado, p. ej. "2026-06-01-v1". Para la política de tratamiento de datos queda referenciado en cada consentimiento del formulario de contacto.
+   */
+  version?: string | null;
+  effectiveDate?: string | null;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Aparece en resultados de búsqueda y pestañas. Si queda vacío se usa el título normal. Máximo 60.
+   */
+  seoTitle?: string | null;
+  /**
+   * Máximo 160 caracteres; recomendado 140–160 para un buen extracto.
+   */
+  seoDescription?: string | null;
+  seoImage?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -594,6 +645,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'sponsors';
         value: number | Sponsor;
+      } | null)
+    | ({
+        relationTo: 'legal-docs';
+        value: number | LegalDoc;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -871,6 +926,23 @@ export interface SponsorsSelect<T extends boolean = true> {
   website?: T;
   description?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-docs_select".
+ */
+export interface LegalDocsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  version?: T;
+  effectiveDate?: T;
+  body?: T;
+  seoTitle?: T;
+  seoDescription?: T;
+  seoImage?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

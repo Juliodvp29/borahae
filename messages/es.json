@@ -63,6 +63,25 @@
     "ctaEvents": "Ver eventos próximos",
     "noCaptionFallback": "BORAHAE"
   },
+  "legal": {
+    "eyebrow": "Legal",
+    "title": "Información legal",
+    "intro": "Documentos oficiales sobre el tratamiento de datos, el uso del sitio y las condiciones de nuestros programas y viajes.",
+    "identityTitle": "Identidad de la organización",
+    "legalNameLabel": "Razón social",
+    "nitLabel": "NIT",
+    "cityLabel": "Ciudad",
+    "docsTitle": "Documentos",
+    "docPolitica": "Política de tratamiento de datos",
+    "docTerminos": "Términos y condiciones",
+    "docViaje": "Condiciones de viaje",
+    "docPending": "Disponible próximamente",
+    "versionLabel": "Versión",
+    "effectiveDateLabel": "Vigente desde",
+    "pendingTitle": "Documento en preparación",
+    "pendingText": "Este documento será publicado aquí cuando su contenido esté aprobado. Si tienes preguntas mientras tanto, escríbenos.",
+    "backToLegal": "Volver a Información legal"
+  },
   "sponsor": {
     "eyebrow": "Alianzas",
     "title": "Patrocinio",
