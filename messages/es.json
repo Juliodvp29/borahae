@@ -42,6 +42,16 @@
     "ctaEventsTitle": "Eventos",
     "ctaEventsText": "Encuentros, conversatorios y actividades gratuitas para la comunidad."
   },
+  "programs": {
+    "eyebrow": "Conoce BORAHAE",
+    "title": "Programas",
+    "comingSoon": "Próximamente",
+    "stateActive": "Activo",
+    "statePaused": "Pausado",
+    "comingSoonTitle": "Estamos preparando esta sección",
+    "comingSoonText": "Muy pronto compartiremos aquí la información completa del programa. Si quieres saber más, escríbenos.",
+    "backToPrograms": "Volver a Programas"
+  },
   "footer": {
     "tagline": "ESAL de intercambio cultural Colombia · Corea del Sur",
     "contact": "Contacto",

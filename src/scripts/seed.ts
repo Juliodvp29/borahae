@@ -311,6 +311,46 @@ export async function script(seedConfig: SanitizedConfig): Promise<void> {
         'bullet',
       ),
     ]),
+    // Traducción coreana (asistida por IA, a solicitud del desarrollador el
+    // 2026-11-10): PENDIENTE de revisión humana antes de publicar (AGENTS §5.1).
+    ko: {
+      title: '소개',
+      summary:
+        'BORAHAE의 미션, 비전, 목표: 포용성과 접근성을 콜롬비아와 대한민국 문화 교류의 핵심 기둥으로 삼습니다.',
+      content: lexDoc([
+        lexHeading('미션', 'h2'),
+        lexPara(
+          '한류, 음식 문화와 사회를 통해 한국 문화를 알리고 확산하며, 누구나 온전히 포용되는 배움과 교류의 공간을 만들어 갑니다. 우리는 다양성을 존중하고 소중히 여기는, 접근 가능하고 역동적이며 안전한 환경을 설계하기 위해 노력합니다. 세상을 인식하고 받아들이는 방식이 어떠하든 모든 사람이 조건 없이 활동에 참여하고 기여하며 최대한의 잠재력을 발휘할 수 있도록, 활동 하나하나가 문화적 다리가 되기를 목표로 합니다.',
+        ),
+        lexHeading('비전', 'h2'),
+        lexPara(
+          '사회적 포용성과 접근성 있는 방법론을 이끄는 콜롬비아·한국 문화 교류의 대표 모델로 자리매김하고자 합니다. 2027년까지 한국 문화와 음식에 대한 열정이 다양한 커뮤니티가 하나로 연결되는 동력이 되는 공공 외교의 모델이 되도록 노력합니다. 서로 다른 사고방식이 국제적 이해를 풍요롭게 만든다는 것을 보여 주며, 존중·평등·공감의 가치 아래 두 나라를 잇는 재현 가능한 방법론을 만들어 가겠습니다.',
+        ),
+        lexHeading('총괄 목표', 'h2'),
+        lexPara(
+          '콜롬비아에서 온 25명의 대표단으로 구성된 서울(대한민국) 국제 문화 교류 사절단을 운영하여, 사회문화적 흐름과 엔터테인먼트 산업(한류), 전통 음식 문화(한식)를 직접 경험하고 배우도록 합니다. 모든 과정은 포용성을 담은 운영 체계와 정신 건강 보호를 바탕으로 진행됩니다.',
+        ),
+        lexHeading('세부 목표', 'h2'),
+        lexList(
+          [
+            '서울에서 진행되는 12일간의 문화 몰입 일정을 운영하여, 창의 산업 현장 방문과 자연·역사적 공간에서의 휴식 사이의 균형을 맞춥니다.',
+            '전통 음식(한식) 워크숍에서 인지적 포용성을 담은 능동적 학습 방법을 적용하여, 모든 참가자가 요리를 마음 챙김의 치유 활동(마인드풀 이팅)으로 경험하도록 합니다.',
+            '한국 청년 단체와 지역 커뮤니티 센터와 공식 대화 및 시민 외교 공간을 마련해, 사회적 압박에 대응하는 방법과 심리적 웰빙 증진에 대한 경험을 나눕니다.',
+            '심리적 응급 처치와 취약·신경다양성 그룹 운영 전문 코디네이터를 배치하여, 사절단 전 기간 동안 장벽 없는 환경과 지속적인 정서적 지지를 보장합니다.',
+          ],
+          'number',
+        ),
+        lexHeading('핵심 가치', 'h2'),
+        lexList(
+          [
+            '심리사회적 축: 한국에 대한 열정과 흥미를 학문적·체험적·변화적 경험으로 연결하여, 참가자가 고립에서 벗어나 커뮤니티 리더십을 키우도록 합니다.',
+            '보편적 포용성의 축: 포용성을 담은 운영 설계로 대규모 국제 교류 프로그램에 대한 접근성을 열어, 다양한 심리사회적 환경을 가진 사람들이 온전한 존엄 속에서 여행할 수 있도록 합니다.',
+            '시민 외교의 축: 한국 정부가 추진하는 소프트 파워 개념을 살려, 시민 차원의 교류로 콜롬비아와 대한민국의 양자 관계를 강화합니다.',
+          ],
+          'bullet',
+        ),
+      ]),
+    },
   })
 
   await ensurePage(payload, {
@@ -319,25 +359,32 @@ export async function script(seedConfig: SanitizedConfig): Promise<void> {
     summary: `${DEMO_TAG} Índice de textos legales. Contenido real pendiente del cliente [PENDIENTE-CLIENTE].`,
   })
 
+  // Textos de EJEMPLO aprobados por el cliente (2026-11-10) mientras llega
+  // la información oficial: redacción coherente con la sección, sin datos
+  // inventados (precios, horarios, montos). El estado `upcoming` muestra
+  // "Próximamente" hasta que el editor cargue el contenido definitivo.
   await ensureProgram(payload, {
     slug: 'curso-coreano',
     title: 'Curso de coreano',
-    state: 'active',
-    summary: `${DEMO_TAG} Clases de idioma coreano para principiantes e intermedios, con enfoque comunicativo y horarios compatibles con jornadas de trabajo.`,
+    state: 'upcoming',
+    summary:
+      'Clases de idioma coreano para principiantes en preparación. Publicaremos niveles, horarios y modalidad con la información oficial del programa.',
   })
 
   await ensureProgram(payload, {
     slug: 'becas',
     title: 'Becas',
     state: 'upcoming',
-    summary: `${DEMO_TAG} Convocatoria de becas de estudio del idioma y de intercambio, con criterios públicos que priorizan la inclusión.`,
+    summary:
+      'Estamos definiendo la convocatoria de becas de estudio. Publicaremos requisitos y criterios en cuanto estén aprobados.',
   })
 
   await ensureProgram(payload, {
     slug: 'talleres',
     title: 'Talleres',
     state: 'upcoming',
-    summary: `${DEMO_TAG} Talleres de cocina coreana, caligrafía, K-pop y historia, gratuitos o de bajo costo, abiertos al público.`,
+    summary:
+      'Talleres culturales y gastronómicos abiertos a la comunidad en preparación. Los temas y fechas se anunciarán en esta misma página.',
   })
 
   // Evento demo con cupo limitado y 18+ fijo (fechas relativas para que no caduque).
