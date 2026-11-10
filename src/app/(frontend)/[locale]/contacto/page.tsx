@@ -1,4 +1,4 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { ContactForm } from "@/components/site/contact-form";
 import { getPayloadClient } from "@/lib/payload";
 import { buildMetadata } from "@/lib/metadata";
@@ -16,7 +16,6 @@ export default async function ContactoPage({
   params,
 }: PageProps<"/[locale]/contacto">) {
   const { locale } = await params;
-  setRequestLocale(locale);
 
   const [t, payload] = await Promise.all([
     getTranslations("contact"),
@@ -99,7 +98,6 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/contacto">): Promise<Metadata> {
   const { locale } = await params;
-  setRequestLocale(locale);
   return buildMetadata({
     locale: locale as "es" | "ko",
     path: "/contacto",

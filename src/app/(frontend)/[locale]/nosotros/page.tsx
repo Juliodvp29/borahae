@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { toRichTextData } from "@/lib/richtext";
 import { getPayloadClient } from "@/lib/payload";
@@ -23,7 +23,6 @@ export default async function NosotrosPage({
   params,
 }: PageProps<"/[locale]/nosotros">) {
   const { locale } = await params;
-  setRequestLocale(locale);
 
   const [t, payload] = await Promise.all([
     getTranslations("home"),
@@ -67,7 +66,6 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/nosotros">): Promise<Metadata> {
   const { locale } = await params;
-  setRequestLocale(locale);
   const payload = await getPayloadClient();
   const res = await payload.find({
     collection: "pages",

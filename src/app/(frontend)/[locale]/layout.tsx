@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Header } from "@/components/site/header";
@@ -18,6 +18,9 @@ export function generateStaticParams() {
 /**
  * Root layout del sitio público. Cada locale es una ruta estática:
  * /es → español (por defecto), /ko → coreano. Rutas inválidas → 404.
+ *
+ * El locale lo resuelve `i18n/request.ts` vía `next/root-params` (API
+ * nativa de Next 16.3; `setRequestLocale` quedó deprecada en next-intl).
  */
 export default async function LocaleLayout({
   children,
@@ -25,7 +28,6 @@ export default async function LocaleLayout({
 }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
-  setRequestLocale(locale);
   const t = await getTranslations("header");
   const settings = await getSiteSettings();
 

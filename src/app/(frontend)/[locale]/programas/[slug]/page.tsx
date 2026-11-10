@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { toRichTextData } from "@/lib/richtext";
 import { getPayloadClient } from "@/lib/payload";
@@ -26,7 +26,6 @@ export default async function ProgramPage({
   params,
 }: PageProps<"/[locale]/programas/[slug]">) {
   const { locale, slug } = await params;
-  setRequestLocale(locale);
   if (!(PROGRAM_SLUGS as readonly string[]).includes(slug)) notFound();
 
   const [t, tNav, payload] = await Promise.all([
@@ -109,7 +108,6 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/programas/[slug]">): Promise<Metadata> {
   const { locale, slug } = await params;
-  setRequestLocale(locale);
   if (!(PROGRAM_SLUGS as readonly string[]).includes(slug)) {
     return buildMetadata({ locale: locale as "es" | "ko", path: "/programas" });
   }

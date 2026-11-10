@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { getPayloadClient } from "@/lib/payload";
 import { buildMetadata } from "@/lib/metadata";
 import { cleanText } from "@/lib/markers";
@@ -21,7 +21,6 @@ export default async function GaleriaPage({
   params,
 }: PageProps<"/[locale]/galeria">) {
   const { locale } = await params;
-  setRequestLocale(locale);
 
   const [t, payload] = await Promise.all([
     getTranslations("gallery"),
@@ -127,7 +126,6 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/galeria">): Promise<Metadata> {
   const { locale } = await params;
-  setRequestLocale(locale);
   return buildMetadata({
     locale: locale as "es" | "ko",
     path: "/galeria",

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { toRichTextData } from "@/lib/richtext";
 import { getPayloadClient } from "@/lib/payload";
@@ -33,7 +33,6 @@ export default async function TourPage({
   params,
 }: PageProps<"/[locale]/viajes/[slug]">) {
   const { locale, slug } = await params;
-  setRequestLocale(locale);
 
   const [t, tNav, payload] = await Promise.all([
     getTranslations("tours"),
@@ -243,7 +242,6 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/viajes/[slug]">): Promise<Metadata> {
   const { locale, slug } = await params;
-  setRequestLocale(locale);
   const payload = await getPayloadClient();
   const res = await payload.find({
     collection: "tours",
