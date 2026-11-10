@@ -53,6 +53,17 @@
     "comingSoonText": "프로그램의 상세 내용을 곧 안내해 드릴 예정입니다. 궁금한 점은 언제든 문의해 주세요.",
     "backToPrograms": "프로그램으로 돌아가기"
   },
+  "gallery": {
+    "eyebrow": "순간들",
+    "title": "갤러리",
+    "intro": "프로그램, 행사, 문화 교류의 순간들을 공유합니다.",
+    "disabledTitle": "해당 섹션은 곧 공개됩니다",
+    "disabledText": "사용 허가가 된 사진으로 갤러리를 준비하고 있습니다. 곧 다시 방문해 주세요.",
+    "emptyTitle": "사진을 준비 중입니다",
+    "emptyText": "행사, 프로그램, 여행의 사진을 곧 공유할 예정입니다. 모든 인물의 사용 허가를 받은 이미지만 게시합니다.",
+    "ctaEvents": "다가오는 행사 보기",
+    "noCaptionFallback": "BORAHAE"
+  },
   "sponsor": {
     "eyebrow": "협력",
     "title": "후원",

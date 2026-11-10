@@ -52,6 +52,17 @@
     "comingSoonText": "Muy pronto compartiremos aquí la información completa del programa. Si quieres saber más, escríbenos.",
     "backToPrograms": "Volver a Programas"
   },
+  "gallery": {
+    "eyebrow": "Momentos",
+    "title": "Galería",
+    "intro": "Fragmentos de nuestros programas, eventos e intercambios culturales.",
+    "disabledTitle": "Sección disponible próximamente",
+    "disabledText": "Estamos preparando la galería con fotografías autorizadas. Vuelve pronto.",
+    "emptyTitle": "Fotos en camino",
+    "emptyText": "Muy pronto compartiremos imágenes de nuestros eventos, programas y viajes — siempre con la autorización de cada persona que aparece en ellas.",
+    "ctaEvents": "Ver eventos próximos",
+    "noCaptionFallback": "BORAHAE"
+  },
   "sponsor": {
     "eyebrow": "Alianzas",
     "title": "Patrocinio",
