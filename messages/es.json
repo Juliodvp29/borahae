@@ -52,6 +52,25 @@
     "comingSoonText": "Muy pronto compartiremos aquí la información completa del programa. Si quieres saber más, escríbenos.",
     "backToPrograms": "Volver a Programas"
   },
+  "tours": {
+    "eyebrow": "Experiencias de viaje",
+    "title": "Viajes",
+    "stateUpcoming": "Próximamente",
+    "stateOpen": "Inscripción abierta",
+    "stateClosed": "En curso / finalizado",
+    "destinationLabel": "Destino",
+    "datesLabel": "Fechas",
+    "itineraryTitle": "Itinerario",
+    "includesTitle": "Qué incluye",
+    "excludesTitle": "Qué no incluye",
+    "priceNoteTitle": "Precios y condiciones",
+    "ctaInterest": "Me interesa este viaje",
+    "ctaInterestText": "Escríbenos para expresar tu interés y recibir información.",
+    "backToTours": "Volver a Viajes",
+    "emptyTitle": "Aún no hay viajes publicados",
+    "emptyText": "Muy pronto compartiremos nuestras experiencias de viaje.",
+    "dayLabel": "Día"
+  },
   "footer": {
     "tagline": "ESAL de intercambio cultural Colombia · Corea del Sur",
     "contact": "Contacto",

@@ -53,6 +53,25 @@
     "comingSoonText": "프로그램의 상세 내용을 곧 안내해 드릴 예정입니다. 궁금한 점은 언제든 문의해 주세요.",
     "backToPrograms": "프로그램으로 돌아가기"
   },
+  "tours": {
+    "eyebrow": "여행 경험",
+    "title": "여행",
+    "stateUpcoming": "곧 공개됩니다",
+    "stateOpen": "신청 가능",
+    "stateClosed": "진행 중 / 종료",
+    "destinationLabel": "여행지",
+    "datesLabel": "일정",
+    "itineraryTitle": "일정표",
+    "includesTitle": "포함 사항",
+    "excludesTitle": "미포함 사항",
+    "priceNoteTitle": "가격 및 조건",
+    "ctaInterest": "이 여행에 관심 있어요",
+    "ctaInterestText": "관심 여부를 알려 주시면 상세 정보를 안내해 드립니다.",
+    "backToTours": "여행 목록으로",
+    "emptyTitle": "공개된 여행이 아직 없습니다",
+    "emptyText": "여행 경험을 곧 소개해 드릴 예정입니다.",
+    "dayLabel": "일차"
+  },
   "footer": {
     "tagline": "콜롬비아 · 대한민국 문화 교류 비영리단체",
     "contact": "연락처",
