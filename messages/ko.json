@@ -1,11 +1,11 @@
 {
   "__review": "⚠️ Pendiente de revisión humana del coreano antes de publicar (AGENTS.md §5.1). [PENDIENTE-CLIENTE]",
   "meta": {
-    "title": "보라헤 — 콜롬비아 · 대한민국 문화 교류",
-    "description": "한류, 한식, 한국 사회를 사랑하는 사람들을 위한 비영리 문화 교류 단체 보라헤. 한국어 강좌, 장학제도, 워크숍, 이벤트와 여행을 소개합니다."
+    "title": "BORAHAE — 콜롬비아 · 대한민국 문화 교류",
+    "description": "한류, 한식, 한국 사회를 사랑하는 사람들을 위한 비영리 문화 교류 단체 BORAHAE. 한국어 강좌, 장학제도, 워크숍, 이벤트와 여행을 소개합니다."
   },
   "header": {
-    "homeAria": "보라헤 — 홈으로 이동",
+    "homeAria": "BORAHAE — 홈으로 이동",
     "skipToContent": "본문으로 건너뛰기",
     "openMenu": "메뉴 열기",
     "closeMenu": "메뉴 닫기",
@@ -30,7 +30,7 @@
   "home": {
     "eyebrow": "콜롬비아 · 대한민국",
     "title": "콜롬비아와 대한민국을 잇는 문화 교류",
-    "intro": "보라헤는 한류, 한식, 한국 사회를 통해 한국 문화를 알리고, 누구나 동등하게 참여하고 배울 수 있는 열린 공간을 만듭니다.",
+    "intro": "BORAHAE는 한류, 한식, 한국 사회를 통해 한국 문화를 알리고, 누구나 동등하게 참여하고 배울 수 있는 열린 공간을 만듭니다.",
     "ctaPrograms": "프로그램 보기",
     "ctaContact": "문의하기",
     "bannerAlt": "BORAHAE 로고 — 콜롬비아와 대한민국의 문화 교류",
@@ -42,6 +42,16 @@
     "ctaToursText": "서울 문화 대사 미션: 포용성과 접근성을 담은 교류.",
     "ctaEventsTitle": "이벤트",
     "ctaEventsText": "회원 커뮤니티를 위한 무료 교류, 강연 및 문화 행사."
+  },
+  "programs": {
+    "eyebrow": "BORAHAE를 만나보세요",
+    "title": "프로그램",
+    "comingSoon": "곧 공개됩니다",
+    "stateActive": "진행 중",
+    "statePaused": "일시 중지",
+    "comingSoonTitle": "준비 중입니다",
+    "comingSoonText": "프로그램의 상세 내용을 곧 안내해 드릴 예정입니다. 궁금한 점은 언제든 문의해 주세요.",
+    "backToPrograms": "프로그램으로 돌아가기"
   },
   "footer": {
     "tagline": "콜롬비아 · 대한민국 문화 교류 비영리단체",
