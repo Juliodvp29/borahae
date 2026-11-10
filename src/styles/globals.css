@@ -59,9 +59,28 @@ body {
 
 /*
  * Coreano (html[lang="ko"]): evitar cortes palabra a palabra y dar un
- * interlineado más holgado, como exige AGENTS.md §6.
+ * interlineado más holgado, como exige AGENTS.md §6. El tracking (widest)
+ * y uppercase son para etiquetas latinas; sobre Hangul no tienen sentido
+ * y rompen el ritmo (Keep-All Rule de DESIGN.md).
  */
 :lang(ko) {
   word-break: keep-all;
   line-height: 1.77;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/*
+ * Ritmo tipográfico (pase Impeccable 2026-11-10): párrafos sin líneas
+ * viudas ("straggler") y títulos con líneas equilibradas cuando el
+ * navegador lo soporta (los que no lo ignoran sin error).
+ */
+p {
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
 }

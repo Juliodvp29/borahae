@@ -17,6 +17,7 @@ import { EventRegistrations } from './collections/EventRegistrations'
 import { ContactSubmissions } from './collections/ContactSubmissions'
 import { Gallery } from './collections/Gallery'
 import { Sponsors } from './collections/Sponsors'
+import { LegalDocs } from './collections/LegalDocs'
 import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
@@ -53,6 +54,7 @@ export default buildConfig({
     ContactSubmissions,
     Gallery,
     Sponsors,
+    LegalDocs,
   ],
   globals: [SiteSettings],
   // Contenido editable en es/ko (AGENTS.md §5.1): español por defecto y

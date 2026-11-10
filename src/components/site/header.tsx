@@ -50,7 +50,7 @@ export async function Header() {
         <Link
           href="/"
           aria-label={tRoot("homeAria")}
-          className="flex items-center bg-transparent"
+          className="flex min-h-11 items-center bg-transparent"
         >
           {logo?.url ? (
             <Image
