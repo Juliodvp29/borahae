@@ -52,6 +52,57 @@
     "comingSoonText": "Muy pronto compartiremos aquí la información completa del programa. Si quieres saber más, escríbenos.",
     "backToPrograms": "Volver a Programas"
   },
+  "contact": {
+    "eyebrow": "Contacto",
+    "title": "Escríbenos",
+    "intro": "Cuéntanos cómo te gustaría conectar con BORAHAE: unirte, ser voluntaria o voluntario, patrocinar, donar, proponer una alianza o resolver tus dudas.",
+    "infoTitle": "Datos de contacto",
+    "emailSettingLabel": "Correo",
+    "cityLabel": "Ciudad",
+    "infoNote": "Respondemos lo antes posible; los tiempos pueden variar según el volumen de consultas.",
+    "formTitle": "Formulario de contacto",
+    "formIntro": "Todos los campos marcados con * son obligatorios.",
+    "nameLabel": "Nombre completo",
+    "ageRangeLabel": "Rango de edad",
+    "ageRangePlaceholder": "Selecciona tu rango",
+    "emailLabel": "Correo electrónico",
+    "phoneLabel": "Número de contacto",
+    "topicLabel": "Motivo de contacto",
+    "topicPlaceholder": "Selecciona un motivo",
+    "topic": {
+      "interes": "Interés general",
+      "voluntariado": "Voluntariado",
+      "alianza": "Alianza o patrocinio",
+      "donacion": "Donación",
+      "prensa": "Prensa / medios",
+      "otro": "Otra consulta"
+    },
+    "messageLabel": "Mensaje",
+    "honeypot": "No llenes este campo",
+    "consentText": "He leído y acepto la <link>política de tratamiento de datos personales</link>.",
+    "submit": "Enviar mensaje",
+    "submitting": "Enviando…",
+    "successTitle": "Mensaje recibido",
+    "successText": "Gracias por escribir a BORAHAE. Guardamos tu mensaje con tu consentimiento registrado y te responderemos a tu correo.",
+    "rateLimitText": "Ya registramos varios mensajes con este correo. Por favor, espera y vuelve a intentarlo más tarde.",
+    "errorText": "Hubo un problema al enviar el mensaje. Inténtalo de nuevo; tus datos solo se guardan cuando confirmamos la recepción.",
+    "range": {
+      "u18": "Menos de 18 años",
+      "18-24": "18 a 24 años",
+      "25-34": "25 a 34 años",
+      "35-44": "35 a 44 años",
+      "45-54": "45 a 54 años",
+      "55-64": "55 a 64 años",
+      "65+": "65 años o más"
+    },
+    "errors": {
+      "summary": "Revisa los campos marcados.",
+      "required": "Este campo es obligatorio.",
+      "invalidEmail": "Escribe un correo electrónico válido.",
+      "tooShort": "Debe escribir un poco más.",
+      "tooLong": "El texto es demasiado largo."
+    }
+  },
   "events": {
     "eyebrow": "Eventos gratuitos",
     "title": "Eventos",
