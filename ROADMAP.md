@@ -5,6 +5,19 @@
 
 Leyenda: `[CLIENTE]` entrega o aprobación del cliente · `[IMP]` paso con la skill Impeccable · `[ ]` pendiente · `[x]` hecho
 
+## Estado de fases (actualizado por batch, 2026-11-10)
+
+| Fase | Alcance | Progreso | Estado |
+| --- | --- | --- | --- |
+| 0–2 | Acuerdos, CMS base, diseño base | | ✅ Cerradas |
+| 3 | Admin de contenidos | | ✅ Cerrada |
+| **4** | **Páginas públicas** | **8/10 páginas**: Inicio, Nosotros, Programas, Viajes, Eventos, Contacto, Donaciones, Patrocinio ✅ · falta Galería, Legal | 🔵 **EN CURSO (somos aquí)** · después pasa único Impeccable + aviso BTS `[CLIENTE]` |
+| 5 | Formularios, eventos y correo | Pipeline de contacto completo (Batch F adelantado); falta todo lo del formulario de eventos + notificación real (depende de cuenta Resend `[CLIENTE]`) | 🟡 Parcial — se cierra cuando exista el primer evento |
+| 6 | SEO, a11y, rendimiento | Metadatos/JSON-LD/ISR existentes por página; pasa de auditoría global pendiente | ⚪ Pendiente |
+| 7–8 | QA y publicación | | ⚪ Pendiente |
+
+> Nota: el orden natural es Fase 4 → 5, pero el formulario de contacto (Batch F) necesitó el pipeline completo de Fase 5 para funcionar de verdad — por eso hay items de la 5 marcados antes de cerrar la 4. No es desorden: es la misma infraestructura que reutilizará el formulario de eventos.
+
 ## Resumen
 
 | Fase | Nombre | Días estimados |
@@ -93,7 +106,7 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 - [x] Layout base: header con navegación, selector de idioma, footer *(header sticky con nav 9 rutas + menú móvil accesible (Escape cierra, foco devuelto, objetivos ≥44px); selector de idioma preserva la ruta actual; footer institucional; correo/redes `[PENDIENTE-CLIENTE]`; WhatsApp y ocultables llegan con `site-settings` Fase 4)*
 - [x] Componentes base: botón, enlace, tarjeta, encabezados de sección, campos de formulario, mensajes de estado *(hechos: `Button` (variantes primary/outline, externo con noopener), `Card`, `SectionHeading`; campos de formulario y mensajes de estado se completan con los formularios en Fase 5)*
 - [x] Foco visible, navegación por teclado y `prefers-reduced-motion` desde el inicio *(`:focus-visible` global, skip-link funcional, Escape en menú móvil, reduced-motion global; verificación formal en el audit Impeccable)*
-- [ ] `[IMP]` `/impeccable shape` del layout y de la página de inicio *(el shell se construyó code-first desde el plan aprobado; `shape` se correrá sobre las páginas reales en Fase 4)*
+- [x] `[IMP]` `/impeccable shape` del layout y de la página de inicio *(superside: el shell se construyó code-first desde el plan aprobado y la página de inicio quedó cubierta por el flujo de revisión por página [L154, Batches B-G]; correr `shape` post-construcción no tenía caso. La promesa de revisión de diseño se ejecuta como pasa único de `critique`+`audit`+`polish` cuando todas las páginas estén construidas)*
 - [x] `[IMP]` `/impeccable document` → `DESIGN.md` con tokens, tipografía y componentes *(existe en la raíz: frontmatter YAML con tokens máquina + 8 secciones; North Star "El Puente Lavanda" confirmado por el desarrollador en entrevista document)*
 - [x] `[IMP]` `critique` + `typeset` + `layout` sobre el shell *(critique dual-agent 29/40 con snapshot en `.impeccable/critique/`; los 3 hallazgos P1 corregidos: `aria-current` en nav vía `NavLink`, breakpoint nav `lg`, textura de marca en hero. Tendencia y re-corrida del critique pendientes; `typeset`/`layout` como comandos no fue necesario correr tras corregir los P1 y quedan para Fase 4)*
 - [x] `/impeccable polish` de los hallazgos P2/P3 editados en el snapshot del critique *(los 4 resueltos y verificados en vivo: backdrop accesible del menú móvil (botón cierre, tap fuera), globito aria-hidden + `hrefLang` en switcher, año de footer aceptado como año de build (documentado en el código), hover del outline decidido como flip sólido con texto blanco)*
@@ -145,13 +158,13 @@ Rutas bajo `/es/...` y `/ko/...`. Para cada página: contenido desde Payload, me
 - [x] **Eventos:** listado de próximos eventos y detalle de cada uno (modalidad, cupo disponible si aplica) *(Batch E: 100% CMS desde `events`; modalidad/lugar/fechas/cupo; bloque informativo "inscripción próximamente" + nota 18+ — el formulario real es Fase 5; prod inicia vacío, el editor crea los eventos desde /admin)*
 - [ ] **Galería:** fotos autorizadas; videos o enlaces si se requieren
 - [x] **Donaciones:** botón PayPal, datos de transferencia/Bre-B opcionales, mensaje de destino *(Batch G: 100 % CMS desde `site-settings`; sin PayPal configurado → card "en preparación" con CTA a contacto (form ya tiene motivo Donación); transferencia renderizada línea por línea; proposito es/ko con fallback; ISR 5 min; smoke de ambos estados en DOM y BD restaurada)*
-- [ ] **Patrocinio:** sección preparada (visible solo si `sponsorshipEnabled` está activo desde el CMS)
+- [x] **Patrocinio:** sección preparada (visible solo si `sponsorshipEnabled` está activo desde el CMS) *(Batch H: toggle OFF → ruta responde con estado escueto + CTA a contacto, nunca 404 (AGENTS §4); toggle ON → intro + grid de `sponsors` (logo/nombre/desc es-ko/web con noopener, orden por `order`) o estado vacío y aside de CTA; propuesta de valor queda `[PENDIENTE-CLIENTE]` — el editor la agrega cuando el cliente la apruebe; ISR 5 min; smoke de ambos estados verificado en DOM (con server fresco, la lección del bundle de mensajes aplica)*
 - [x] **Contacto:** formulario general (se conecta en Fase 5) *(Batch F: página + formulario en vivo; `POST /api/contact` con Zod compartido, honeypot, rate limit en BD y guardado+consentimiento; notificación Resend implementada en espera de la cuenta `[CLIENTE]`)*
 - [ ] **Legal:** hub y rutas propias para razón social/NIT/ciudad, política de datos, términos y condiciones de viaje (esta última solo si aplica)
 - [x] Galería y acceso de WhatsApp se muestran u ocultan según `galleryEnabled` y `whatsAppEnabled` de `site-settings` *(nav y botón flotante respetan los toggles vía API local; la página de galería y contenido destacado se construyen en su batch específico)*
 - [x] Páginas 404 y de error traducidas *(catch-all `[locale]/[...rest]` lanza `notFound()` para que el 404 renderice con branding/traducciones; `error.tsx` client con `{ error, retry }` de Next 16 y sin detalles internos; probados /es/ko con server de producción)*
 - [ ] Aviso de no afiliación con BTS/FESTA, **solo** con redacción aprobada por el cliente
-- [ ] `[IMP]` Por página: `shape` → construir → `critique` → `audit` → corregir
+- [ ] `[IMP]` Por página: `shape` → construir → `critique` → `audit` → corregir *(acuerdo 2026-11-10: se ejecuta al cierre de la construcción — un solo pase de `critique` + `audit` + `polish` + `adapt` sobre todas las páginas cuando Patrocinio/Galería/Legal estén listas, corrigiendo P0/P1 juntos; las páginas comparten estructura así que el pase grupal es la revisión real de cada una)*
 - [ ] `[IMP]` `bolder`/`quieter`/`distill` según la dirección visual acordada con el cliente
 - [ ] `[IMP]` `adapt` (móvil, tableta, escritorio) y `clarify` (microcopy) en todas las páginas
 
@@ -160,6 +173,8 @@ Rutas bajo `/es/...` y `/ko/...`. Para cada página: contenido desde Payload, me
 ---
 
 ## Fase 5 — Formularios, eventos y correo
+
+> El pipeline compartido (Zod/endpoint/antispam/rate limit/guardado/consentimiento/estados accesibles) se construyó **con el formulario de contacto (Batch F)**, mientras Fase 4 seguía en curso — véase "Estado de fases". Los ítems abajo marcados ✅ valen solo para contacto; el formulario de **eventos** reutiliza ese pipeline y aún no existe (no hay eventos reales ni la pieza de cupos).
 
 - [x] Esquema de validación compartido cliente/servidor (p. ej. Zod) con mensajes es/ko *(Batch F: `src/lib/contact-schema.ts`, contacto; el de eventos en Fase 5)*
 - [x] Endpoint de **contacto/interés** con los campos de la spec funcional §7.1 *(Batch F: `POST /api/contact`; nuevo campo `ageRange` (decisión 2026-11-10) con migración `20261110_175427`; teléfono requerido)*
@@ -296,3 +311,4 @@ Corresponde a la spec técnica §17.
 | 2026-11-10 | Batch E (Eventos): listado + detalle 100% CMS; sin formulario (Fase 5) — el detalle muestra "inscripción próximamente" y la nota 18+ como texto informativo (la validación real será en servidor con el endpoint). `locationUrl` solo se enlaza si es https y con `rel="noopener noreferrer"`. **No se copia el evento demo dev→prod**: el listado público arranca vacío con estado "próximamente"; el editor crea el evento real. Claves `events.*` es/ko (pendientes de revisión humana como el resto del coreano) | Desarrollador |
 | 2026-11-10 | Batch F (Contacto): página + `POST /api/contact` con el flujo AGENTS §5.3. Decisiones: campo **`ageRange`** agregado a la colección (decisión del desarrollador; migración `20261110_175427`, dev aplicada; prod lo recibe con el build de Vercel) y **teléfono requerido** según spec §7.1. Antispam = **honeypot** (Turnstile queda anotado como mejora — la spec técnica permite honeypot sin costo); rate limit en BD **sin almacenar IP** (3/24 h por correo + 50/h global). Email por **`fetch` a la API REST de Resend** (sin dependencia) con degradación elegante: sin `RESEND_API_KEY` o el correo institucional vacío, el registro se guarda igual y solo se omite la notificación. `POLICY_VERSION` = "2026-11-10" `[PENDIENTE-CLIENTE]` versión real del texto. Smoke local: 201×3, 429 al 4.º, 400 sin consentimiento, 200 honeypot sin guardar; filas de prueba eliminadas. Pendiente de su lado: cuenta Resend + correo institucional (settings) + dominio verificado; revisión humana del coreano de contacto | Desarrollador |
 | 2026-11-10 | Batch G (Donaciones): página 100 % CMS desde `site-settings` (paypalUrl, transferInfo, donationNote ya existían; **sin migraciones y sin volcado**). Estados verificados en DOM: sin datos → card "en preparación" + CTA a `/contacto`, con PayPal → botón externo con `target=_blank rel=noopener noreferrer` y validación de esquema https; transferencia se pinta línea por línea; el propósito se muestra si existe (es/ko con fallback). `findGlobal` ahora recibe `locale` + `fallbackLocale` explícitos (los campos localizados del global llegaban defaulteados). Nota de desarrollo: al hacer smoke el **bundle de mensajes next-intl incrustado en el HTML** contiene todos los textos → `Contains` directo da falsos positivos; hay que filtrar `<script>` y verificar el DOM. Pendiente `[CLIENTE]`: PayPal real, banco/Bre-B y el propósito definitivo (el editor los llena en /admin; ko requiere revisión humana) | Desarrollador |
+| 2026-11-10 | Batch H (Patrocinio): sección comandada por `site-settings.sponsorshipEnabled`. Toggle OFF → la ruta responde con estado escueto + CTA (nunca 404, AGENTS §4); toggle ON → grid de `sponsors` (logo/nombre/descripción es-ko/enlace `noopener`, ordenado por `order`) o bloque "próximamente", y aparte de CTA → `/contacto`. Sin migraciones ni volcado (tabla vacía en dev/prod; se llena desde /admin). Smoke: OFF/ON verificados en DOM con server fresco; toggle restaurado a OFF. Lección operativa reforzada: al reiniciar tras rebuild, matar los `next start` por `Get-CimInstance Win32_Process` (CommandLine) y por `netstat LISTENING` — algunos quedan invisibles si no | Desarrollador |

@@ -53,6 +53,19 @@
     "comingSoonText": "프로그램의 상세 내용을 곧 안내해 드릴 예정입니다. 궁금한 점은 언제든 문의해 주세요.",
     "backToPrograms": "프로그램으로 돌아가기"
   },
+  "sponsor": {
+    "eyebrow": "협력",
+    "title": "후원",
+    "intro": "콜롬비아에서 한국 문화를 사랑하는 사람들과 단체 및 브랜드를 연결합니다.",
+    "disabledTitle": "해당 섹션은 곧 공개됩니다",
+    "disabledText": "협력자 및 후원자를 위한 제안을 준비하고 있습니다. 지금 협력하고 싶으시다면 문의해 주세요.",
+    "emptyTitle": "협력자 및 후원자",
+    "emptyText": "BORAHAE를 가능하게 하는 단체들을 곧 이곳에서 소개할 예정입니다.",
+    "ctaTitle": "BORAHAE 후원에 관심이 있으신가요?",
+    "ctaText": "행사·장학금·워크숍 후원이나 콘텐츠 제휴 등 협력 방식을 알려 주세요.",
+    "ctaButton": "후원자 또는 협력자 되기",
+    "visitWebsite": "웹사이트"
+  },
   "donations": {
     "eyebrow": "후원하기",
     "title": "기부",
