@@ -116,13 +116,14 @@
     "phoneLabel": "연락처 (선택 사항)",
     "cityLabel": "도시 (선택 사항)",
     "modalityLabel": "참여 방식",
+    "modalityPlaceholder": "참여 방식을 선택하세요",
     "modalityPresencial": "대면 (현장 참여)",
     "modalityVirtual": "온라인 (비대면)",
     "dobLabel": "생년월일",
     "dobNote": "만 18세 이상 여부를 확인하는 용도로만 사용하며, 저장하지 않습니다.",
     "adultDeclaration": "저는 만 18세 이상임을 선언합니다.",
     "consentText": "<link>개인정보 처리방침</link>을 읽고 동의합니다.",
-    "honeypot": "이 칸은 채우지 마세요",
+    "honeypot": "이 필드는 채우지 마세요",
     "submit": "참여 신청 보내기",
     "submitting": "보내는 중…",
     "successTitle": "참여 신청이 접수되었습니다!",
@@ -139,7 +140,9 @@
       "tooShort": "조금 더 입력해 주세요.",
       "tooLong": "텍스트가 너무 깁니다.",
       "invalidValue": "입력값이 올바르지 않습니다.",
-      "invalidDate": "올바른 생년월일을 입력해 주세요."
+      "invalidDate": "올바른 생년월일을 입력해 주세요.",
+      "consent": "참여 신청을 보내려면 개인정보 처리방침에 동의해 주세요.",
+      "adult": "만 18세 이상임을 선언해 주세요. 본 행사는 성인만 참여할 수 있습니다."
     }
   },
   "contact": {
@@ -190,7 +193,8 @@
       "required": "필수 항목입니다.",
       "invalidEmail": "유효한 이메일 주소를 입력해 주세요.",
       "tooShort": "조금 더 입력해 주세요.",
-      "tooLong": "글자 수가 너무 많습니다."
+      "tooLong": "글자 수가 너무 많습니다.",
+      "consent": "메시지를 보내려면 개인정보 처리방침에 동의해 주세요."
     }
   },
   "events": {

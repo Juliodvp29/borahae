@@ -115,6 +115,7 @@
     "phoneLabel": "Número de contacto (opcional)",
     "cityLabel": "Ciudad (opcional)",
     "modalityLabel": "Modalidad de asistencia",
+    "modalityPlaceholder": "Selecciona la modalidad",
     "modalityPresencial": "Presencial",
     "modalityVirtual": "Virtual",
     "dobLabel": "Fecha de nacimiento",
@@ -138,7 +139,9 @@
       "tooShort": "Debe escribir un poco más.",
       "tooLong": "El texto es demasiado largo.",
       "invalidValue": "El valor no es válido.",
-      "invalidDate": "Escribe una fecha de nacimiento válida."
+      "invalidDate": "Escribe una fecha de nacimiento válida.",
+      "consent": "Para inscribirte, acepta la política de tratamiento de datos.",
+      "adult": "Debes declarar que tienes 18 años o más: este evento es exclusivo para personas adultas."
     }
   },
   "contact": {
@@ -189,7 +192,8 @@
       "required": "Este campo es obligatorio.",
       "invalidEmail": "Escribe un correo electrónico válido.",
       "tooShort": "Debe escribir un poco más.",
-      "tooLong": "El texto es demasiado largo."
+      "tooLong": "El texto es demasiado largo.",
+      "consent": "Para enviar el mensaje, acepta la política de tratamiento de datos."
     }
   },
   "events": {

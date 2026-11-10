@@ -52,7 +52,11 @@ export function EventRegistrationForm({
   const issueDe = (field: string): string | null => {
     const found = issues.find((item) => item.field === field);
     if (!found) return null;
-    if (found.code === "required") return t("errors.required");
+    if (found.code === "required") {
+      if (field === "consent") return t("errors.consent");
+      if (field === "adultDeclaration") return t("errors.adult");
+      return t("errors.required");
+    }
     if (found.code === "invalidEmail") return t("errors.invalidEmail");
     if (found.code === "tooShort") return t("errors.tooShort");
     if (found.code === "tooLong") return t("errors.tooLong");
@@ -78,7 +82,17 @@ export function EventRegistrationForm({
       consent: raw.consent === "true",
     });
     if (!parsed.success) {
-      setIssues(eventRegistrationIssues(parsed.error));
+      const encontrados = eventRegistrationIssues(parsed.error);
+      // Casillas sin marcar: los mappers las filtran, pero el envío
+      // silencioso no es aceptable — mensajes + foco en la casilla.
+      if (raw.adultDeclaration !== "true") {
+        encontrados.push({ field: "adultDeclaration", code: "required" });
+      }
+      if (raw.consent !== "true") {
+        encontrados.push({ field: "consent", code: "required" });
+      }
+      setIssues(encontrados);
+      enfocarPrimerInvalido(encontrados);
       setEstado({ fase: "listo" });
       return;
     }
@@ -149,9 +163,12 @@ export function EventRegistrationForm({
   // Estilo compartido con el formulario de contacto (44 px de alto → AGENTS §6).
   const claseInput =
     "min-h-11 w-full rounded-lg border border-borahae-primary/25 bg-white px-4 py-3 text-base text-borahae-text placeholder:text-borahae-text/40 focus:border-borahae-primary focus:outline-2 focus:outline-offset-1 focus:outline-borahae-primary aria-invalid:border-borahae-primary-hover";
+  // El asterisco (*) solo en campos OBLIGATORIOS: phone/city son opcionales
+  // (spec §7.2) y un asterisco mentiroso mina la confianza del formulario.
   const claseLabel =
     "mb-2.5 block text-sm font-medium text-borahae-text" +
     " after:content-['*'] after:ml-1 after:text-borahae-primary";
+  const claseLabelOpt = "mb-2.5 block text-sm font-medium text-borahae-text";
   const claseError = "mt-1 text-sm text-borahae-primary-hover";
   const claseCheck =
     "size-5 rounded border-borahae-primary/40 text-borahae-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-borahae-primary";
@@ -162,6 +179,8 @@ export function EventRegistrationForm({
   const cityErr = issueDe("city");
   const modalityErr = issueDe("modality");
   const dobErr = issueDe("dateOfBirth");
+  const adultErr = issueDe("adultDeclaration");
+  const consentErr = issueDe("consent");
   const hayIssues =
     nombreErr || emailErr || phoneErr || cityErr || modalityErr || dobErr;
 
@@ -189,7 +208,7 @@ export function EventRegistrationForm({
       <div aria-live="polite" className="sr-only">
         {estado.fase === "error"
           ? mensajeError[estado.error]
-          : hayIssues
+          : hayIssues || adultErr || consentErr
             ? t("errors.summary")
             : ""}
       </div>
@@ -240,7 +259,7 @@ export function EventRegistrationForm({
         </div>
 
         <div>
-          <label htmlFor="reg-telefono" className={claseLabel}>
+          <label htmlFor="reg-telefono" className={claseLabelOpt}>
             {t("phoneLabel")}
           </label>
           <input
@@ -261,7 +280,7 @@ export function EventRegistrationForm({
         </div>
 
         <div>
-          <label htmlFor="reg-ciudad" className={claseLabel}>
+          <label htmlFor="reg-ciudad" className={claseLabelOpt}>
             {t("cityLabel")}
           </label>
           <input
@@ -296,7 +315,7 @@ export function EventRegistrationForm({
               className={claseInput}
             >
               <option value="" disabled>
-                —
+                {t("modalityPlaceholder")}
               </option>
               <option value="presencial">{t("modalityPresencial")}</option>
               <option value="virtual">{t("modalityVirtual")}</option>
@@ -359,14 +378,23 @@ export function EventRegistrationForm({
           type="checkbox"
           required
           value="true"
+          aria-describedby={adultErr ? "err-reg-mayor-edad" : undefined}
+          aria-invalid={Boolean(adultErr) || undefined}
           className={`mt-1 shrink-0 ${claseCheck}`}
         />
-        <label
-          htmlFor="reg-mayor-edad"
-          className="text-sm leading-relaxed text-borahae-text/90"
-        >
-          {t("adultDeclaration")}
-        </label>
+        <div className="min-w-0">
+          <label
+            htmlFor="reg-mayor-edad"
+            className="text-sm leading-relaxed text-borahae-text/90"
+          >
+            {t("adultDeclaration")}
+          </label>
+          {adultErr && (
+            <p id="err-reg-mayor-edad" className={`${claseError} mt-1`}>
+              {adultErr}
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="mt-4 flex items-start gap-3">
@@ -376,23 +404,32 @@ export function EventRegistrationForm({
           type="checkbox"
           required
           value="true"
+          aria-describedby={consentErr ? "err-reg-consentimiento" : undefined}
+          aria-invalid={Boolean(consentErr) || undefined}
           className={`mt-1 shrink-0 ${claseCheck}`}
         />
-        <label
-          htmlFor="reg-consentimiento"
-          className="text-sm leading-relaxed text-borahae-text/90"
-        >
-          {t.rich("consentText", {
-            link: (chunks) => (
-              <Link
-                href="/legal/politica-de-tratamiento-de-datos"
-                className="text-borahae-primary underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-borahae-text"
-              >
-                {chunks}
-              </Link>
-            ),
-          })}
-        </label>
+        <div className="min-w-0">
+          <label
+            htmlFor="reg-consentimiento"
+            className="text-sm leading-relaxed text-borahae-text/90"
+          >
+            {t.rich("consentText", {
+              link: (chunks) => (
+                <Link
+                  href="/legal/politica-de-tratamiento-de-datos"
+                  className="text-borahae-primary underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-borahae-text"
+                >
+                  {chunks}
+                </Link>
+              ),
+            })}
+          </label>
+          {consentErr && (
+            <p id="err-reg-consentimiento" className={`${claseError} mt-1`}>
+              {consentErr}
+            </p>
+          )}
+        </div>
       </div>
 
       {estado.fase === "error" && (
@@ -413,4 +450,27 @@ export function EventRegistrationForm({
       </button>
     </form>
   );
+}
+
+/** Id del elemento por campo (coincide con los `htmlFor`/`id` del form). */
+const campoAId: Record<string, string> = {
+  name: "reg-nombre",
+  email: "reg-correo",
+  phone: "reg-telefono",
+  city: "reg-ciudad",
+  modality: "reg-modalidad",
+  dateOfBirth: "reg-fecha-nacimiento",
+  adultDeclaration: "reg-mayor-edad",
+  consent: "reg-consentimiento",
+};
+
+/** Mueve el foco al primer campo con error: sin esto, teclado/SR lo buscan a ciegas. */
+function enfocarPrimerInvalido(issues: Issue[]): void {
+  for (const { field } of issues) {
+    const el = document.getElementById(campoAId[field] ?? field);
+    if (el) {
+      el.focus();
+      return;
+    }
+  }
 }
