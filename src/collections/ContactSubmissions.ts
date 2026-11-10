@@ -42,6 +42,24 @@ export const ContactSubmissions: CollectionConfig = {
       label: 'Nombre',
     },
     {
+      name: 'ageRange',
+      type: 'select',
+      required: true,
+      label: 'Rango de edad',
+      options: [
+        { label: 'Menos de 18', value: 'u18' },
+        { label: '18–24', value: '18-24' },
+        { label: '25–34', value: '25-34' },
+        { label: '35–44', value: '35-44' },
+        { label: '45–54', value: '45-54' },
+        { label: '55–64', value: '55-64' },
+        { label: '65 o más', value: '65+' },
+      ],
+      admin: {
+        description: 'Dato demográfico de la spec funcional §7.1. Contacto no está restringido a mayores de edad.',
+      },
+    },
+    {
       name: 'email',
       type: 'email',
       required: true,
@@ -50,7 +68,8 @@ export const ContactSubmissions: CollectionConfig = {
     {
       name: 'phone',
       type: 'text',
-      label: 'Teléfono (opcional)',
+      required: true,
+      label: 'Teléfono',
     },
     {
       name: 'message',

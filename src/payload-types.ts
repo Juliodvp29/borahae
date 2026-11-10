@@ -483,8 +483,12 @@ export interface ContactSubmission {
   id: number;
   type: 'interes' | 'voluntariado' | 'alianza' | 'donacion' | 'prensa' | 'otro';
   name: string;
+  /**
+   * Dato demográfico de la spec funcional §7.1. Contacto no está restringido a mayores de edad.
+   */
+  ageRange: 'u18' | '18-24' | '25-34' | '35-44' | '45-54' | '55-64' | '65+';
   email: string;
-  phone?: string | null;
+  phone: string;
   message: string;
   /**
    * Guardado por el endpoint con la versión del texto publicado.
@@ -836,6 +840,7 @@ export interface EventRegistrationsSelect<T extends boolean = true> {
 export interface ContactSubmissionsSelect<T extends boolean = true> {
   type?: T;
   name?: T;
+  ageRange?: T;
   email?: T;
   phone?: T;
   message?: T;

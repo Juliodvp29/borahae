@@ -53,6 +53,57 @@
     "comingSoonText": "프로그램의 상세 내용을 곧 안내해 드릴 예정입니다. 궁금한 점은 언제든 문의해 주세요.",
     "backToPrograms": "프로그램으로 돌아가기"
   },
+  "contact": {
+    "eyebrow": "연락처",
+    "title": "메시지를 보내 주세요",
+    "intro": "BORAHAE와 어떻게 연결하고 싶은지 알려 주세요. 회원 참여, 자원봉사, 후원, 기부, 협력 제안, 그리고 궁금한 점 전부 환영합니다.",
+    "infoTitle": "연락처 정보",
+    "emailSettingLabel": "이메일",
+    "cityLabel": "도시",
+    "infoNote": "가능한 한 빨리 답변드리며, 문의량에 따라 시간이 다소 걸릴 수 있습니다.",
+    "formTitle": "문의 양식",
+    "formIntro": "* 표시가 있는 모든 항목은 필수입니다.",
+    "nameLabel": "이름",
+    "ageRangeLabel": "연령대",
+    "ageRangePlaceholder": "연령대를 선택해 주세요",
+    "emailLabel": "이메일 주소",
+    "phoneLabel": "연락처 전화번호",
+    "topicLabel": "문의 목적",
+    "topicPlaceholder": "목적을 선택해 주세요",
+    "topic": {
+      "interes": "일반 문의",
+      "voluntariado": "자원봉사",
+      "alianza": "협력 또는 후원",
+      "donacion": "기부",
+      "prensa": "언론 / 미디어",
+      "otro": "기타 문의"
+    },
+    "messageLabel": "메시지",
+    "honeypot": "이 필드는 채우지 마세요",
+    "consentText": "<link>개인정보 처리방침</link>을 읽었으며 동의합니다.",
+    "submit": "메시지 보내기",
+    "submitting": "보내는 중…",
+    "successTitle": "메시지가 접수되었습니다",
+    "successText": "BORAHAE에 연락해 주셔서 감사합니다. 동의 내역과 함께 메시지가 저장되었으며, 이메일로 답변드리겠습니다.",
+    "rateLimitText": "이 이메일로 이미 여러 메시지가 도착했습니다. 잠시 후 다시 시도해 주세요.",
+    "errorText": "메시지 전송에 문제가 발생했습니다. 다시 시도해 주세요. 데이터는 수신이 확인되었을 때만 저장됩니다.",
+    "range": {
+      "u18": "만 18세 미만",
+      "18-24": "18~24세",
+      "25-34": "25~34세",
+      "35-44": "35~44세",
+      "45-54": "45~54세",
+      "55-64": "55~64세",
+      "65+": "65세 이상"
+    },
+    "errors": {
+      "summary": "표시된 항목을 확인해 주세요.",
+      "required": "필수 항목입니다.",
+      "invalidEmail": "유효한 이메일 주소를 입력해 주세요.",
+      "tooShort": "조금 더 입력해 주세요.",
+      "tooLong": "글자 수가 너무 많습니다."
+    }
+  },
   "events": {
     "eyebrow": "무료 이벤트",
     "title": "이벤트",

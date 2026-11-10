@@ -146,7 +146,7 @@ Rutas bajo `/es/...` y `/ko/...`. Para cada página: contenido desde Payload, me
 - [ ] **Galería:** fotos autorizadas; videos o enlaces si se requieren
 - [ ] **Donaciones:** botón PayPal, datos de transferencia/Bre-B opcionales, mensaje de destino
 - [ ] **Patrocinio:** sección preparada (visible solo si `sponsorshipEnabled` está activo desde el CMS)
-- [ ] **Contacto:** formulario general (se conecta en Fase 5)
+- [x] **Contacto:** formulario general (se conecta en Fase 5) *(Batch F: página + formulario en vivo; `POST /api/contact` con Zod compartido, honeypot, rate limit en BD y guardado+consentimiento; notificación Resend implementada en espera de la cuenta `[CLIENTE]`)*
 - [ ] **Legal:** hub y rutas propias para razón social/NIT/ciudad, política de datos, términos y condiciones de viaje (esta última solo si aplica)
 - [x] Galería y acceso de WhatsApp se muestran u ocultan según `galleryEnabled` y `whatsAppEnabled` de `site-settings` *(nav y botón flotante respetan los toggles vía API local; la página de galería y contenido destacado se construyen en su batch específico)*
 - [x] Páginas 404 y de error traducidas *(catch-all `[locale]/[...rest]` lanza `notFound()` para que el 404 renderice con branding/traducciones; `error.tsx` client con `{ error, retry }` de Next 16 y sin detalles internos; probados /es/ko con server de producción)*
@@ -161,18 +161,18 @@ Rutas bajo `/es/...` y `/ko/...`. Para cada página: contenido desde Payload, me
 
 ## Fase 5 — Formularios, eventos y correo
 
-- [ ] Esquema de validación compartido cliente/servidor (p. ej. Zod) con mensajes es/ko
-- [ ] Endpoint de **contacto/interés** con los campos de la spec funcional §7.1
+- [x] Esquema de validación compartido cliente/servidor (p. ej. Zod) con mensajes es/ko *(Batch F: `src/lib/contact-schema.ts`, contacto; el de eventos en Fase 5)*
+- [x] Endpoint de **contacto/interés** con los campos de la spec funcional §7.1 *(Batch F: `POST /api/contact`; nuevo campo `ageRange` (decisión 2026-11-10) con migración `20261110_175427`; teléfono requerido)*
 - [ ] Endpoint de **inscripción a evento** con los campos de §7.2
 - [ ] Rechazar registros de menores de 18 años: recibir `dateOfBirth`, validar edad en servidor, no guardar la fecha y persistir solo la trazabilidad de elegibilidad
-- [ ] Consentimiento de política de datos obligatorio, guardado con fecha/hora y versión del texto
-- [ ] Antispam (Turnstile u honeypot) y rate limiting en ambos endpoints
-- [ ] Guardado en PostgreSQL antes de enviar correo
+- [x] Consentimiento de política de datos obligatorio, guardado con fecha/hora y versión del texto *(Batch F, contacto: `acceptedAt` + `policyVersion` en el registro)*
+- [x] Antispam (Turnstile u honeypot) y rate limiting en ambos endpoints *(Batch F, contacto: honeypot + rate limit en BD (3/24 h por correo, 50/h global, sin IP); Turnstile queda como mejora futura — spec técnica admite honeypot. Eventos: Fase 5)*
+- [x] Guardado en PostgreSQL antes de enviar correo *(Batch F, contacto)*
 - [ ] Notificación al correo institucional con Resend; manejo de fallo sin perder el registro
 - [ ] Dominio verificado en Resend `[CLIENTE]` (mientras tanto, remitente de pruebas)
 - [ ] **Cupo de eventos:** bloqueo de nuevos registros al alcanzar el límite, con control de concurrencia y mensaje claro
-- [ ] Estados de formulario accesibles: cargando, éxito, error, campo inválido
-- [ ] Confirmación en pantalla al visitante (correo de confirmación al visitante = mejora posterior)
+- [x] Estados de formulario accesibles: cargando, éxito, error, campo inválido *(Batch F, contacto: errores por campo con `aria-invalid`/`aria-describedby`, `aria-live` de resumen y `role="alert"`)*
+- [x] Confirmación en pantalla al visitante (correo de confirmación al visitante = mejora posterior) *(Batch F, contacto)*
 - [ ] Pruebas: registro duplicado, evento lleno, spam, correo caído, campos inválidos
 - [ ] `[IMP]` `harden` sobre formularios (errores, desbordes, textos largos en coreano)
 
@@ -294,3 +294,4 @@ Corresponde a la spec técnica §17.
 | 2026-11-10 | Smoke de producción verde tras redeploy: home/nosotros/programas es+ko con contenido CMS, 404 con branding, JSON-LD, /admin accesible. Pendientes operativos: admin de prod creado por el desarrollador, Blob store en Vercel para uploads, rotar credenciales de BD expuestas en chat | Desarrollador |
 | 2026-11-10 | Batch D (Viajes): listado + detalle 100% CMS. A diferencia de Programas, `[slug]` **sin whitelist** (el editor crea nuevos viajes sin tocar código); helper `src/lib/markers.ts` (`cleanText`) para que los marcadores `[PENDIENTE-CLIENTE]`/`[CONTENIDO-FICTICIO-DEMO]` del CMS nunca se rendericen al público; fechas formateadas con `Intl.DateTimeFormat("es-CO"/"ko-KR")`; itinerario/incluye/no-incluye no se pintan si están vacíos; CTA de interés (sin inscripción, fase 2 del negocio). Tour BORAHAE TRIP 2027 (texto real del cliente) volcado dev→prod en tablas `tours*` | Desarrollador |
 | 2026-11-10 | Batch E (Eventos): listado + detalle 100% CMS; sin formulario (Fase 5) — el detalle muestra "inscripción próximamente" y la nota 18+ como texto informativo (la validación real será en servidor con el endpoint). `locationUrl` solo se enlaza si es https y con `rel="noopener noreferrer"`. **No se copia el evento demo dev→prod**: el listado público arranca vacío con estado "próximamente"; el editor crea el evento real. Claves `events.*` es/ko (pendientes de revisión humana como el resto del coreano) | Desarrollador |
+| 2026-11-10 | Batch F (Contacto): página + `POST /api/contact` con el flujo AGENTS §5.3. Decisiones: campo **`ageRange`** agregado a la colección (decisión del desarrollador; migración `20261110_175427`, dev aplicada; prod lo recibe con el build de Vercel) y **teléfono requerido** según spec §7.1. Antispam = **honeypot** (Turnstile queda anotado como mejora — la spec técnica permite honeypot sin costo); rate limit en BD **sin almacenar IP** (3/24 h por correo + 50/h global). Email por **`fetch` a la API REST de Resend** (sin dependencia) con degradación elegante: sin `RESEND_API_KEY` o el correo institucional vacío, el registro se guarda igual y solo se omite la notificación. `POLICY_VERSION` = "2026-11-10" `[PENDIENTE-CLIENTE]` versión real del texto. Smoke local: 201×3, 429 al 4.º, 400 sin consentimiento, 200 honeypot sin guardar; filas de prueba eliminadas. Pendiente de su lado: cuenta Resend + correo institucional (settings) + dominio verificado; revisión humana del coreano de contacto | Desarrollador |
