@@ -138,8 +138,8 @@ Objetivo: destrabar dependencias del cliente y cerrar decisiones abiertas antes 
 
 Rutas bajo `/es/...` y `/ko/...`. Para cada página: contenido desde Payload, metadatos por idioma, un solo `h1`, estados vacíos y de error.
 
-- [ ] **Inicio:** banner editable, presentación, llamados a la acción, destacados, redes
-- [ ] **Nosotros:** presentación, propósito, misión, visión, valores/inclusión, datos institucionales
+- [x] **Inicio:** banner editable, presentación, llamados a la acción, destacados, redes *(Batch B: doc CMS `pages/inicio` con banner próximo/copy aprobado como imagen de referencia visual; banner Desktop/Móvil editables con fallback a assets empacados; destacados de programas + redes `[PENDIENTE-CLIENTE]`; ISR 5 min + revalidación por hooks)*
+- [x] **Nosotros:** presentación, propósito, misión, visión, valores/inclusión, datos institucionales *(Batch B: doc CMS `pages/nosotros` con textos reales del cliente (misión/visión/objetivos/pilares de `docs/Contenido_Cliente_Mision_Vision.md`); ko con fallback automático al español; datos institucionales `[PENDIENTE-CLIENTE]`)*
 - [ ] **Programas:** página principal + rutas de Curso de coreano, Becas y Talleres (con estado "próximamente" si no hay contenido)
 - [ ] **Viajes:** listado y detalle `/viajes/[slug]` (fechas, destino, itinerario, incluye/no incluye, precio y condiciones si se publican, botón de interés)
 - [ ] **Eventos:** listado de próximos eventos y detalle de cada uno (modalidad, cupo disponible si aplica)
@@ -280,3 +280,9 @@ Corresponde a la spec técnica §17.
 | 2026-11-09 | Toggles en header/footer: `site-settings` con hook global de revalidación (`revalidateGlobalHooks` revalida el listado completo de rutas en es/ko); logo editable con fallback a texto si Media no lo tiene | Desarrollador |
 | 2026-11-09 | 404 con branding: catch-all `[locale]/[...rest]` lanza `notFound()` (el default global de Next ignoraba layout/idioma); `error.tsx` con firma Next 16 `{ error, retry }`, sin detalle interno | Desarrollador |
 | 2026-11-09 | Identidad visual: cliente entrega granallado de marca; desarrollador convierte a WebP (logo-borahae 1080×1350 80KB, banner-web 2560×1440 35KB, banner-mobile 1350×1080 22KB); logo horizontal (480×186, 25KB) recortado con sharp desde la versión generada en Canva. Header: logo desde el CMS (`site-settings.logo`) con fallback al WebP empacado en `public/images` hasta que el editor lo cargue en Media | Desarrollador |
+| 2026-11-09 | Fase 4 Batch B (Inicio + Nosotros): banners Desktop/Móvil en `Pages` (migración `20261109_195908`); seed con docs `inicio` y `nosotros` (textos reales del cliente). JSON-LD Organization en `<head>` vía layout de locale | Desarrollador |
+| 2026-11-09 | Fix seeds Lexical: nodos texto requieren `type: 'text'` (sin él RichText renderiza "unknown node"); `list.tag` ∈ {ol, ul}; hijos de `listitem` son párrafos (texto suelto rechaza al publicar); `listitem.value` numérico (0 en bullets, 1..n en ordenados) | Desarrollador |
+| 2026-11-09 | ISR `revalidate = 300` en páginas Batch B: `revalidatePath` disparado desde la API de Payload no purga el prerender HTML de `next start` de forma confiable; los hooks de revalidación se conservan como invalidación inmediata cuando funciona | Desarrollador |
+| 2026-11-09 | `tmp/` (script OPS one-off de restauración) excluido de ESLint y gitignored; lint verde tras `no-require-imports` en scripts locales | Desarrollador |
+| 2026-11-10 | Traducción coreana de `pages/inicio` provista por el desarrollador (title + summary + content, locale `ko`); página es intacta y ko con fallback listo si algún campo falta. Pendiente revisión humana formal del coreano (AGENTS §5.1) | Desarrollador |
+| 2026-11-10 | API local de Payload: las queries del frontend ahora pasan `locale` + `fallbackLocale: "es"` — sin `locale` explícito devolvían sí o sí el default (es); fix en home y nosotros (componente + generateMetadata) | Desarrollador |

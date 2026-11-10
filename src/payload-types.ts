@@ -256,6 +256,14 @@ export interface Page {
     [k: string]: unknown;
   } | null;
   /**
+   * Aspecto 16:9 (ideal 2560x1440). Si queda vacío se usa el archivo incluido en el repo.
+   */
+  bannerDesktop?: (number | null) | Media;
+  /**
+   * Aspecto 5:4 (ideal 1350x1080). Si queda vacío se usa el archivo incluido en el repo.
+   */
+  bannerMobile?: (number | null) | Media;
+  /**
    * Aparece en resultados de búsqueda y pestañas. Si queda vacío se usa el título normal. Máximo 60.
    */
   seoTitle?: string | null;
@@ -721,6 +729,8 @@ export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   summary?: T;
   content?: T;
+  bannerDesktop?: T;
+  bannerMobile?: T;
   seoTitle?: T;
   seoDescription?: T;
   seoImage?: T;
@@ -909,7 +919,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface SiteSetting {
   id: number;
   /**
-   * [PENDIENTE-CLIENTE] Logo oficial cuando llegue el archivo vectorial.
+   * Logo horizontal (emblema + BORAHAE, ~480x160). El header lo muestra con fallback al archivo incluido en el repo.
    */
   logo?: (number | null) | Media;
   /**

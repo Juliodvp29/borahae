@@ -16,6 +16,8 @@ const eslintConfig = defineConfig([
     ".github/skills/**",
     "src/migrations/**",
     "src/payload-types.ts",
+    // Scripts OPS one-off (localhost) y artefactos temporales.
+    "tmp/**",
   ]),
 ]);
 

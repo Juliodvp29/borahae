@@ -6,6 +6,8 @@ import { routing } from "@/i18n/routing";
 import { Header } from "@/components/site/header";
 import { WhatsAppButton } from "@/components/site/whatsapp-button";
 import { Footer } from "@/components/site/footer";
+import { getSiteSettings } from "@/lib/payload";
+import { jsonLdOrganization } from "@/lib/metadata";
 import "@/styles/globals.css";
 import { notoSansKr, notoSerifKr } from "@/lib/fonts";
 
@@ -25,6 +27,7 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
   const t = await getTranslations("header");
+  const settings = await getSiteSettings();
 
   return (
     <html
@@ -38,6 +41,14 @@ export default async function LocaleLayout({
         className="min-h-full flex flex-col font-sans"
         suppressHydrationWarning
       >
+        {/* Datos estructurados de la organización (JSON-LD, AGENTS §5.6).
+            El logo es el asset empacado; mismoSrc que usa el header. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLdOrganization(settings?.socialLinks)),
+          }}
+        />
         <NextIntlClientProvider>
           <a
             href="#contenido-principal"
