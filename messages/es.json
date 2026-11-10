@@ -52,6 +52,24 @@
     "comingSoonText": "Muy pronto compartiremos aquí la información completa del programa. Si quieres saber más, escríbenos.",
     "backToPrograms": "Volver a Programas"
   },
+  "events": {
+    "eyebrow": "Eventos gratuitos",
+    "title": "Eventos",
+    "emptyTitle": "Aún no hay eventos publicados",
+    "emptyText": "Muy pronto anunciaremos nuestros eventos gratuitos de inscripciones abiertas.",
+    "modalityLabel": "Modalidad",
+    "modalityPresencial": "Presencial",
+    "modalityVirtual": "Virtual",
+    "modalityHibrido": "Híbrido",
+    "datesLabel": "Fecha y hora",
+    "locationLabel": "Lugar",
+    "capacityLabel": "Cupo limitado",
+    "capacityValue": "{count} personas",
+    "registrationTitle": "Inscripción",
+    "registrationNote": "La inscripción es gratuita y estará disponible próximamente.",
+    "adultNote": "Evento exclusivo para personas de 18 años en adelante.",
+    "backToEvents": "Volver a Eventos"
+  },
   "tours": {
     "eyebrow": "Experiencias de viaje",
     "title": "Viajes",
