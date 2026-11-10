@@ -102,7 +102,7 @@ export function ContactForm(): React.JSX.Element {
   const claseInput =
     "min-h-11 w-full rounded-lg border border-borahae-primary/25 bg-white px-4 py-3 text-base text-borahae-text placeholder:text-borahae-text/40 focus:border-borahae-primary focus:outline-2 focus:outline-offset-1 focus:outline-borahae-primary aria-invalid:border-borahae-primary-hover";
   const claseLabel =
-    "block text-sm font-medium text-borahae-text after:content-['*'] after:ml-1 after:text-borahae-primary";
+    "mb-2.5 block text-sm font-medium text-borahae-text after:content-['*'] after:ml-1 after:text-borahae-primary";
   const claseError = "mt-1 text-sm text-borahae-primary-hover";
 
   const nombreErr = issueDe("name");
