@@ -52,6 +52,30 @@
     "comingSoonText": "Muy pronto compartiremos aquí la información completa del programa. Si quieres saber más, escríbenos.",
     "backToPrograms": "Volver a Programas"
   },
+  "gallery": {
+    "eyebrow": "Momentos",
+    "title": "Galería",
+    "intro": "Fragmentos de nuestros programas, eventos e intercambios culturales.",
+    "disabledTitle": "Sección disponible próximamente",
+    "disabledText": "Estamos preparando la galería con fotografías autorizadas. Vuelve pronto.",
+    "emptyTitle": "Fotos en camino",
+    "emptyText": "Muy pronto compartiremos imágenes de nuestros eventos, programas y viajes — siempre con la autorización de cada persona que aparece en ellas.",
+    "ctaEvents": "Ver eventos próximos",
+    "noCaptionFallback": "BORAHAE"
+  },
+  "sponsor": {
+    "eyebrow": "Alianzas",
+    "title": "Patrocinio",
+    "intro": "Conectamos organizaciones y marcas con el público que ama la cultura coreana en Colombia.",
+    "disabledTitle": "Sección disponible próximamente",
+    "disabledText": "Estamos preparando nuestra propuesta para aliados y patrocinadores. Si te interesa colaborar desde ya, escríbenos.",
+    "emptyTitle": "Aliados y patrocinadores",
+    "emptyText": "Muy pronto publicaremos aquí a las organizaciones que hacen posible BORAHAE.",
+    "ctaTitle": "¿Quieres apoyar a BORAHAE?",
+    "ctaText": "Cuéntanos cómo te gustaría colaborar: patrocinio de eventos, becas, talleres o alianzas de contenido.",
+    "ctaButton": "Ser patrocinador o aliado",
+    "visitWebsite": "Sitio web"
+  },
   "donations": {
     "eyebrow": "Apóyanos",
     "title": "Donaciones",
