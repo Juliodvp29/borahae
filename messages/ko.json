@@ -53,6 +53,20 @@
     "comingSoonText": "프로그램의 상세 내용을 곧 안내해 드릴 예정입니다. 궁금한 점은 언제든 문의해 주세요.",
     "backToPrograms": "프로그램으로 돌아가기"
   },
+  "donations": {
+    "eyebrow": "후원하기",
+    "title": "기부",
+    "intro": "BORAHAE는 비영리 단체입니다. 후원금은 콜롬비아와 대한민국의 문화 교류를 지원합니다.",
+    "purposeLabel": "후원금의 사용처",
+    "paypalTitle": "PayPal 기부",
+    "paypalText": "전 세계 어디서나 빠르고 안전하게 후원할 수 있는 방법입니다.",
+    "donateButton": "PayPal로 기부하기",
+    "transferTitle": "무통장 이체 또는 Bre-B",
+    "soonTitle": "기부 수단 준비 중",
+    "soonText": "기부 방법을 준비하고 있습니다. 그동안 후원 방법을 알고 싶으시면 문의해 주세요.",
+    "contactCta": "문의 양식으로 작성하기",
+    "gratitude": "모든 후원은 무료 프로그램과 행사를 가능하게 합니다. 감사합니다!"
+  },
   "contact": {
     "eyebrow": "연락처",
     "title": "메시지를 보내 주세요",

@@ -52,6 +52,20 @@
     "comingSoonText": "Muy pronto compartiremos aquí la información completa del programa. Si quieres saber más, escríbenos.",
     "backToPrograms": "Volver a Programas"
   },
+  "donations": {
+    "eyebrow": "Apóyanos",
+    "title": "Donaciones",
+    "intro": "BORAHAE es una entidad sin ánimo de lucro: los aportes impulsan el intercambio cultural entre Colombia y Corea del Sur.",
+    "purposeLabel": "¿A qué se destinan las donaciones?",
+    "paypalTitle": "Donación por PayPal",
+    "paypalText": "Forma rápida y segura de apoyar desde cualquier parte del mundo.",
+    "donateButton": "Donar con PayPal",
+    "transferTitle": "Transferencia o Bre-B",
+    "soonTitle": "Medios de donación en preparación",
+    "soonText": "Estamos configurando nuestras opciones de donación. Mientras tanto, escríbenos para conocer cómo apoyar.",
+    "contactCta": "Escribirnos por el formulario de contacto",
+    "gratitude": "Cada aporte hace posible nuestros programas y eventos gratuitos. ¡Gracias por tu apoyo!"
+  },
   "contact": {
     "eyebrow": "Contacto",
     "title": "Escríbenos",
