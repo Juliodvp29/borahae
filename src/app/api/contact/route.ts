@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { contactSchema, contactIssues } from "@/lib/contact-schema";
 import { getPolicyVersion } from "@/lib/legal";
-import { contactRateLimit } from "@/lib/rate-limit";
+import { submissionRateLimit } from "@/lib/rate-limit";
+import { notifyInstitutional } from "@/lib/notify";
 import { getPayloadClient } from "@/lib/payload";
 
 /**
@@ -46,7 +47,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     );
   }
 
-  const limit = await contactRateLimit(parsed.data.email);
+  const limit = await submissionRateLimit("contact-submissions", parsed.data.email);
   if (!limit.allowed) {
     return NextResponse.json(
       { ok: false, error: "rateLimit" as const },
@@ -83,9 +84,26 @@ export async function POST(request: Request): Promise<NextResponse> {
     );
   }
 
-  // Notificación con Resend vía REST (sin dependencia). Falla no bloquea:
+  // Notificación con Resend (sin dependencia). Falla no bloquea:
   // el registro ya está en la BD y solo se registra el error (sin PII).
-  const envio = await notificar(data, docId, policyVersion);
+  const envio = await notifyInstitutional({
+    subject: `[BORAHAE] ${data.topic}: ${data.name} (#${docId})`,
+    replyTo: data.email,
+    text: [
+      `Nuevo contacto desde el sitio web (#${docId})`,
+      ``,
+      `Nombre: ${data.name}`,
+      `Rango de edad: ${data.ageRange}`,
+      `Correo: ${data.email}`,
+      `Teléfono: ${data.phone}`,
+      `Motivo: ${data.topic}`,
+      ``,
+      `Mensaje:`,
+      data.message,
+      ``,
+      `Consentimiento de política de datos aceptado (versión ${policyVersion}).`,
+    ].join("\n"),
+  });
   if (!envio) {
     payload.logger.error(
       { msg: `contact/${docId}: guardado; notificación Resend falló o no configurada` },
@@ -93,52 +111,4 @@ export async function POST(request: Request): Promise<NextResponse> {
   }
 
   return NextResponse.json({ ok: true }, { status: 201 });
-}
-
-async function notificar(
-  data: { name: string; email: string; phone: string; ageRange: string; topic: string; message: string },
-  docId: number,
-  policyVersion: string,
-): Promise<boolean> {
-  const apiKey = process.env.RESEND_API_KEY;
-  const payload = await getPayloadClient();
-  const settings = await payload
-    .findGlobal({ slug: 'site-settings' })
-    .catch(() => null);
-  const destino = settings?.contactEmail;
-  // Sin dominio verificado ni correo del cliente todavía: guardamos igual.
-  if (!apiKey || !destino) return false;
-
-  try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: "BORAHAE Web <onboarding@resend.dev>", // sin dominio propio aún
-        to: [destino],
-        reply_to: data.email,
-        subject: `[BORAHAE] ${data.topic}: ${data.name} (#${docId})`,
-        text: [
-          `Nuevo contacto desde el sitio web (#${docId})`,
-          ``,
-          `Nombre: ${data.name}`,
-          `Rango de edad: ${data.ageRange}`,
-          `Correo: ${data.email}`,
-          `Teléfono: ${data.phone}`,
-          `Motivo: ${data.topic}`,
-          ``,
-          `Mensaje:`,
-          data.message,
-          ``,
-          `Consentimiento de política de datos aceptado (versión ${policyVersion}).`,
-        ].join("\n"),
-      }),
-    });
-    return res.ok;
-  } catch {
-    return false;
-  }
 }

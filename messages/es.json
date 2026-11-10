@@ -109,6 +109,41 @@
     "contactCta": "Escribirnos por el formulario de contacto",
     "gratitude": "Cada aporte hace posible nuestros programas y eventos gratuitos. ¡Gracias por tu apoyo!"
   },
+  "eventReg": {
+    "nameLabel": "Nombre completo",
+    "emailLabel": "Correo electrónico",
+    "phoneLabel": "Número de contacto (opcional)",
+    "cityLabel": "Ciudad (opcional)",
+    "modalityLabel": "Modalidad de asistencia",
+    "modalityPlaceholder": "Selecciona la modalidad",
+    "modalityPresencial": "Presencial",
+    "modalityVirtual": "Virtual",
+    "dobLabel": "Fecha de nacimiento",
+    "dobNote": "La usamos solo para confirmar que eres mayor de 18 años; no la guardamos.",
+    "adultDeclaration": "Declaro que tengo 18 años o más.",
+    "consentText": "He leído y acepto la <link>política de tratamiento de datos personales</link>.",
+    "honeypot": "No llenes este campo",
+    "submit": "Enviar inscripción",
+    "submitting": "Enviando…",
+    "successTitle": "¡Inscripción recibida!",
+    "successText": "Gracias por inscribirte. Te confirmaremos a tu correo; si no ves el mensaje, revisa tu carpeta de spam.",
+    "minorText": "Este evento es exclusivo para personas de 18 años o más; no pudimos validar tu edad con la fecha indicada.",
+    "duplicateText": "Ya registraste una inscripción para este evento con este correo. No necesitas hacerlo de nuevo.",
+    "fullText": "Lo sentimos: el cupo de este evento ya está lleno. No manejamos lista de espera.",
+    "rateLimitText": "Ya registramos varias inscripciones con este correo. Por favor, espera e inténtalo más tarde.",
+    "errorText": "Hubo un problema al enviar la inscripción. Inténtalo de nuevo; tus datos solo se guardan cuando confirmamos la recepción.",
+    "errors": {
+      "summary": "Revisa los campos marcados.",
+      "required": "Este campo es obligatorio.",
+      "invalidEmail": "Escribe un correo electrónico válido.",
+      "tooShort": "Debe escribir un poco más.",
+      "tooLong": "El texto es demasiado largo.",
+      "invalidValue": "El valor no es válido.",
+      "invalidDate": "Escribe una fecha de nacimiento válida.",
+      "consent": "Para inscribirte, acepta la política de tratamiento de datos.",
+      "adult": "Debes declarar que tienes 18 años o más: este evento es exclusivo para personas adultas."
+    }
+  },
   "contact": {
     "eyebrow": "Contacto",
     "title": "Escríbenos",
@@ -157,7 +192,8 @@
       "required": "Este campo es obligatorio.",
       "invalidEmail": "Escribe un correo electrónico válido.",
       "tooShort": "Debe escribir un poco más.",
-      "tooLong": "El texto es demasiado largo."
+      "tooLong": "El texto es demasiado largo.",
+      "consent": "Para enviar el mensaje, acepta la política de tratamiento de datos."
     }
   },
   "events": {
@@ -174,8 +210,8 @@
     "capacityLabel": "Cupo limitado",
     "capacityValue": "{count} personas",
     "registrationTitle": "Inscripción",
-    "registrationNote": "La inscripción es gratuita y estará disponible próximamente.",
     "adultNote": "Evento exclusivo para personas de 18 años en adelante.",
+    "fullNotice": "Lo sentimos: el cupo de este evento ya está lleno. No manejamos lista de espera.",
     "backToEvents": "Volver a Eventos"
   },
   "tours": {

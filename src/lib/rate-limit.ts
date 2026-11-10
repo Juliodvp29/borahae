@@ -13,14 +13,19 @@ export type RateLimitResult =
  * Rate limit sobre la propia BD de submissions (sin Redis ni IP).
  * Cuenta emails 24 h y total global 1 h; pequeño TOCTOU aceptable
  * (el doble envío simultáneo exacto es marginal y el cap global absorbe).
+ * Se aplica por colección para que contacto e inscripción a eventos
+ * compartan la regla sin bloquearse entre sí.
  */
-export async function contactRateLimit(email: string): Promise<RateLimitResult> {
+export async function submissionRateLimit(
+  collection: "contact-submissions" | "event-registrations",
+  email: string,
+): Promise<RateLimitResult> {
   const payload = await getPayloadClient();
   const now = new Date();
 
   const [porCorreo, global] = await Promise.all([
     payload.count({
-      collection: 'contact-submissions',
+      collection,
       where: {
         and: [
           { email: { equals: email } },
@@ -29,16 +34,16 @@ export async function contactRateLimit(email: string): Promise<RateLimitResult> 
       },
     }),
     payload.count({
-      collection: 'contact-submissions',
+      collection,
       where: { createdAt: { greater_than: new Date(now.getTime() - GLOBAL_WINDOW_MS) } },
     }),
   ]);
 
   if (porCorreo.totalDocs >= PER_EMAIL_MAX) {
-    return { allowed: false, reason: 'perEmail' };
+    return { allowed: false, reason: "perEmail" };
   }
   if (global.totalDocs >= GLOBAL_MAX) {
-    return { allowed: false, reason: 'global' };
+    return { allowed: false, reason: "global" };
   }
   return { allowed: true };
 }

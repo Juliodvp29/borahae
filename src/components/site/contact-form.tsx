@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { contactSchema } from "@/lib/contact-schema";
 
 /**
@@ -29,7 +29,9 @@ export function ContactForm(): React.JSX.Element {
   const issueDe = (field: string): string | null => {
     const found = issues.find((item) => item.field === field);
     if (!found) return null;
-    if (found.code === "required") return t("errors.required");
+    if (found.code === "required") {
+      return field === "consent" ? t("errors.consent") : t("errors.required");
+    }
     if (found.code === "invalidEmail") return t("errors.invalidEmail");
     if (found.code === "tooShort") return t("errors.tooShort");
     if (found.code === "tooLong") return t("errors.tooLong");
@@ -42,7 +44,14 @@ export function ContactForm(): React.JSX.Element {
     const raw = Object.fromEntries(new FormData(form).entries());
     const parsed = contactSchema.safeParse(raw);
     if (!parsed.success) {
-      setIssues(contactIssuesLocal(parsed.error));
+      const encontrados = contactIssuesLocal(parsed.error);
+      // Consentimiento sin marcar: el mapper lo filtra, pero el envío
+      // silencioso no es aceptable — mostramos el mensaje y foco en la casilla.
+      if (raw.consent !== "true") {
+        encontrados.push({ field: "consent", code: "required" });
+      }
+      setIssues(encontrados);
+      enfocarPrimerInvalido(encontrados);
       setEstado({ fase: "listo" });
       return;
     }
@@ -111,6 +120,7 @@ export function ContactForm(): React.JSX.Element {
   const phoneErr = issueDe("phone");
   const topicErr = issueDe("topic");
   const messageErr = issueDe("message");
+  const consentErr = issueDe("consent");
 
   return (
     <form
@@ -120,10 +130,10 @@ export function ContactForm(): React.JSX.Element {
     >
       <div aria-live="polite" className="sr-only">
         {estado.fase === "error"
-          ? estado.fase === "error" && estado.error === "rateLimit"
+          ? estado.error === "rateLimit"
             ? t("rateLimitText")
             : t("errorText")
-          : messageErr || emailErr
+          : messageErr || emailErr || consentErr
             ? t("errors.summary")
             : ""}
       </div>
@@ -298,7 +308,9 @@ export function ContactForm(): React.JSX.Element {
           type="checkbox"
           required
           value="true"
-          className="size-5 rounded border-borahae-primary/40 text-borahae-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-borahae-primary"
+          aria-describedby={consentErr ? "err-consentimiento" : undefined}
+          aria-invalid={Boolean(consentErr) || undefined}
+          className={`size-5 rounded border-borahae-primary/40 text-borahae-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-borahae-primary ${consentErr ? "outline-2 outline-offset-2 outline-borahae-primary-hover" : ""}`}
         />
         <label
           htmlFor="consentimiento"
@@ -315,6 +327,11 @@ export function ContactForm(): React.JSX.Element {
             ),
           })}
         </label>
+        {consentErr && (
+          <p id="err-consentimiento" className={`${claseError} mt-2`}>
+            {consentErr}
+          </p>
+        )}
       </div>
 
       {estado.fase === "error" && (
@@ -351,4 +368,26 @@ function contactIssuesLocal(error: { issues: Array<{ path: Array<unknown>; code:
     return { field, code };
   });
   return mapped.filter(({ field }) => field !== "consent");
+}
+
+/** Id del elemento por campo (coincide con los `htmlFor`/`id` del form). */
+const campoAId: Record<string, string> = {
+  name: "nombre",
+  ageRange: "rango-edad",
+  email: "correo",
+  phone: "telefono",
+  topic: "motivo",
+  message: "mensaje",
+  consent: "consentimiento",
+};
+
+/** Mueve el foco al primer campo con error: sin esto, teclado/SR lo buscan a ciegas. */
+function enfocarPrimerInvalido(issues: Issue[]): void {
+  for (const { field } of issues) {
+    const el = document.getElementById(campoAId[field] ?? field);
+    if (el) {
+      el.focus();
+      return;
+    }
+  }
 }

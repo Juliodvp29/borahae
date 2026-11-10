@@ -52,6 +52,26 @@ export const EventRegistrations: CollectionConfig = {
       label: 'Teléfono (opcional)',
     },
     {
+      name: 'city',
+      type: 'text',
+      label: 'Ciudad (opcional)',
+      maxLength: 80,
+    },
+    {
+      name: 'modality',
+      type: 'radio',
+      label: 'Modalidad de asistencia',
+      required: true,
+      options: [
+        { label: 'Presencial', value: 'presencial' },
+        { label: 'Virtual', value: 'virtual' },
+      ],
+      admin: {
+        description:
+          'La fija el endpoint: la del evento, o la que elige el visitante en eventos híbridos.',
+      },
+    },
+    {
       name: 'adultEligibilityConfirmedAt',
       type: 'date',
       label: 'Declaración de mayoría de edad',
