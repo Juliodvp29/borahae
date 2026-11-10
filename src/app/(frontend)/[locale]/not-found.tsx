@@ -3,9 +3,10 @@ import { Link } from "@/i18n/navigation";
 
 /**
  * 404 del sitio público. Se renderiza dentro de `[locale]/layout.tsx`,
- * que ya ejecuta `setRequestLocale`, así que las traducciones funcionan
- * de forma estática. Una URL sin idioma válido (/xx) no llega aquí sin
- * pasar por el proxy: next-intl redirige a /es/xx y cae en este boundary.
+ * donde el locale ya está disponible vía `next/root-params`, así que las
+ * traducciones funcionan de forma estática. Una URL sin idioma válido
+ * (/xx) no llega aquí sin pasar por el proxy: next-intl redirige a /es/xx
+ * y cae en este boundary.
  */
 export default async function NotFound() {
   const t = await getTranslations("notFound");

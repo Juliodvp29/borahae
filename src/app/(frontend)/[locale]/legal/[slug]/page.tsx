@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { toRichTextData } from "@/lib/richtext";
 import { getPayloadClient } from "@/lib/payload";
@@ -49,7 +49,6 @@ export default async function LegalDocPage({
   params,
 }: PageProps<"/[locale]/legal/[slug]">) {
   const { locale, slug } = await params;
-  setRequestLocale(locale);
 
   if (!isLegalDocumentSlug(slug)) notFound();
 
@@ -140,7 +139,6 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/legal/[slug]">): Promise<Metadata> {
   const { locale, slug } = await params;
-  setRequestLocale(locale);
   let titulo: string | undefined;
   if (slug && isLegalDocumentSlug(slug)) {
     const payload = await getPayloadClient();

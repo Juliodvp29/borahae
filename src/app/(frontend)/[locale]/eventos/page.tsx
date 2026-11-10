@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { getPayloadClient } from "@/lib/payload";
 import { buildMetadata } from "@/lib/metadata";
 import { cleanText } from "@/lib/markers";
@@ -17,7 +17,6 @@ export default async function EventosPage({
   params,
 }: PageProps<"/[locale]/eventos">) {
   const { locale } = await params;
-  setRequestLocale(locale);
 
   const [t, payload] = await Promise.all([
     getTranslations("events"),
@@ -95,7 +94,6 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/eventos">): Promise<Metadata> {
   const { locale } = await params;
-  setRequestLocale(locale);
   return buildMetadata({
     locale: locale as "es" | "ko",
     path: "/eventos",

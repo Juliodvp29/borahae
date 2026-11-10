@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { toRichTextData } from "@/lib/richtext";
@@ -25,7 +25,6 @@ export default async function HomePage({
   params,
 }: PageProps<"/[locale]">) {
   const { locale } = await params;
-  setRequestLocale(locale);
 
   const [t, payload, settings] = await Promise.all([
     getTranslations("home"),
@@ -184,7 +183,6 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
-  setRequestLocale(locale);
   const [t, payload] = await Promise.all([
     getTranslations("home"),
     getPayloadClient(),
