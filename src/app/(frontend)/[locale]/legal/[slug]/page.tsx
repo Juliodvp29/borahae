@@ -1,77 +1,68 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { RichText } from "@payloadcms/richtext-lexical/react";
-import { toRichTextData } from "@/lib/richtext";
 import { getPayloadClient } from "@/lib/payload";
 import { buildMetadata } from "@/lib/metadata";
 import { cleanText } from "@/lib/markers";
-import {
-  isLegalDocumentSlug,
-  type LegalDocumentSlug,
-} from "@/lib/legal";
-import type { LegalDoc } from "@/payload-types";
+import { LEGAL_DOCUMENT_SLUGS, type LegalDocumentSlug } from "@/lib/legal";
+import type { SiteSetting } from "@/payload-types";
 
 /**
- * Detalle de documento legal (Batch J): whitelist estricta a los 3 slugs
- * fijos (AGENTS §4) — URL fuera de la lista → 404. Un slug de la lista
- * sin documento publicado NO es 404: estado "en preparación" (el texto
- * lo aprueba el cliente; nada inventado aquí). Los marcadores del CMS
- * nunca llegan al público: RichText se renderiza solo si está limpio.
+ * Hub legal (spec §6.10): identidad de la ESAL (site-settings) + índice de
+ * los 3 documentos legales. Cada documento se publica solo cuando su
+ * texto esté aprobado por el cliente (AGENTS §5.1/§10) — pendiente →
+ * "Disponible próximamente", sin enlace y sin marcadores al público.
+ *
+ * NOTA: el título/intro de este hub son textos de interfaz (next-intl):
+ * el seed de la doc `pages/legal` trae contenido ficticio demarcado cuyo
+ * interior podría filtrarse aunque se limpien los marcadores — la doc CMS
+ * de páginas queda sin uso público (decisión 2026-11-10).
  */
 export const revalidate = 300;
 
-const MARCADORES = /\[(?:PENDIENTE-CLIENTE|CONTENIDO-FICTICIO-DEMO)\]/;
+/** Nombre público de cada documento cuando el CMS aún no lo tiene. */
+const docLabels = {
+  "politica-de-tratamiento-de-datos": "docPolitica",
+  "terminos-y-condiciones": "docTerminos",
+  "condiciones-de-viaje": "docViaje",
+} as const satisfies Record<LegalDocumentSlug, string>;
 
-/** El RichText puede traer marcadores incrustados: se detecta en su forma serializada. */
-function tieneMarcadores(content: unknown): boolean {
-  if (!content) return false;
-  try {
-    return MARCADORES.test(JSON.stringify(content));
-  } catch {
-    return true;
-  }
-}
-
-function formatearFecha(buscar: string | null | undefined, locale: string): string {
-  if (!buscar) return "";
-  const fecha = new Date(buscar);
-  if (Number.isNaN(fecha.getTime())) return "";
-  return new Intl.DateTimeFormat(locale === "ko" ? "ko-KR" : "es-CO", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(fecha);
-}
-
-export default async function LegalDocPage({
+export default async function LegalPage({
   params,
-}: PageProps<"/[locale]/legal/[slug]">) {
-  const { locale, slug } = await params;
-
-  if (!isLegalDocumentSlug(slug)) notFound();
+}: PageProps<"/[locale]/legal">) {
+  const { locale } = await params;
 
   const [t, payload] = await Promise.all([
     getTranslations("legal"),
     getPayloadClient(),
   ]);
+
+  const settings = (await payload.findGlobal({
+    slug: "site-settings",
+  })) as SiteSetting | null;
+
+  // Documentos publicados de la colección legal-docs, por slug.
   const res = await payload.find({
     collection: "legal-docs",
-    where: { slug: { equals: slug } },
+    where: { _status: { equals: "published" } },
     locale: locale as "es" | "ko",
     fallbackLocale: "es",
-    limit: 1,
+    limit: 10,
     depth: 0,
   });
-  const doc = res.docs[0] as LegalDoc | undefined;
-  const titulo = cleanText(doc?.title) || t("pendingTitle");
-  const numero = new Map<LegalDocumentSlug, string>([
-    ["politica-de-tratamiento-de-datos", "docPolitica"],
-    ["terminos-y-condiciones", "docTerminos"],
-    ["condiciones-de-viaje", "docViaje"],
-  ]).get(slug) as string;
-  const cuerpo = tieneMarcadores(doc?.body) ? null : doc?.body;
+  const publicados = new Map(
+    (res.docs as Array<{ slug: string; title: string }>).map((d) => [
+      d.slug as LegalDocumentSlug,
+      d,
+    ]),
+  );
+
+  const identidad: Array<[string, string]> = [
+    [t("legalNameLabel"), cleanText(settings?.legalName)],
+    [t("nitLabel"), cleanText(settings?.nit)],
+    [t("cityLabel"), cleanText(settings?.city)],
+  ];
+  const tieneIdentidad = identidad.some(([, valor]) => valor);
 
   return (
     <main className="flex-1">
@@ -80,56 +71,65 @@ export default async function LegalDocPage({
           {t("eyebrow")}
         </p>
         <h1 className="font-display mt-4 text-3xl text-borahae-text leading-snug md:text-5xl md:leading-tight">
-          {titulo}
+          {t("title")}
         </h1>
+        <p className="mt-6 max-w-3xl text-lg leading-relaxed text-borahae-text/85">
+          {t("intro")}
+        </p>
 
-        {doc && (cleanText(doc.version) || formatearFecha(doc.effectiveDate, locale)) ? (
-          <p className="mt-6 text-sm text-borahae-text/70">
-            {cleanText(doc.version) && (
-              <>
-                {t("versionLabel")}: {cleanText(doc.version)}
-              </>
-            )}
-            {cleanText(doc.version) &&
-              formatearFecha(doc.effectiveDate, locale) &&
-              " · "}
-            {formatearFecha(doc.effectiveDate, locale) && (
-              <>
-                {t("effectiveDateLabel")}:{" "}
-                {formatearFecha(doc.effectiveDate, locale)}
-              </>
-            )}
-          </p>
-        ) : null}
-
-        {!doc || !cuerpo ? (
-          // Sin documento publicado (o contenido aún con marcadores):
-          // estado honesto, sin enlaces ni textos inventados.
+        {tieneIdentidad && (
           <div className="mt-12 max-w-2xl rounded-xl border border-borahae-primary/15 bg-white p-6 md:p-8">
             <h2 className="font-display text-xl text-borahae-text">
-              {t("pendingTitle")}
+              {t("identityTitle")}
             </h2>
-            <p className="mt-3 leading-relaxed text-borahae-text/90">
-              {t("pendingText")}
-            </p>
-            <p className="mt-4 text-sm text-borahae-text/70">
-              {t(numero)}
-            </p>
-          </div>
-        ) : (
-          <div className="mt-12 max-w-[72ch] text-base leading-relaxed text-borahae-text/90 [&_h2]:font-display [&_h2]:mt-10 [&_h2]:mb-3 [&_h2]:text-2xl [&_h2]:text-borahae-text [&_h3]:font-display [&_h3]:mt-6 [&_h3]:mb-2 [&_li]:my-2 [&_ol]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-4 [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6">
-            <RichText data={toRichTextData(cuerpo)} />
+            <dl className="mt-4 space-y-3">
+              {identidad.map(([etiqueta, valor]) => (
+                <div key={etiqueta} className="flex justify-between gap-6">
+                  <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/60">
+                    {etiqueta}
+                  </dt>
+                  <dd className="text-right text-borahae-text">
+                    {valor || "—"}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
         )}
 
-        <p className="mt-12">
-          <Link
-            href="/legal"
-            className="text-borahae-primary underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-borahae-text"
-          >
-            {t("backToLegal")}
-          </Link>
-        </p>
+        <div className="mt-8 max-w-2xl">
+          <h2 className="font-display text-xl text-borahae-text">
+            {t("docsTitle")}
+          </h2>
+          <ul className="mt-4 divide-y divide-borahae-primary/10 rounded-xl border border-borahae-primary/15 bg-white">
+            {LEGAL_DOCUMENT_SLUGS.map((slug) => {
+              const doc = publicados.get(slug);
+              const nombre = cleanText(doc?.title) || t(docLabels[slug]);
+              return (
+                <li
+                  key={slug}
+                  className="flex items-center justify-between gap-4 px-6 py-4"
+                >
+                  {doc ? (
+                    <Link
+                      href={`/legal/${slug}`}
+                      className="text-borahae-primary underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-borahae-text"
+                    >
+                      {nombre}
+                    </Link>
+                  ) : (
+                    <>
+                      <span className="text-borahae-text/80">{nombre}</span>
+                      <span className="shrink-0 rounded-full bg-borahae-surface px-3 py-1 text-xs font-medium text-borahae-text/70">
+                        {t("docPending")}
+                      </span>
+                    </>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </section>
     </main>
   );
@@ -137,25 +137,10 @@ export default async function LegalDocPage({
 
 export async function generateMetadata({
   params,
-}: PageProps<"/[locale]/legal/[slug]">): Promise<Metadata> {
-  const { locale, slug } = await params;
-  let titulo: string | undefined;
-  if (slug && isLegalDocumentSlug(slug)) {
-    const payload = await getPayloadClient();
-    const res = await payload.find({
-      collection: "legal-docs",
-      where: { slug: { equals: slug } },
-      locale: locale as "es" | "ko",
-      fallbackLocale: "es",
-      limit: 1,
-      depth: 0,
-    });
-    const doc = res.docs[0] as LegalDoc | undefined;
-    titulo = cleanText(doc?.title) || undefined;
-  }
+}: PageProps<"/[locale]/legal">): Promise<Metadata> {
+  const { locale } = await params;
   return buildMetadata({
     locale: locale as "es" | "ko",
-    path: `/legal/${slug ?? ""}`,
-    title: titulo,
+    path: "/legal",
   });
 }
