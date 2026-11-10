@@ -463,6 +463,11 @@ export interface EventRegistration {
   name: string;
   email: string;
   phone?: string | null;
+  city?: string | null;
+  /**
+   * La fija el endpoint: la del evento, o la que elige el visitante en eventos híbridos.
+   */
+  modality: 'presencial' | 'virtual';
   /**
    * Fecha/hora del envío del formulario con la declaración 18+.
    */
@@ -882,6 +887,8 @@ export interface EventRegistrationsSelect<T extends boolean = true> {
   name?: T;
   email?: T;
   phone?: T;
+  city?: T;
+  modality?: T;
   adultEligibilityConfirmedAt?: T;
   policyVersion?: T;
   acceptedAt?: T;

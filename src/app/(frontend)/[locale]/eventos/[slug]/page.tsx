@@ -8,13 +8,14 @@ import { toRichTextData } from "@/lib/richtext";
 import { getPayloadClient } from "@/lib/payload";
 import { buildMetadata } from "@/lib/metadata";
 import { cleanText } from "@/lib/markers";
+import { EventRegistrationForm } from "@/components/site/event-registration-form";
 import type { Event } from "@/payload-types";
 
 /**
  * Detalle de evento (AGENTS §5.3): modalidad, lugar, fechas y descripción
- * desde `events`. La inscripción (18+, cupo) llega en Fase 5: aquí solo un
- * bloque informativo — el checkbox de mayoría de edad es declarativo en el
- * formulario y se valida en servidor, nunca aquí. Doc inexistente → 404.
+ * desde `events`, con formulario de inscripción (18+, cupo). La edad se
+ * valida en el endpoint; aquí solo se pre-verifica el cupo para mostrar
+ * "agotado" sin formulario. Doc inexistente → 404.
  */
 export const revalidate = 300;
 
@@ -64,6 +65,16 @@ export default async function EventoPage({
   const lugar = cleanText(doc.location);
   const cover =
     doc.cover && typeof doc.cover !== "number" && doc.cover.url ? doc.cover : null;
+
+  // Pre-verificación del cupo (ISR 300 s): si está lleno, mostramos "agotado"
+  // sin formulario; el endpoint vuelve a verificarlo en transacción.
+  const cupoLleno =
+    doc.capacityEnabled &&
+    typeof doc.capacity === "number" &&
+    (await payload.count({
+      collection: "event-registrations",
+      where: { event: { equals: doc.id } },
+    })).totalDocs >= doc.capacity;
 
   return (
     <main className="flex-1">
@@ -149,16 +160,29 @@ export default async function EventoPage({
           </div>
         )}
 
-        <aside className="mt-14 max-w-3xl rounded-xl border border-borahae-primary/15 bg-borahae-surface p-6 md:p-8">
+        <aside className="mt-14 max-w-3xl">
           <h2 className="font-display text-xl text-borahae-text">
             {t("registrationTitle")}
           </h2>
-          <p className="mt-3 leading-relaxed text-borahae-text/90">
-            {t("registrationNote")}
-          </p>
           <p className="mt-2 text-sm leading-relaxed text-borahae-text/70">
             {t("adultNote")}
           </p>
+          <div className="mt-5">
+            {cupoLleno ? (
+              <p
+                role="status"
+                className="rounded-xl border border-borahae-primary/15 bg-white p-6 text-base leading-relaxed text-borahae-text"
+              >
+                {t("fullNotice")}
+              </p>
+            ) : (
+              <EventRegistrationForm
+                eventSlug={doc.slug}
+                eventModality={doc.modality}
+                locale={locale as "es" | "ko"}
+              />
+            )}
+          </div>
         </aside>
 
         <p className="mt-12">

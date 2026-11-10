@@ -15,7 +15,7 @@ export const revalidate = 300;
 export default async function ContactoPage({
   params,
 }: PageProps<"/[locale]/contacto">) {
-  const { locale } = await params;
+  await params;
 
   const [t, payload] = await Promise.all([
     getTranslations("contact"),
