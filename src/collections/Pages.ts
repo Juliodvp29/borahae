@@ -65,6 +65,29 @@ export const Pages: CollectionConfig = {
       localized: true,
       label: 'Contenido',
     },
+    // Banner editable (ROADMAP Fase 4, "Inicio"): el editor puede cambiar
+    // las imágenes; si no se cargan, el frontend usa las empacadas
+    // (public/images) con el mismo aspecto 16:9 / 5:4.
+    {
+      name: 'bannerDesktop',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Banner escritorio',
+      admin: {
+        description:
+          'Aspecto 16:9 (ideal 2560x1440). Si queda vacío se usa el archivo incluido en el repo.',
+      },
+    },
+    {
+      name: 'bannerMobile',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Banner móvil',
+      admin: {
+        description:
+          'Aspecto 5:4 (ideal 1350x1080). Si queda vacío se usa el archivo incluido en el repo.',
+      },
+    },
     ...seoFields(),
   ],
 }

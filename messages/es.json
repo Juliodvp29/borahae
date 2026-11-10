@@ -31,7 +31,16 @@
     "title": "Intercambio cultural entre Colombia y Corea del Sur",
     "intro": "Promovemos y difundimos la cultura coreana a través del Hallyu, la gastronomía y la sociedad, en un espacio de aprendizaje y conexión plenamente inclusivo.",
     "ctaPrograms": "Conoce nuestros programas",
-    "ctaContact": "Contáctanos"
+    "ctaContact": "Contáctanos",
+    "bannerAlt": "Logo de BORAHAE — intercambio cultural entre Colombia y Corea del Sur",
+    "highlightsTitle": "Lo que hacemos",
+    "socialTitle": "Redes sociales",
+    "ctaProgramsTitle": "Programas",
+    "ctaProgramsText": "Clases de coreano, becas de estudio y talleres culturales abiertos al público.",
+    "ctaToursTitle": "Viajes",
+    "ctaToursText": "La misión cultural a Seúl: intercambio con inclusión y accesibilidad metodológica.",
+    "ctaEventsTitle": "Eventos",
+    "ctaEventsText": "Encuentros, conversatorios y actividades gratuitas para la comunidad."
   },
   "footer": {
     "tagline": "ESAL de intercambio cultural Colombia · Corea del Sur",

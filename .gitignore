@@ -37,6 +37,9 @@ yarn-error.log*
 # local media uploads (dev only; production uses Vercel Blob)
 /src/media
 
+# one-off OPS scripts y artefactos locales de sesión
+/tmp
+
 # vercel
 .vercel
 

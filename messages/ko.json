@@ -32,7 +32,16 @@
     "title": "콜롬비아와 대한민국을 잇는 문화 교류",
     "intro": "보라헤는 한류, 한식, 한국 사회를 통해 한국 문화를 알리고, 누구나 동등하게 참여하고 배울 수 있는 열린 공간을 만듭니다.",
     "ctaPrograms": "프로그램 보기",
-    "ctaContact": "문의하기"
+    "ctaContact": "문의하기",
+    "bannerAlt": "BORAHAE 로고 — 콜롬비아와 대한민국의 문화 교류",
+    "highlightsTitle": "우리의 활동",
+    "socialTitle": "소셜 미디어",
+    "ctaProgramsTitle": "프로그램",
+    "ctaProgramsText": "한국어 교실, 장학금, 공개 문화 워크숍.",
+    "ctaToursTitle": "여행",
+    "ctaToursText": "서울 문화 대사 미션: 포용성과 접근성을 담은 교류.",
+    "ctaEventsTitle": "이벤트",
+    "ctaEventsText": "회원 커뮤니티를 위한 무료 교류, 강연 및 문화 행사."
   },
   "footer": {
     "tagline": "콜롬비아 · 대한민국 문화 교류 비영리단체",

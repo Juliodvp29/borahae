@@ -27,9 +27,14 @@ type DocLike = {
 }
 
 async function revalidate(direct: string[]): Promise<void> {
-  // Sandbox del CLI: si no existe el contexto Next, se ignora silenciosamente
-  // (log de error ya no aplica; revalidatePath no es necesario allí).
-  const { revalidatePath } = await import('next/cache')
+  // Sandbox del CLI (seed/migraciones): `next/cache` no existe fuera de Next;
+  // el import falla y se ignora silenciosamente (revalidatePath no aplica allí).
+  let revalidatePath: typeof import('next/cache').revalidatePath
+  try {
+    ;({ revalidatePath } = await import('next/cache'))
+  } catch {
+    return
+  }
   for (const path of direct) revalidatePath(path)
 }
 
