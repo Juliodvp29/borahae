@@ -25,7 +25,12 @@ export function buildMetadata(config: {
   title?: string | null;
   description?: string | null;
 }): Metadata {
-  const pathWithLocale = `/${config.locale}${config.path}`;
+  // Normaliza el path: el home llega como "/" y produciría "/es/" — un
+  // canonical con barra final no coincide con la URL del documento (/es,
+  // trailingSlash: false) y Lighthouse/Google lo marcan como conflicto con
+  // el hreflang (hallazgo del re-test en producción, nov 2026).
+  const ruta = config.path === "/" ? "" : config.path.replace(/\/+$/, "");
+  const pathWithLocale = `/${config.locale}${ruta}`;
   const title = config.title || undefined;
   const description = config.description || undefined;
   return {
@@ -36,9 +41,9 @@ export function buildMetadata(config: {
     alternates: {
       canonical: pathWithLocale,
       languages: {
-        es: `/es${config.path}`,
-        ko: `/ko${config.path}`,
-        "x-default": `/es${config.path}`,
+        es: `/es${ruta}`,
+        ko: `/ko${ruta}`,
+        "x-default": `/es${ruta}`,
       },
     },
     openGraph: {
