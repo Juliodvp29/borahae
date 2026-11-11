@@ -48,7 +48,7 @@ export default async function ContactoPage({
                 <>
                   {correo && (
                     <div>
-                      <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/60">
+                      <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/70">
                         {t("emailSettingLabel")}
                       </dt>
                       <dd className="mt-1">
@@ -63,7 +63,7 @@ export default async function ContactoPage({
                   )}
                   {ciudad && (
                     <div>
-                      <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/60">
+                      <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/70">
                         {t("cityLabel")}
                       </dt>
                       <dd className="mt-1 text-borahae-text">{ciudad}</dd>
@@ -98,8 +98,11 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/contacto">): Promise<Metadata> {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
   return buildMetadata({
     locale: locale as "es" | "ko",
     path: "/contacto",
+    title: t("pageTitles.contacto"),
+    description: t("pageDescriptions.contacto"),
   });
 }

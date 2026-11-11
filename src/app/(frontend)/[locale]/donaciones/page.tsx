@@ -122,8 +122,11 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/donaciones">): Promise<Metadata> {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
   return buildMetadata({
     locale: locale as "es" | "ko",
     path: "/donaciones",
+    title: t("pageTitles.donaciones"),
+    description: t("pageDescriptions.donaciones"),
   });
 }

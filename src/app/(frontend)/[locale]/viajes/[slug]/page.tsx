@@ -92,27 +92,27 @@ export default async function TourPage({
           <dl className="mt-8 grid max-w-2xl grid-cols-1 gap-4 sm:grid-cols-2">
             {cleanText(doc.destination) && (
               <div>
-                <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/60">
+                <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/70">
                   {t("destinationLabel")}
                 </dt>
-                <dd className="mt-1 text-lg text-borahae-text">
+                <dd className="mt-1 text-lg text-pretty text-borahae-text">
                   {cleanText(doc.destination)}
                 </dd>
               </div>
             )}
             {fechas && (
               <div>
-                <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/60">
+                <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/70">
                   {t("datesLabel")}
                 </dt>
-                <dd className="mt-1 text-lg text-borahae-text">{fechas}</dd>
+                <dd className="mt-1 text-lg text-pretty text-borahae-text">{fechas}</dd>
               </div>
             )}
           </dl>
         )}
 
         {cleanText(doc.summary) && (
-          <p className="mt-8 max-w-3xl border-l-4 border-borahae-secondary pl-5 text-lg leading-relaxed text-borahae-text/80 md:pl-6">
+          <p className="mt-8 max-w-[72ch] border-l-4 border-borahae-secondary pl-5 text-lg leading-relaxed text-borahae-text/80 md:pl-6">
             {cleanText(doc.summary)}
           </p>
         )}

@@ -7,20 +7,23 @@ import { useLocale, useTranslations } from "next-intl";
  * Selector de idioma: enlaza a la misma ruta en el otro locale
  * (next-intl mantiene la ruta sin prefijo y aplica el nuevo prefijo).
  * El globito es decorativo (aria-hidden); `hrefLang` declara el idioma
- * del destino a usuarios y motores de búsqueda.
+ * del destino a usuarios y motores de búsqueda. El `aria-label` incluye
+ * el texto visible (WCAG 2.5.3 Label in Name) para usuarios de dictado
+ * por voz y lectores de pantalla.
  */
 export function LanguageSwitcher() {
   const t = useTranslations("language");
   const locale = useLocale();
   const pathname = usePathname();
   const other = locale === "es" ? "ko" : "es";
+  const visible = other === "ko" ? t("ko") : t("es");
 
   return (
     <Link
       href={pathname}
       locale={other}
       hrefLang={other}
-      aria-label={t("label")}
+      aria-label={`${t("label")} — ${visible}`}
       className="flex min-h-11 items-center gap-2 rounded-full border border-borahae-primary px-4 py-2 text-sm font-medium text-borahae-primary hover:bg-borahae-primary/10"
     >
       <svg
@@ -53,7 +56,7 @@ export function LanguageSwitcher() {
           strokeWidth="1.7"
         />
       </svg>
-      {other === "ko" ? t("ko") : t("es")}
+      {visible}
     </Link>
   );
 }
