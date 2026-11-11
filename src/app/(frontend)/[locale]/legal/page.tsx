@@ -85,7 +85,7 @@ export default async function LegalPage({
             <dl className="mt-4 space-y-3">
               {identidad.map(([etiqueta, valor]) => (
                 <div key={etiqueta} className="flex justify-between gap-6">
-                  <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/60">
+                  <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/70">
                     {etiqueta}
                   </dt>
                   <dd className="text-right text-borahae-text">

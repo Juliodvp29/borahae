@@ -48,7 +48,7 @@ export default async function ContactoPage({
                 <>
                   {correo && (
                     <div>
-                      <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/60">
+                      <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/70">
                         {t("emailSettingLabel")}
                       </dt>
                       <dd className="mt-1">
@@ -63,7 +63,7 @@ export default async function ContactoPage({
                   )}
                   {ciudad && (
                     <div>
-                      <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/60">
+                      <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/70">
                         {t("cityLabel")}
                       </dt>
                       <dd className="mt-1 text-borahae-text">{ciudad}</dd>

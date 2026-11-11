@@ -115,18 +115,18 @@ export default async function EventoPage({
           <dl className="mt-8 grid max-w-2xl grid-cols-1 gap-4 sm:grid-cols-2">
             {fechas && (
               <div>
-                <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/60">
+                <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/70">
                   {t("datesLabel")}
                 </dt>
-                <dd className="mt-1 text-lg text-borahae-text">{fechas}</dd>
+                <dd className="mt-1 text-lg text-pretty text-borahae-text">{fechas}</dd>
               </div>
             )}
             {lugar && (
               <div>
-                <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/60">
+                <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/70">
                   {t("locationLabel")}
                 </dt>
-                <dd className="mt-1 text-lg text-borahae-text">
+                <dd className="mt-1 text-lg text-pretty text-borahae-text">
                   {lugar}
                   {doc.locationUrl && /^https?:\/\//i.test(doc.locationUrl) && (
                     <>
@@ -146,10 +146,10 @@ export default async function EventoPage({
             )}
             {doc.capacityEnabled && doc.capacity && (
               <div>
-                <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/60">
+                <dt className="text-sm font-medium uppercase tracking-wide text-borahae-text/70">
                   {t("capacityLabel")}
                 </dt>
-                <dd className="mt-1 text-lg text-borahae-text">
+                <dd className="mt-1 text-lg text-pretty text-borahae-text">
                   {t("capacityValue", { count: doc.capacity })}
                 </dd>
               </div>
@@ -158,7 +158,7 @@ export default async function EventoPage({
         )}
 
         {cleanText(doc.summary) && (
-          <p className="mt-8 max-w-3xl border-l-4 border-borahae-secondary pl-5 text-lg leading-relaxed text-borahae-text/80 md:pl-6">
+          <p className="mt-8 max-w-[72ch] border-l-4 border-borahae-secondary pl-5 text-lg leading-relaxed text-borahae-text/80 md:pl-6">
             {cleanText(doc.summary)}
           </p>
         )}

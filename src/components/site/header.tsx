@@ -58,7 +58,9 @@ export async function Header() {
               alt={logo.alt ?? tRoot("homeAria")}
               width={0}
               height={0}
-              sizes="160px"
+              // Render real ≈104 px de ancho (h-10); el srcset elige la
+              // variante correcta por DPR sin descargar 384 px (Lighthouse).
+              sizes="104px"
               className="h-10 w-auto"
               priority
             />
@@ -68,7 +70,7 @@ export async function Header() {
               alt={tRoot("homeAria")}
               width={480}
               height={186}
-              sizes="(max-width: 1024px) 160px, 208px"
+              sizes="104px"
               className="h-10 w-auto"
               priority
             />
