@@ -1,7 +1,27 @@
 {
   "meta": {
     "title": "BORAHAE — Intercambio cultural Colombia · Corea del Sur",
-    "description": "Curso de coreano, becas, talleres, eventos y viajes organizados por BORAHAE, entidad sin fines de lucro dedicada al intercambio cultural entre Colombia y Corea del Sur."
+    "description": "Curso de coreano, becas, talleres, eventos y viajes organizados por BORAHAE, entidad sin fines de lucro dedicada al intercambio cultural entre Colombia y Corea del Sur.",
+    "pageTitles": {
+      "programas": "Programas de BORAHAE: curso de coreano, becas y talleres",
+      "viajes": "Viajes culturales a Corea — BORAHAE TRIP",
+      "eventos": "Eventos gratuitos de BORAHAE",
+      "galeria": "Galería de BORAHAE",
+      "patrocinio": "Patrocina a BORAHAE",
+      "contacto": "Contacto — BORAHAE",
+      "donaciones": "Donaciones — BORAHAE",
+      "legal": "Información legal — BORAHAE"
+    },
+    "pageDescriptions": {
+      "programas": "Conoce los programas de BORAHAE: curso de coreano, becas de estudio y talleres culturales para la comunidad en Colombia.",
+      "viajes": "Viajes culturales organizados por BORAHAE: próximos destinos, itinerario y condiciones de la experiencia BORAHAE TRIP.",
+      "eventos": "Eventos gratuitos de BORAHAE para mayores de 18 años: inscripciones abiertas, en modalidad presencial y virtual.",
+      "galeria": "Galería de fotos de las actividades, eventos y viajes de BORAHAE.",
+      "patrocinio": "Apoya el intercambio cultural de BORAHAE: opciones de patrocinio y alianzas para empresas y aliados.",
+      "contacto": "Escríbenos a BORAHAE: interés general, voluntariado, alianzas, donaciones o prensa. Respondemos a tu correo.",
+      "donaciones": "Dona a BORAHAE: aportes por PayPal o transferencia bancaria que apoyan nuestros programas y eventos.",
+      "legal": "Documentos legales de BORAHAE: política de tratamiento de datos, términos y condiciones y condiciones de viaje."
+    }
   },
   "header": {
     "homeAria": "BORAHAE — ir a inicio",

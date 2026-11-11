@@ -98,8 +98,11 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/contacto">): Promise<Metadata> {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
   return buildMetadata({
     locale: locale as "es" | "ko",
     path: "/contacto",
+    title: t("pageTitles.contacto"),
+    description: t("pageDescriptions.contacto"),
   });
 }

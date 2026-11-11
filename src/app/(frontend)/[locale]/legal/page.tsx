@@ -139,8 +139,11 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/legal">): Promise<Metadata> {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
   return buildMetadata({
     locale: locale as "es" | "ko",
     path: "/legal",
+    title: t("pageTitles.legal"),
+    description: t("pageDescriptions.legal"),
   });
 }

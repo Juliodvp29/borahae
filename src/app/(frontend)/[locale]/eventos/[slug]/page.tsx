@@ -6,7 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { toRichTextData } from "@/lib/richtext";
 import { getPayloadClient } from "@/lib/payload";
-import { buildMetadata } from "@/lib/metadata";
+import { buildMetadata, jsonLdEvent } from "@/lib/metadata";
 import { cleanText } from "@/lib/markers";
 import { EventRegistrationForm } from "@/components/site/event-registration-form";
 import type { Event } from "@/payload-types";
@@ -78,6 +78,28 @@ export default async function EventoPage({
 
   return (
     <main className="flex-1">
+      {/* Datos estructurados del evento (JSON-LD, AGENTS §5.6): solo datos
+          públicos del CMS; el registro (privado) no aparece aquí. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            jsonLdEvent({
+              locale: locale as "es" | "ko",
+              slug: doc.slug ?? "",
+              title: doc.title ?? "",
+              description: cleanText(doc.summary) || undefined,
+              modality: doc.modality,
+              dateStart: doc.dateStart ?? null,
+              dateEnd: doc.dateEnd ?? null,
+              location: lugar || null,
+              locationUrl: doc.locationUrl ?? null,
+              coverUrl:
+                cover && typeof cover.url === "string" ? cover.url : null,
+            }),
+          ),
+        }}
+      />
       <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <p className="text-sm font-medium uppercase tracking-widest text-borahae-primary">
           {t("eyebrow")}

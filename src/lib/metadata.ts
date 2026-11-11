@@ -11,9 +11,12 @@ export const SITE_URL =
   "https://borahae-kappa.vercel.app";
 
 /**
- * Metadata por página e idioma (AGENTS §5.1):
+ * Metadatos por página e idioma (AGENTS §5.1):
  * - `title`/`description` desde CMS (seoTitle/seoDescription con fallback).
  * - canonical + hreflang es/ko + x-default (es) para cada ruta.
+ * - Open Graph y Twitter card (Fase 6): sin foto del cliente todavía
+ *   ([PENDIENTE-CLIENTE]), el `og:image` es el logo oficial, único asset
+ *   de marca autorizado. Se actualiza cuando haya imagen de portada.
  */
 export function buildMetadata(config: {
   locale: "es" | "ko";
@@ -23,9 +26,13 @@ export function buildMetadata(config: {
   description?: string | null;
 }): Metadata {
   const pathWithLocale = `/${config.locale}${config.path}`;
+  const title = config.title || undefined;
+  const description = config.description || undefined;
   return {
-    title: config.title || undefined,
-    description: config.description || undefined,
+    // Solo se emiten si hay contenido: con `title: undefined` la página
+    // pisaría el título/description del layout (hallazgo Fase 6).
+    ...(title ? { title } : {}),
+    ...(description ? { description } : {}),
     alternates: {
       canonical: pathWithLocale,
       languages: {
@@ -33,6 +40,21 @@ export function buildMetadata(config: {
         ko: `/ko${config.path}`,
         "x-default": `/es${config.path}`,
       },
+    },
+    openGraph: {
+      type: "website",
+      url: pathWithLocale,
+      siteName: "BORAHAE",
+      locale: config.locale === "ko" ? "ko_KR" : "es_CO",
+      // Sin title/description propios, Next hereda los de la metadata.
+      ...(title ? { title } : {}),
+      ...(description ? { description } : {}),
+      images: [{ url: "/images/logo-borahae.webp", alt: "BORAHAE" }],
+    },
+    twitter: {
+      card: "summary",
+      ...(title ? { title } : {}),
+      ...(description ? { description } : {}),
     },
     metadataBase: new URL(SITE_URL),
   };
@@ -57,5 +79,89 @@ export function jsonLdOrganization(
     ...(socialLinks && socialLinks.length > 0
       ? { sameAs: socialLinks.map((s) => s.url) }
       : {}),
+  };
+}
+
+/**
+ * Datos estructurados de un evento (schema.org/Event, AGENTS §5.6). Solo
+ * datos públicos del CMS — nunca datos personales ni de registro. Las
+ * URLs se resuelven sobre `SITE_URL` (canonical) y la modalidad del
+ * evento define el `eventAttendanceMode`.
+ */
+export function jsonLdEvent(config: {
+  locale: "es" | "ko";
+  slug: string;
+  title: string;
+  description?: string | null;
+  modality: "presencial" | "virtual" | "hibrido";
+  dateStart?: string | null;
+  dateEnd?: string | null;
+  location?: string | null;
+  locationUrl?: string | null;
+  coverUrl?: string | null;
+}): Record<string, unknown> {
+  const url = `${SITE_URL}/${config.locale}/eventos/${config.slug}`;
+  const attendanceMode: Record<string, string> = {
+    presencial: "https://schema.org/OfflineEventAttendanceMode",
+    virtual: "https://schema.org/OnlineEventAttendanceMode",
+    hibrido: "https://schema.org/MixedEventAttendanceMode",
+  };
+  // location: solo la URL de schema; en virtual es un VirtualLocation.
+  const esVirtual = config.modality !== "presencial";
+  const esPresencial = config.modality !== "virtual";
+  return {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: config.title,
+    url,
+    description: config.description || undefined,
+    eventAttendanceMode: attendanceMode[config.modality],
+    eventStatus: "https://schema.org/EventScheduled",
+    isAccessibleForFree: true,
+    inLanguage: config.locale,
+    ...(config.dateStart
+      ? {
+          startDate: config.dateStart,
+          ...(config.dateEnd ? { endDate: config.dateEnd } : {}),
+        }
+      : {}),
+    ...((esPresencial || esVirtual) && (config.location || esVirtual)
+      ? {
+          location: esPresencial
+            ? {
+                "@type": "Place",
+                name: config.location || undefined,
+                ...(config.locationUrl &&
+                /^https?:\/\//i.test(config.locationUrl)
+                  ? { hasMap: config.locationUrl }
+                  : {}),
+              }
+            : {
+                "@type": "VirtualLocation",
+                ...(config.locationUrl &&
+                /^https?:\/\//i.test(config.locationUrl)
+                  ? { url: config.locationUrl }
+                  : {}),
+              },
+        }
+      : {}),
+    image: config.coverUrl
+      ? config.coverUrl.startsWith("http")
+        ? config.coverUrl
+        : `${SITE_URL}${config.coverUrl}`
+      : `${SITE_URL}/images/logo-borahae.webp`,
+    organizer: {
+      "@type": "NGO",
+      name: "BORAHAE",
+      url: SITE_URL,
+    },
+    // Fase 1: inscripción solo en el sitio; el formulario exige 18+.
+    offers: {
+      "@type": "Offer",
+      price: 0,
+      priceCurrency: "COP",
+      availability: "https://schema.org/InStock",
+      url,
+    },
   };
 }

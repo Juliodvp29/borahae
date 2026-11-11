@@ -148,8 +148,11 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/patrocinio">): Promise<Metadata> {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
   return buildMetadata({
     locale: locale as "es" | "ko",
     path: "/patrocinio",
+    title: t("pageTitles.patrocinio"),
+    description: t("pageDescriptions.patrocinio"),
   });
 }

@@ -2,7 +2,27 @@
   "__review": "⚠️ Pendiente de revisión humana del coreano antes de publicar (AGENTS.md §5.1). [PENDIENTE-CLIENTE]",
   "meta": {
     "title": "BORAHAE — 콜롬비아 · 대한민국 문화 교류",
-    "description": "한류, 한식, 한국 사회를 사랑하는 사람들을 위한 비영리 문화 교류 단체 BORAHAE. 한국어 강좌, 장학제도, 워크숍, 이벤트와 여행을 소개합니다."
+    "description": "한류, 한식, 한국 사회를 사랑하는 사람들을 위한 비영리 문화 교류 단체 BORAHAE. 한국어 강좌, 장학제도, 워크숍, 이벤트와 여행을 소개합니다.",
+    "pageTitles": {
+      "programas": "BORAHAE 프로그램: 한국어 강좌, 장학금, 문화 워크숍",
+      "viajes": "BORAHAE 문화 여행 — BORAHAE TRIP",
+      "eventos": "BORAHAE 무료 이벤트",
+      "galeria": "BORAHAE 갤러리",
+      "patrocinio": "BORAHAE 후원",
+      "contacto": "BORAHAE 문의하기",
+      "donaciones": "BORAHAE 후원하기",
+      "legal": "BORAHAE 법적 고지"
+    },
+    "pageDescriptions": {
+      "programas": "한국어 강좌, 장학금, 문화 워크숍 등 BORAHAE의 프로그램을 만나보세요.",
+      "viajes": "BORAHAE TRIP: 문화 여행 일정과 참가 조건을 안내합니다.",
+      "eventos": "만 18세 이상을 위한 BORAHAE 무료 이벤트: 대면·온라인 참여 신청이 열려 있습니다.",
+      "galeria": "BORAHAE의 활동, 이벤트, 여행 사진을 모은 갤러리입니다.",
+      "patrocinio": "문화 교류를 함께 만들 기업과 파트너를 위한 BORAHAE 후원 안내입니다.",
+      "contacto": "BORAHAE에 문의해 주세요. 일반 문의, 자원봉사, 협력, 기부, 언론 문의를 환영합니다.",
+      "donaciones": "BORAHAE의 프로그램과 이벤트를 지원하는 후원 방법(PayPal 및 계좌 이체)을 안내합니다.",
+      "legal": "BORAHAE의 법적 문서: 개인정보 처리방침, 이용약관, 여행 조건."
+    }
   },
   "header": {
     "homeAria": "BORAHAE — 홈으로 이동",
